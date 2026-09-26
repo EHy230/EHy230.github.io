@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Eisen Hy | Portfolio</title>
+<meta name="description" content="Industrial Engineering & Operations Research student at UC Berkeley. Forecasting, capacity planning, financial modeling and machine learning projects.">
+<style>
+  :root {
+    --bg: #fbfaf8;
+    --surface: #ffffff;
+    --text: #1d1f24;
+    --muted: #5d6270;
+    --border: #e4e2dd;
+    --accent: #1f5fbf;
+    --accent-soft: #e8effa;
+    --stat: #0f3f86;
+    --chip: #f1efea;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #121417;
+      --surface: #1a1d22;
+      --text: #e8e9ec;
+      --muted: #a2a8b4;
+      --border: #2c3038;
+      --accent: #7fb0ff;
+      --accent-soft: #1d2a40;
+      --stat: #a9c8ff;
+      --chip: #23272e;
+    }
+  }
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font: 16px/1.6 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  .wrap { max-width: 880px; margin: 0 auto; padding: 0 20px; }
+
+  header { padding: 64px 0 36px; }
+  h1 { font-size: 2.4rem; line-height: 1.15; margin: 0 0 8px; letter-spacing: -0.02em; }
+  .tagline { font-size: 1.1rem; color: var(--muted); margin: 0 0 18px; max-width: 640px; }
+  .links { display: flex; flex-wrap: wrap; gap: 10px; }
+  .btn {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 8px 14px; border: 1px solid var(--border); border-radius: 999px;
+    background: var(--surface); color: var(--text); font-size: 0.92rem; font-weight: 500;
+  }
+  .btn:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
+
+  h2.section { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); margin: 24px 0 14px; font-weight: 600; }
+
+  .card {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 14px;
+    padding: 26px 26px 22px; margin-bottom: 22px;
+  }
+  .card-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+  .card h3 { font-size: 1.3rem; margin: 0; line-height: 1.3; }
+  .when { color: var(--muted); font-size: 0.9rem; white-space: nowrap; }
+  .tags { display: flex; flex-wrap: wrap; gap: 6px; margin: 10px 0 14px; }
+  .tag { background: var(--chip); color: var(--muted); font-size: 0.78rem; padding: 3px 9px; border-radius: 6px; }
+  .card p { margin: 0 0 12px; }
+
+  .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin: 16px 0 18px; }
+  .stat { background: var(--accent-soft); border-radius: 10px; padding: 12px 12px 10px; }
+  .stat b { display: block; font-size: 1.35rem; color: var(--stat); line-height: 1.2; font-variant-numeric: tabular-nums; }
+  .stat span { font-size: 0.8rem; color: var(--muted); line-height: 1.35; display: block; margin-top: 3px; }
+
+  ul.points { margin: 0 0 14px; padding-left: 20px; }
+  ul.points li { margin-bottom: 6px; }
+
+  .files { border-top: 1px solid var(--border); padding-top: 14px; margin-top: 6px; }
+  .files-title { font-size: 0.8rem; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 8px; }
+  .file-group { margin-bottom: 10px; }
+  .file-group-name { font-size: 0.88rem; font-weight: 600; margin-bottom: 4px; }
+  .file-list { display: flex; flex-wrap: wrap; gap: 8px; }
+  .file {
+    font-size: 0.86rem; padding: 5px 10px; border: 1px solid var(--border); border-radius: 8px;
+    background: var(--bg); color: var(--text);
+  }
+  .file:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
+  .file small { color: var(--muted); margin-left: 4px; }
+
+  footer { color: var(--muted); font-size: 0.85rem; padding: 18px 0 48px; }
+
+  @media (max-width: 700px) {
+    header { padding: 40px 0 24px; }
+    h1 { font-size: 1.9rem; }
+    .card { padding: 20px 18px 16px; }
+    .stats { grid-template-columns: repeat(2, 1fr); }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1>Eisen Hy</h1>
+  <p class="tagline">Industrial Engineering &amp; Operations Research at UC Berkeley. I build forecasting, capacity and financial models that turn messy data into clear decisions.</p>
+  <div class="links">
+    <a class="btn" href="mailto:eisenhy9@gmail.com">Email</a>
+    <a class="btn" href="https://github.com/EHy230">GitHub</a>
+  </div>
+</header>
+
+<main>
+<h2 class="section">Projects</h2>
+
+<!-- DISNEY -->
+<article class="card" id="disney">
+  <div class="card-head">
+    <h3>Disney Parks Industrial Engineering Case Study</h3>
+    <span class="when">Fall 2026</span>
+  </div>
+  <div class="tags"><span class="tag">Forecasting</span><span class="tag">Capacity planning</span><span class="tag">Optimization</span><span class="tag">Excel</span><span class="tag">Team of 3</span></div>
+  <p>A three-part plan for a four-weekend fall festival, built for Walt Disney Parks &amp; Resorts' Fall 2026 IE case with Aarnav Bhat and Justin Llamera. Each part feeds the next: how many guests will come, how many booths of each type they need, and how the festival should grow.</p>
+  <div class="stats">
+    <div class="stat"><b>68,000</b><span>visits forecast for 2026 (+21%)</span></div>
+    <div class="stat"><b>45 / 21 / 27</b><span>food, merchandise and activity booths</span></div>
+    <div class="stat"><b>~6 min</b><span>longest wait on the busiest day</span></div>
+    <div class="stat"><b>$55K</b><span>yearly gain from 12-hour days</span></div>
+  </div>
+  <ul class="points">
+    <li><strong>Attendance forecast:</strong> averaged 5 trend models, then added 2026 factors (marketing, an anniversary, new markets, a concert). Identified a peak Saturday of about 10,800 guests as the planning target.</li>
+    <li><strong>Booth mix:</strong> worked out the fewest booths needed to keep lines short at peak, then tested about 900 mixes for the remaining space. The winning mix fills all 120 spaces and earns the most (about $394,000 in vendor sales per day) without long lines.</li>
+    <li><strong>Growth options:</strong> compared staying open later, adding Fridays and adding a fifth weekend. Staying open until 10 PM was the only option that makes money whether crowds are small or large, and the only one that shortens Saturday lunch lines.</li>
+  </ul>
+  <div class="files">
+    <div class="files-title">Files</div>
+    <div class="file-group">
+      <div class="file-list">
+        <a class="file" href="files/Disney%20Case%20Slide%20Deck%20.pdf">Final slide deck <small>PDF</small></a>
+        <a class="file" href="files/lE%202026%20Case%20Study.pdf">Case prompt <small>PDF</small></a>
+      </div>
+    </div>
+    <div class="file-group">
+      <div class="file-group-name">Part 1: Attendance forecast</div>
+      <div class="file-list">
+        <a class="file" href="files/festival_forecast_model.xlsx">Forecast model <small>Excel</small></a>
+        <a class="file" href="files/forecast_model_selection_simplified.pdf">Plain-language summary <small>PDF</small></a>
+        <a class="file" href="files/forecast_model_selection.pdf">Full report <small>PDF</small></a>
+      </div>
+    </div>
+    <div class="file-group">
+      <div class="file-group-name">Part 2: Booth mix</div>
+      <div class="file-list">
+        <a class="file" href="files/booth_mix_model.xlsx">Booth mix model <small>Excel</small></a>
+        <a class="file" href="files/booth_mix_model_selection_simplified.pdf">Plain-language summary <small>PDF</small></a>
+        <a class="file" href="files/booth_mix_model_selection.pdf">Full report <small>PDF</small></a>
+      </div>
+    </div>
+    <div class="file-group">
+      <div class="file-group-name">Part 3: Growth options</div>
+      <div class="file-list">
+        <a class="file" href="files/growth_options_model.xlsx">Growth options model <small>Excel</small></a>
+        <a class="file" href="files/growth_options_model_selection_simplified.pdf">Plain-language summary <small>PDF</small></a>
+        <a class="file" href="files/growth_options_model_selection.pdf">Full report <small>PDF</small></a>
+      </div>
+    </div>
+  </div>
+</article>
+
+<!-- SALESFORCE -->
+<article class="card" id="salesforce">
+  <div class="card-head">
+    <h3>Salesforce Financial Forecast &amp; Scenario Model</h3>
+    <span class="when">2026</span>
+  </div>
+  <div class="tags"><span class="tag">FP&amp;A</span><span class="tag">Scenario analysis</span><span class="tag">Excel</span></div>
+  <p>A forecast of Salesforce's revenue, profit and cash flow through fiscal 2029, built from its historical financials. Downside, base and upside scenarios show how the results change if growth slows or speeds up.</p>
+  <div class="stats">
+    <div class="stat"><b>$53.3B</b><span>base-case FY29 revenue</span></div>
+    <div class="stat"><b>$46.7–56.8B</b><span>revenue range across 3 scenarios</span></div>
+    <div class="stat"><b>26.6%</b><span>base-case operating margin</span></div>
+    <div class="stat"><b>31–51%</b><span>Rule of 40 score, downside to upside</span></div>
+  </div>
+  <ul class="points">
+    <li>Linked sheets for raw actuals, cleaned actuals, assumptions, the forecast and a scenario summary, so changing one assumption updates everything.</li>
+    <li>Takeaway for management: protect sales efficiency and trim operating costs early if growth starts drifting toward the downside case.</li>
+  </ul>
+  <div class="files">
+    <div class="files-title">Files</div>
+    <div class="file-list">
+      <a class="file" href="files/Salesforce_FP%26A_Project.xlsx">Forecast model <small>Excel</small></a>
+    </div>
+  </div>
+</article>
+
+<!-- DCF -->
+<article class="card" id="dcf">
+  <div class="card-head">
+    <h3>Cimpress (Vistaprint) DCF Valuation</h3>
+    <span class="when">2026</span>
+  </div>
+  <div class="tags"><span class="tag">Valuation</span><span class="tag">DCF</span><span class="tag">Comparable companies</span><span class="tag">Excel</span></div>
+  <p>A discounted cash flow valuation of Cimpress, the parent of Vistaprint. I forecast revenue for each of its five business segments through fiscal 2030, turned that into free cash flow, and discounted it back to today.</p>
+  <div class="stats">
+    <div class="stat"><b>5</b><span>business segments forecast separately</span></div>
+    <div class="stat"><b>10.3%</b><span>discount rate (WACC)</span></div>
+    <div class="stat"><b>6.7&times;</b><span>exit multiple from 6 comparable companies</span></div>
+    <div class="stat"><b>$4.4B</b><span>implied enterprise value</span></div>
+  </div>
+  <ul class="points">
+    <li>Built the discount rate from the risk-free rate, the company's beta, its cost of debt and its debt/equity mix.</li>
+    <li>Set the exit value from the EV/EBITDA multiples of six printing and office-products peers, including Deluxe, Pitney Bowes and 4imprint.</li>
+    <li>Result: an implied equity value of about $3.0B, roughly $117 per share, compared with about $92 per share at the market value used in the model.</li>
+  </ul>
+  <div class="files">
+    <div class="files-title">Files</div>
+    <div class="file-list">
+      <a class="file" href="files/DCF%20modeling.xlsx">DCF model <small>Excel</small></a>
+    </div>
+  </div>
+</article>
+
+<!-- STOCK -->
+<article class="card" id="stock">
+  <div class="card-head">
+    <h3>Stock Price Forecasting with an LSTM</h3>
+    <span class="when">2025 &ndash; 2026</span>
+  </div>
+  <div class="tags"><span class="tag">Python</span><span class="tag">PyTorch</span><span class="tag">Machine learning</span></div>
+  <p>A neural network that predicts Microsoft's next-day stock price from 16 years of market data, tested on 2026 data it never saw. Switching from predicting prices to predicting daily returns cut the error by about a third.</p>
+  <div class="stats">
+    <div class="stat"><b>2.4% &rarr; 1.6%</b><span>average error, before and after the redesign</span></div>
+    <div class="stat"><b>16 yrs</b><span>of daily market data</span></div>
+    <div class="stat"><b>8</b><span>engineered inputs, incl. RSI and market returns</span></div>
+    <div class="stat"><b>182</b><span>unseen 2026 trading days tested</span></div>
+  </div>
+  <ul class="points">
+    <li>The model ties a simple "tomorrow's price = today's price" guess, which shows how hard daily stock moves are to predict. The write-up explains why that baseline matters.</li>
+  </ul>
+  <div class="files">
+    <div class="files-title">Files</div>
+    <div class="file-list">
+      <a class="file" href="https://github.com/EHy230/msft-lstm-forecasting">Code, notebook and results <small>GitHub</small></a>
+    </div>
+  </div>
+</article>
+</main>
+
+<footer>
+  &copy; 2026 Eisen Hy &middot; UC Berkeley IEOR &middot; <a href="mailto:eisenhy9@gmail.com">eisenhy9@gmail.com</a>
+</footer>
+
+</div>
+</body>
+</html>
