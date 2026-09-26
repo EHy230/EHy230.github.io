@@ -69,7 +69,7 @@
   .btn:hover { text-decoration: none; border-color: var(--accent); color: var(--accent); }
   .btn.primary { background: var(--text); color: var(--bg); border-color: var(--text); }
   .btn.primary:hover { background: var(--accent); border-color: var(--accent); color: #fff; }
-  .facts { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-top: 46px; }
+  .facts { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 46px; }
   .fact { border-top: 2px solid var(--text); padding-top: 12px; }
   .fact b { display: block; font-size: 1.5rem; font-weight: 700; letter-spacing: -0.01em; font-variant-numeric: tabular-nums; }
   .fact span { color: var(--muted); font-size: 0.87rem; }
@@ -165,7 +165,7 @@
   @media (max-width: 820px) { .panel.active { grid-template-columns: 1fr; } }
   @media (max-width: 820px) {
     .projects, .about { grid-template-columns: 1fr; }
-    .facts { grid-template-columns: repeat(2, 1fr); }
+    .facts { grid-template-columns: repeat(3, 1fr); }
     .card.wide .stats { grid-template-columns: repeat(2, 1fr); }
     .navlinks { gap: 14px; }
   }
@@ -195,17 +195,16 @@
   <div class="wrap">
     <p class="eyebrow">Industrial Engineering &amp; Operations Research &middot; UC Berkeley</p>
     <h1>Portfolio</h1>
-    <p class="lead">I'm Eisen, an IEOR student at UC Berkeley (expected 2029).</p>
+    <p class="lead">I'm Eisen, an IEOR B.S. student at UC Berkeley (expected 2029).</p>
     <div class="actions">
       <a class="btn primary" href="#projects">View projects</a>
       <a class="btn" href="mailto:eisenhy9@gmail.com">Email me</a>
       <a class="btn" href="https://github.com/EHy230">GitHub</a>
     </div>
     <div class="facts">
-      <div class="fact"><b>6</b><span>portfolio projects</span></div>
+      <div class="fact"><b>6</b><span>projects</span></div>
+      <div class="fact"><b>6</b><span>Excel models you can download</span></div>
       <div class="fact"><b>1,300+</b><span>weekly users of a system I co-founded</span></div>
-      <div class="fact"><b>154K</b><span>real loan-application records modeled</span></div>
-      <div class="fact"><b>4.0</b><span>GPA (dual enrollment)</span></div>
     </div>
   </div>
 </header>
@@ -215,7 +214,7 @@
 <section id="projects">
   <div class="section-head">
     <h2>Projects</h2>
-    <p>Open "Details &amp; files" on any project to see the models.</p>
+    <p>Click "Details &amp; files" on a project to see more and download the models.</p>
   </div>
 
   <div class="projects">
@@ -223,13 +222,13 @@
     <article class="card wide">
       <div class="viz">
         <p class="viz-title">2026 attendance forecast by weekend (expected case)</p>
-        <p class="viz-sub">The new anniversary concert moves the peak to Weekend 4</p>
+        <p class="viz-sub">Weekend 4 is the busiest because of the anniversary concert</p>
         <svg id="chart-disney" role="img" aria-label="Bar chart of expected 2026 visits by weekend: Weekend 1 12,600; Weekend 2 15,700; Weekend 3 18,900; Weekend 4 20,800, the peak."></svg>
       </div>
       <div class="card-body">
         <div class="meta-row"><span class="kind">Case study &middot; Team of 3</span><span>Fall 2026</span></div>
         <h3>Disney Parks Industrial Engineering Case Study</h3>
-        <p>A three-part plan for a four-weekend fall festival, built for Walt Disney Parks &amp; Resorts' Fall 2026 IE case with Aarnav Bhat and Justin Llamera: how many guests will come, how many booths of each type they need, and how the festival should grow.</p>
+        <p>Walt Disney Parks &amp; Resorts' Fall 2026 IE case, done with Aarnav Bhat and Justin Llamera. The case is about a four-weekend fall festival. We forecast how many guests will come, found how many booths of each type are needed, and compared ways to grow the festival.</p>
         <div class="stats">
           <div class="stat"><b>68,000</b><span>visits forecast for 2026 (+21%)</span></div>
           <div class="stat"><b>45 / 21 / 27</b><span>food, merchandise and activity booths</span></div>
@@ -237,8 +236,8 @@
           <div class="stat"><b>$55K</b><span>yearly gain from 12-hour days</span></div>
         </div>
         <div class="method" id="disney-method">
-          <h4>Inside the Excel forecast model</h4>
-          <p>Part 1 is built in four linked steps. Every number traces back to a case fact, a cited source or a labeled assumption, so changing one input updates the whole forecast.</p>
+          <h4>Excel forecast model</h4>
+          <p>Part 1 is built in four linked steps. The model is modular, so any input can be changed and the forecast updates.</p>
           <div class="tabs" role="tablist">
             <button role="tab" aria-selected="true" data-panel="p-trend">1. Trend models</button>
             <button role="tab" aria-selected="false" data-panel="p-back">2. Backtest</button>
@@ -252,7 +251,7 @@
               <svg id="chart-trend" role="img" aria-label="Dot plot of 2026 trend forecasts: linear regression 57,100; log-linear 57,262; CAGR 2021 to 2025 57,901; CAGR 2022 to 2025 58,749; average yearly growth 57,924; ensemble average 57,787."></svg>
             </div>
             <div class="explain">
-              <p>With only five years of attendance (2021&ndash;2025), complex models like ARIMA would overfit. We fit five simple methods and averaged them. They agree within about 1,650 visits, so the real uncertainty is in the 2026 changes, not the trend.</p>
+              <p>There are only five years of attendance data (2021&ndash;2025), which is too little for complex models like ARIMA. We used five simple trend methods and took their average. The five forecasts are within about 1,650 visits of each other.</p>
               <p class="formula-label">Linear trend and ensemble (Excel)</p>
               <pre class="formula">=INTERCEPT(Attendance, t) + SLOPE(Attendance, t) * 6
 =SUMPRODUCT(Forecasts, Include) / SUM(Include)</pre>
@@ -265,7 +264,7 @@
               <svg id="chart-back" role="img" aria-label="Bar chart of backtest error (MAPE): linear regression 4.9 percent, log-linear 4.9 percent, CAGR 3.6 percent, average yearly growth 3.6 percent, naive last value 5.5 percent."></svg>
             </div>
             <div class="explain">
-              <p>A rolling-origin backtest fit each method on 2021&ndash;2023 to forecast 2024, then on 2021&ndash;2024 to forecast 2025. Every method came in too low, which showed history alone understates this growing festival and justified adding 2026 drivers on top.</p>
+              <p>To test the methods, we fit each one on 2021&ndash;2023 to forecast 2024, then on 2021&ndash;2024 to forecast 2025, and measured the error. Every method forecast too low, so we added the 2026 drivers in the next step.</p>
               <p class="formula-label">Error metric</p>
               <pre class="formula">APE  = ABS(Forecast - Actual) / Actual
 MAPE = AVERAGE(APE_2024, APE_2025)</pre>
@@ -278,11 +277,11 @@ MAPE = AVERAGE(APE_2024, APE_2025)</pre>
               <svg id="chart-drivers" role="img" aria-label="Waterfall chart: trend baseline 57,787 plus marketing 1,387, anniversary halo 1,775, new markets 5,548 and concert 1,500 equals 67,998 visits."></svg>
             </div>
             <div class="explain">
-              <p>Four 2026 changes that history can't see were layered on top. Percentage effects scale the existing audience; new-market and concert guests are added as counts so nothing is double counted.</p>
+              <p>We added four changes planned for 2026 that the past data doesn't include. Marketing and the anniversary are percentage increases on the baseline. New markets and the concert are added as extra visits.</p>
               <ul>
                 <li><strong>Marketing:</strong> +20% spend &times; 0.12 advertising elasticity (meta-analysis of 751 studies)</li>
                 <li><strong>New markets:</strong> 700,000 new residents &times; local attendance rate &times; 8% distance-decay factor</li>
-                <li><strong>Anniversary + concert:</strong> small labeled judgments (3% halo, 1,500 concert-only visits)</li>
+                <li><strong>Anniversary + concert:</strong> our own estimates (3% increase, 1,500 concert-only visits)</li>
               </ul>
               <p class="formula-label">Forecast build-up</p>
               <pre class="formula">= Baseline * (1 + Spend * Elasticity) * (1 + Halo)
@@ -296,7 +295,7 @@ MAPE = AVERAGE(APE_2024, APE_2025)</pre>
               <svg id="chart-mc" role="img" aria-label="Histogram of 1,000 Monte Carlo trials from about 64,000 to 72,600 visits, centered near 68,300, with P10 at 66,359 and P90 at 70,257."></svg>
             </div>
             <div class="explain">
-              <p>Each of the five uncertain drivers is drawn from a triangular distribution (Low / Expected / High), and the forecast is recomputed 1,000 times. Because drivers offset each other, the realistic planning range is much tighter than stacking every worst or best case.</p>
+              <p>Each of the five uncertain inputs has a low, expected and high value. The model draws each one from a triangular distribution and recalculates the forecast 1,000 times. The middle 80% of results falls between 66,359 and 70,257 visits.</p>
               <div class="minis">
                 <div><b>66,359</b><span>P10</span></div>
                 <div><b>68,312</b><span>P50 (median)</span></div>
@@ -314,9 +313,9 @@ MAPE = AVERAGE(APE_2024, APE_2025)</pre>
         <details>
           <summary>Details &amp; files</summary>
           <ul>
-            <li><strong>Attendance forecast:</strong> averaged 5 trend models (with only 5 years of history, complex models would overfit), then added 2026 factors like marketing, new markets and a concert. A 1,000-run Monte Carlo simulation set the planning range at 66,300 to 70,300.</li>
-            <li><strong>Booth mix:</strong> a queueing model found the fewest booths that keep every line short at peak, then we scored all ~900 possible mixes. The winner fills all 120 spaces and earns the most (about $394,000 in vendor sales per day) with no line longer than about 6 minutes.</li>
-            <li><strong>Growth options:</strong> compared later hours, Fridays and a fifth weekend on cost, break-even and 5-year NPV. Staying open until 10 PM was the only option profitable in every demand scenario, and the only one that shortens Saturday lunch lines.</li>
+            <li><strong>Attendance forecast:</strong> averaged 5 trend models, then added 2026 factors like marketing, new markets and a concert. A 1,000-run Monte Carlo simulation gave a planning range of 66,300 to 70,300 visits.</li>
+            <li><strong>Booth mix:</strong> used a queueing model to find the fewest booths needed to keep lines short at peak, then checked all ~900 possible mixes. The best one fills all 120 spaces, brings in about $394,000 in vendor sales per day, and keeps every wait under about 6 minutes.</li>
+            <li><strong>Growth options:</strong> compared later hours, adding Fridays and adding a fifth weekend using cost, break-even and 5-year NPV. Staying open until 10 PM made money in every demand scenario and also shortened Saturday lunch lines.</li>
           </ul>
           <div class="files">
             <a class="file" href="files/Disney_IE_Case_Overview.pdf">Project overview <small>PDF</small></a>
@@ -337,14 +336,14 @@ MAPE = AVERAGE(APE_2024, APE_2025)</pre>
         <ol class="flow" aria-label="Process flow: student request, routed to the right teacher, teacher approval, then automatic tracking and alerts.">
           <li><b>Request</b><span>A student submits a pass request for the work period</span></li>
           <li><b>Routing</b><span>The request goes automatically to the right teachers</span></li>
-          <li><b>Approval</b><span>Teachers approve or deny it; approvals happen automatically where rules allow</span></li>
+          <li><b>Approval</b><span>Teachers approve or deny it, and some requests are approved automatically</span></li>
           <li><b>Tracking &amp; alerts</b><span>Every pass is logged and teachers get automatic alerts</span></li>
         </ol>
       </div>
       <div class="card-body">
         <div class="meta-row"><span class="kind">Operations system</span><span>2025 &ndash; 2026</span></div>
         <h3>Embedded Time Digital Pass System</h3>
-        <p>Embedded Time is a school-wide work period that my high school has run for about 20 years. I co-founded the digital pass system that manages it. It runs on its own with no errors, even after I graduated, and the school plans to keep using it for as long as the program runs, possibly another 10 years.</p>
+        <p>Embedded Time is a school-wide work period that my high school has run since 2019. I co-founded the digital pass system the school uses to manage it. The system runs on its own without errors, even though I'm no longer at the school. The school plans to keep using it for about the next 10 years, or for as long as Embedded Time continues.</p>
         <div class="stats">
           <div class="stat"><b>1,300+</b><span>students using it</span></div>
           <div class="stat"><b>1,300+</b><span>pass requests handled each week</span></div>
@@ -355,9 +354,9 @@ MAPE = AVERAGE(APE_2024, APE_2025)</pre>
         <details>
           <summary>Details</summary>
           <ul>
-            <li>Led the system design: gathered what teachers needed, then mapped how each request should be routed and approved. My co-founder wrote the code in Google Apps Script.</li>
-            <li>Worked with San Gabriel USD district IT to meet security rules and set the right permissions.</li>
-            <li>Tested it before launch and trained 60+ teachers to use it. Since handoff it has run without me, with no errors.</li>
+            <li>I led the system design. I asked teachers what they needed and planned how each request would be routed and approved. My co-founder wrote the code in Google Apps Script.</li>
+            <li>Worked with San Gabriel USD district IT to meet their security rules and set up permissions.</li>
+            <li>Tested the system before launch and trained 60+ teachers to use it.</li>
           </ul>
         </details>
       </div>
@@ -382,9 +381,9 @@ MAPE = AVERAGE(APE_2024, APE_2025)</pre>
         <details>
           <summary>Details &amp; files</summary>
           <ul>
-            <li>Linked sheets for raw actuals, cleaned actuals, assumptions, the forecast and a scenario summary, so changing one assumption updates everything.</li>
+            <li>Built linked sheets for raw data, cleaned data, assumptions, the forecast and a scenario summary. Changing one assumption updates the whole model.</li>
             <li>The "Rule of 40" (growth plus margin) ranges from 31% in the downside case to 51% in the upside case.</li>
-            <li>Takeaway for management: protect sales efficiency and trim operating costs early if growth drifts toward the downside case.</li>
+            <li>Recommendation: keep sales efficient and cut operating costs early if growth moves toward the downside case.</li>
           </ul>
           <div class="files">
             <a class="file" href="files/Salesforce_FP%26A_Project.xlsx">Forecast model <small>Excel</small></a>
@@ -414,7 +413,7 @@ MAPE = AVERAGE(APE_2024, APE_2025)</pre>
           <ul>
             <li>Built the discount rate from the risk-free rate, the company's beta, its cost of debt and its debt/equity mix.</li>
             <li>Set a 6.7&times; exit multiple from the EV/EBITDA of six printing and office-products peers, including Deluxe, Pitney Bowes and 4imprint.</li>
-            <li>Result: about $3.0B implied equity value, or roughly $117 per share compared with about $92 at the market value used in the model.</li>
+            <li>The model gives an implied equity value of about $3.0B, or about $117 per share. The share price used in the model was about $92.</li>
           </ul>
           <div class="files">
             <a class="file" href="files/DCF%20modeling.xlsx">DCF model <small>Excel</small></a>
@@ -433,7 +432,7 @@ MAPE = AVERAGE(APE_2024, APE_2025)</pre>
       <div class="card-body">
         <div class="meta-row"><span class="kind">Probability model</span><span>2026</span></div>
         <h3>Loan Application Outcome Forecast (Absorbing Markov Chain)</h3>
-        <p>Models how real bank loan applications move through 7 review steps until they are approved, denied or cancelled, using 154,152 status changes from the public BPI Challenge 2017 dataset. Trained on January&ndash;September 2016, then tested on applications from October&ndash;December that the model never saw.</p>
+        <p>Models how bank loan applications move through 7 review steps until they are approved, denied or cancelled. It uses 154,152 status changes from the public BPI Challenge 2017 dataset. I trained it on January&ndash;September 2016 data and tested it on applications from October&ndash;December.</p>
         <div class="stats">
           <div class="stat"><b>154K</b><span>status changes used to train the model</span></div>
           <div class="stat"><b>3,167</b><span>expected approvals from 5,049 open applications ($59.8M)</span></div>
@@ -444,9 +443,9 @@ MAPE = AVERAGE(APE_2024, APE_2025)</pre>
         <details>
           <summary>Details &amp; files</summary>
           <ul>
-            <li>Built the transition matrix from every status change, split it into moves between open steps and moves to final outcomes, and solved the fundamental matrix to get each application's odds of approval, denial or cancellation and its expected steps to finish. Built-in checks confirm every row of probabilities adds up.</li>
-            <li>Backtested on 4,951 applications still open 14 days after creation. Predictions were within about 6% for applications already in validation, but overall approvals came in 17 points lower than forecast.</li>
-            <li>Almost the whole gap came from applications stalled at the "Complete" step: the model predicted 1,825 approvals there and 975 happened. A Markov chain ignores how long an application has been waiting, so the recommendation is to recalibrate on recent data and account for time spent at each step.</li>
+            <li>Built the transition matrix from every status change and split it into moves between open steps and moves to final outcomes. Solving the fundamental matrix gives each application's chance of being approved, denied or cancelled, and the expected number of steps to finish. Checks confirm every row of probabilities adds up to 1.</li>
+            <li>Backtested on 4,951 applications that were still open 14 days after they were created. For applications already in validation, the predictions were within about 6%. Overall, actual approvals were 17 points lower than the forecast.</li>
+            <li>Most of the gap came from applications at the "Complete" step. The model predicted 1,825 approvals there, and 975 happened. A Markov chain doesn't account for how long an application has been waiting, so the next step would be to recalibrate on recent data and include time spent at each step.</li>
           </ul>
           <div class="files">
             <a class="file" href="files/Loan_Application_Markov_Forecast_Eisen_Hy.xlsx">Markov model <small>Excel, 11 MB</small></a>
@@ -465,19 +464,19 @@ MAPE = AVERAGE(APE_2024, APE_2025)</pre>
       <div class="card-body">
         <div class="meta-row"><span class="kind">Machine learning</span><span>2025 &ndash; 2026</span></div>
         <h3>Stock Price Forecasting with an LSTM</h3>
-        <p>A PyTorch neural network trained on 16 years of market data and tested on 182 trading days of 2026 it never saw. Redesigning it to predict daily returns instead of prices cut the error by about a third, yet it only ties a simple "tomorrow = today" guess. That honest comparison is the main result.</p>
+        <p>An LSTM neural network in PyTorch that predicts Microsoft's next-day stock price. It was trained on 16 years of market data and tested on 182 trading days in 2026. Changing the model to predict daily returns instead of prices lowered the error by about a third. Its error is about the same as guessing that tomorrow's price equals today's.</p>
         <div class="stats">
           <div class="stat"><b>2.4% &rarr; 1.6%</b><span>average error, before and after the redesign</span></div>
           <div class="stat"><b>8</b><span>engineered inputs, incl. RSI and market returns</span></div>
           <div class="stat"><b>182</b><span>unseen 2026 trading days tested</span></div>
-          <div class="stat"><b>49.5%</b><span>up/down direction accuracy (coin flip)</span></div>
+          <div class="stat"><b>49.5%</b><span>up/down direction accuracy</span></div>
         </div>
         <div class="tags"><span class="tag">Python</span><span class="tag">PyTorch</span><span class="tag">Time series</span><span class="tag">Backtesting</span></div>
         <details>
           <summary>Details &amp; files</summary>
           <ul>
             <li>Split data by date (train 2010&ndash;2024, validate 2025, test 2026), fitted all scaling on training data only, and used early stopping to avoid overfitting.</li>
-            <li>Direction accuracy of 49.5% vs. 48.9% for always guessing "up" shows daily moves are close to unpredictable from price history alone.</li>
+            <li>Direction accuracy was 49.5%, compared with 48.9% for always guessing "up", so price history alone can't reliably predict daily direction.</li>
           </ul>
           <div class="files">
             <a class="file" href="https://github.com/EHy230/msft-lstm-forecasting">Code, notebook and results <small>GitHub</small></a>
@@ -493,9 +492,9 @@ MAPE = AVERAGE(APE_2024, APE_2025)</pre>
   <div class="section-head"><h2>About</h2></div>
   <div class="about">
     <div>
-      <p>I'm a first-year Industrial Engineering &amp; Operations Research student at UC Berkeley. I like problems where a good model changes a real decision: how many booths a festival needs, which problems a transit agency should fix first, or what a company is worth.</p>
-      <p>Outside class I'm a consulting analyst for IISE Berkeley on a project with BART, and a research apprentice at Rapid Reviews\Infectious Diseases (UC Berkeley / MIT Press). In high school I co-founded a digital hall-pass system that handled 1,300+ requests a week.</p>
-      <p>I'm also hands-on. I've rebuilt my 2019 Toyota 4Runner myself, from welding and suspension to wiring, and I repair other people's cars. I captained my varsity golf team and play violin and piano.</p>
+      <p>I'm a first-year Industrial Engineering &amp; Operations Research student at UC Berkeley. I like using models to help make real decisions, like how many booths a festival needs, which problems a transit agency should fix first, or what a company is worth.</p>
+      <p>Outside class I'm a consulting analyst for IISE Berkeley on a project with BART, and a research apprentice at Rapid Reviews\Infectious Diseases (UC Berkeley / MIT Press). In high school I co-founded a digital pass system that handles 1,300+ requests a week.</p>
+      <p>I also work on cars. I've rebuilt my 2019 Toyota 4Runner myself, including welding, suspension and wiring, and I repair other people's cars. I was captain of my varsity golf team, and I play violin and piano.</p>
       <div class="skills">
         <span>Excel &amp; Google Sheets</span><span>Financial modeling</span><span>Forecasting</span><span>Queueing &amp; optimization</span><span>Python</span><span>PyTorch</span><span>Google Apps Script</span><span>JavaScript</span>
       </div>
@@ -722,7 +721,7 @@ MAPE = AVERAGE(APE_2024, APE_2025)</pre>
   waterfall('chart-drivers', [
     { label: 'Trend|baseline', value: 57787, total: true, tip: 'Average of 5 trend methods' },
     { label: 'Marketing', short: 'Mar-|keting', value: 1387, tip: '+20% spend \u00d7 0.12 elasticity' },
-    { label: 'Anniversary', short: 'Anni-|versary', value: 1775, tip: '3% halo on the existing audience' },
+    { label: 'Anniversary', short: 'Anni-|versary', value: 1775, tip: '3% increase from the anniversary' },
     { label: 'New|markets', value: 5548, tip: '700K residents \u00d7 local rate \u00d7 8% decay' },
     { label: 'Concert', short: 'Con-|cert', value: 1500, tip: 'Concert-only visits, Weekend 4' },
     { label: '2026|forecast', value: 67998, total: true, tip: 'Expected case, about 68,000 visits' }
