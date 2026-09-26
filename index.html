@@ -3,229 +3,530 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Eisen Hy | Portfolio</title>
-<meta name="description" content="Industrial Engineering & Operations Research student at UC Berkeley. Forecasting, capacity planning, financial modeling and machine learning projects.">
+<title>Eisen Hy | Industrial Engineering Portfolio</title>
+<meta name="description" content="Eisen Hy, Industrial Engineering & Operations Research at UC Berkeley. Forecasting, capacity planning, financial modeling and machine learning projects.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,600&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #fbfaf8;
+    --bg: #fbfaf7;
     --surface: #ffffff;
-    --text: #1d1f24;
-    --muted: #5d6270;
-    --border: #e4e2dd;
+    --surface-2: #f4f2ed;
+    --text: #16181d;
+    --text-2: #4d525e;
+    --muted: #767b86;
+    --border: #e6e3dc;
     --accent: #1f5fbf;
-    --accent-soft: #e8effa;
-    --stat: #0f3f86;
-    --chip: #f1efea;
+    --accent-ink: #184f95;
+    --accent-soft: #e9f0fb;
+    --series-1: #2a78d6;
+    --series-2: #eb6834;
+    --neutral-mark: #b9b6ae;
+    --grid: #ece9e2;
+    --shadow: 0 1px 2px rgba(20,20,20,.04), 0 8px 24px rgba(20,20,20,.05);
   }
   @media (prefers-color-scheme: dark) {
     :root {
-      --bg: #121417;
-      --surface: #1a1d22;
-      --text: #e8e9ec;
-      --muted: #a2a8b4;
-      --border: #2c3038;
+      --bg: #111316;
+      --surface: #181b20;
+      --surface-2: #1f232a;
+      --text: #eceef2;
+      --text-2: #b7bcc7;
+      --muted: #8d93a0;
+      --border: #2a2f37;
       --accent: #7fb0ff;
-      --accent-soft: #1d2a40;
-      --stat: #a9c8ff;
-      --chip: #23272e;
+      --accent-ink: #a9c8ff;
+      --accent-soft: #1b2638;
+      --series-1: #3987e5;
+      --series-2: #d95926;
+      --neutral-mark: #5a5f68;
+      --grid: #262a31;
+      --shadow: none;
     }
   }
   * { box-sizing: border-box; }
-  html { -webkit-text-size-adjust: 100%; }
-  body {
-    margin: 0;
-    background: var(--bg);
-    color: var(--text);
-    font: 16px/1.6 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  }
+  html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+  body { margin: 0; background: var(--bg); color: var(--text); font: 16px/1.6 Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
   a { color: var(--accent); text-decoration: none; }
   a:hover { text-decoration: underline; }
-  .wrap { max-width: 880px; margin: 0 auto; padding: 0 20px; }
+  .wrap { max-width: 1040px; margin: 0 auto; padding: 0 20px; }
 
-  header { padding: 64px 0 36px; }
-  h1 { font-size: 2.4rem; line-height: 1.15; margin: 0 0 8px; letter-spacing: -0.02em; }
-  .tagline { font-size: 1.1rem; color: var(--muted); margin: 0 0 18px; max-width: 640px; }
-  .links { display: flex; flex-wrap: wrap; gap: 10px; }
-  .btn {
-    display: inline-flex; align-items: center; gap: 6px;
-    padding: 8px 14px; border: 1px solid var(--border); border-radius: 999px;
-    background: var(--surface); color: var(--text); font-size: 0.92rem; font-weight: 500;
-  }
-  .btn:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
+  nav { position: sticky; top: 0; z-index: 10; background: color-mix(in srgb, var(--bg) 88%, transparent); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); border-bottom: 1px solid var(--border); }
+  nav .wrap { display: flex; align-items: center; justify-content: space-between; height: 58px; }
+  .brand { font-weight: 700; color: var(--text); letter-spacing: -0.01em; }
+  .brand:hover { text-decoration: none; }
+  .navlinks { display: flex; gap: 22px; font-size: 0.93rem; }
+  .navlinks a { color: var(--text-2); }
+  .navlinks a:hover { color: var(--text); text-decoration: none; }
 
-  h2.section { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); margin: 24px 0 14px; font-weight: 600; }
+  .hero { padding: 76px 0 56px; }
+  .eyebrow { font-size: 0.82rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); margin: 0 0 14px; }
+  .hero h1 { font-family: Fraunces, Georgia, serif; font-weight: 600; font-size: clamp(2.2rem, 5.2vw, 3.6rem); line-height: 1.08; letter-spacing: -0.02em; margin: 0 0 18px; max-width: 800px; }
+  .hero p.lead { font-size: 1.15rem; color: var(--text-2); max-width: 660px; margin: 0 0 28px; }
+  .actions { display: flex; flex-wrap: wrap; gap: 10px; }
+  .btn { display: inline-flex; align-items: center; gap: 8px; padding: 10px 18px; border-radius: 999px; font-weight: 600; font-size: 0.93rem; border: 1px solid var(--border); background: var(--surface); color: var(--text); }
+  .btn:hover { text-decoration: none; border-color: var(--accent); color: var(--accent); }
+  .btn.primary { background: var(--text); color: var(--bg); border-color: var(--text); }
+  .btn.primary:hover { background: var(--accent); border-color: var(--accent); color: #fff; }
+  .facts { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-top: 46px; }
+  .fact { border-top: 2px solid var(--text); padding-top: 12px; }
+  .fact b { display: block; font-size: 1.5rem; font-weight: 700; letter-spacing: -0.01em; font-variant-numeric: tabular-nums; }
+  .fact span { color: var(--muted); font-size: 0.87rem; }
 
-  .card {
-    background: var(--surface); border: 1px solid var(--border); border-radius: 14px;
-    padding: 26px 26px 22px; margin-bottom: 22px;
-  }
-  .card-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; flex-wrap: wrap; }
-  .card h3 { font-size: 1.3rem; margin: 0; line-height: 1.3; }
-  .when { color: var(--muted); font-size: 0.9rem; white-space: nowrap; }
-  .tags { display: flex; flex-wrap: wrap; gap: 6px; margin: 10px 0 14px; }
-  .tag { background: var(--chip); color: var(--muted); font-size: 0.78rem; padding: 3px 9px; border-radius: 6px; }
-  .card p { margin: 0 0 12px; }
+  section { padding: 34px 0 20px; }
+  .section-head { display: flex; justify-content: space-between; align-items: end; gap: 16px; margin-bottom: 22px; flex-wrap: wrap; }
+  .section-head h2 { font-family: Fraunces, Georgia, serif; font-weight: 600; font-size: 1.9rem; margin: 0; letter-spacing: -0.01em; }
+  .section-head p { margin: 0; color: var(--muted); font-size: 0.92rem; }
 
-  .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin: 16px 0 18px; }
-  .stat { background: var(--accent-soft); border-radius: 10px; padding: 12px 12px 10px; }
-  .stat b { display: block; font-size: 1.35rem; color: var(--stat); line-height: 1.2; font-variant-numeric: tabular-nums; }
-  .stat span { font-size: 0.8rem; color: var(--muted); line-height: 1.35; display: block; margin-top: 3px; }
-
-  ul.points { margin: 0 0 14px; padding-left: 20px; }
-  ul.points li { margin-bottom: 6px; }
-
-  .files { border-top: 1px solid var(--border); padding-top: 14px; margin-top: 6px; }
-  .files-title { font-size: 0.8rem; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 8px; }
-  .file-group { margin-bottom: 10px; }
-  .file-group-name { font-size: 0.88rem; font-weight: 600; margin-bottom: 4px; }
-  .file-list { display: flex; flex-wrap: wrap; gap: 8px; }
-  .file {
-    font-size: 0.86rem; padding: 5px 10px; border: 1px solid var(--border); border-radius: 8px;
-    background: var(--bg); color: var(--text);
-  }
+  .projects { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; }
+  .card { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; box-shadow: var(--shadow); display: flex; flex-direction: column; overflow: hidden; min-width: 0; }
+  .card.wide { grid-column: 1 / -1; }
+  .viz { background: var(--surface-2); padding: 18px 20px 10px; border-bottom: 1px solid var(--border); position: relative; }
+  .viz-title { font-size: 0.8rem; font-weight: 600; color: var(--text-2); margin: 0 0 2px; }
+  .viz-sub { font-size: 0.75rem; color: var(--muted); margin: 0 0 6px; }
+  .viz svg { width: 100%; height: auto; display: block; overflow: visible; }
+  .card-body { padding: 22px 24px 20px; display: flex; flex-direction: column; flex: 1; }
+  .meta-row { display: flex; justify-content: space-between; gap: 12px; font-size: 0.8rem; color: var(--muted); margin-bottom: 6px; }
+  .kind { font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: var(--accent); }
+  .card h3 { font-size: 1.28rem; line-height: 1.3; margin: 0 0 8px; letter-spacing: -0.01em; }
+  .card p { margin: 0 0 14px; color: var(--text-2); }
+  .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 2px 0 16px; }
+  .card.wide .stats { grid-template-columns: repeat(4, 1fr); }
+  .stat b { display: block; font-size: 1.2rem; font-weight: 700; color: var(--accent-ink); font-variant-numeric: tabular-nums; line-height: 1.25; }
+  .stat span { font-size: 0.78rem; color: var(--muted); line-height: 1.35; display: block; }
+  .tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 16px; }
+  .tag { font-size: 0.74rem; padding: 3px 9px; border-radius: 6px; background: var(--surface-2); color: var(--text-2); }
+  details { border-top: 1px solid var(--border); padding-top: 12px; margin-top: auto; }
+  summary { cursor: pointer; font-weight: 600; font-size: 0.9rem; color: var(--text); list-style: none; display: flex; align-items: center; gap: 8px; }
+  summary::-webkit-details-marker { display: none; }
+  summary::before { content: "+"; display: inline-grid; place-items: center; width: 20px; height: 20px; border-radius: 6px; background: var(--surface-2); font-weight: 700; color: var(--accent); }
+  details[open] summary::before { content: "\2212"; }
+  details ul { margin: 12px 0 4px; padding-left: 18px; color: var(--text-2); font-size: 0.93rem; }
+  details li { margin-bottom: 6px; }
+  .files { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+  .file { display: inline-flex; align-items: center; gap: 6px; font-size: 0.84rem; padding: 6px 11px; border-radius: 8px; border: 1px solid var(--border); background: var(--bg); color: var(--text); font-weight: 500; }
   .file:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
-  .file small { color: var(--muted); margin-left: 4px; }
+  .file small { color: var(--muted); font-weight: 500; }
 
-  footer { color: var(--muted); font-size: 0.85rem; padding: 18px 0 48px; }
+  .about { display: grid; grid-template-columns: 1.3fr 1fr; gap: 34px; }
+  .about p { color: var(--text-2); margin: 0 0 14px; }
+  .timeline { list-style: none; margin: 0; padding: 0; }
+  .timeline li { padding: 0 0 16px 18px; border-left: 2px solid var(--border); position: relative; }
+  .timeline li::before { content: ""; position: absolute; left: -6px; top: 6px; width: 10px; height: 10px; border-radius: 50%; background: var(--surface); border: 2px solid var(--accent); }
+  .timeline b { display: block; font-size: 0.95rem; }
+  .timeline span { display: block; font-size: 0.85rem; color: var(--muted); }
+  .skills { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 6px; }
+  .skills span { font-size: 0.82rem; padding: 5px 11px; border-radius: 999px; border: 1px solid var(--border); background: var(--surface); }
 
-  @media (max-width: 700px) {
-    header { padding: 40px 0 24px; }
-    h1 { font-size: 1.9rem; }
-    .card { padding: 20px 18px 16px; }
+  .contact { margin: 40px 0 0; padding: 40px 32px; border-radius: 18px; background: var(--text); color: var(--bg); display: flex; justify-content: space-between; align-items: center; gap: 20px; flex-wrap: wrap; }
+  .contact h2 { font-family: Fraunces, Georgia, serif; font-weight: 600; margin: 0 0 6px; font-size: 1.7rem; }
+  .contact p { margin: 0; opacity: 0.75; }
+  .contact .btn { background: var(--bg); color: var(--text); border-color: var(--bg); }
+  footer { color: var(--muted); font-size: 0.84rem; padding: 26px 0 40px; text-align: center; }
+
+  .axis-text { fill: var(--muted); font-size: 11px; font-family: inherit; }
+  .val-text { fill: var(--text); font-size: 11.5px; font-weight: 600; font-family: inherit; font-variant-numeric: tabular-nums; }
+  .note-text { fill: var(--text-2); font-size: 11px; font-weight: 600; font-family: inherit; }
+  .gridline { stroke: var(--grid); stroke-width: 1; }
+  .baseline { stroke: var(--muted); stroke-width: 1; opacity: .6; }
+  .hit { fill: transparent; }
+  .tip { position: absolute; pointer-events: none; background: var(--text); color: var(--bg); font-size: 12px; line-height: 1.35; padding: 6px 9px; border-radius: 6px; white-space: nowrap; opacity: 0; transform: translate(-50%, -110%); transition: opacity .12s; z-index: 5; }
+  .tip b { font-weight: 700; }
+  .legend { display: flex; flex-wrap: wrap; gap: 16px; font-size: 0.76rem; color: var(--text-2); margin: 4px 0 2px; }
+  .legend i { display: inline-block; width: 10px; height: 10px; border-radius: 3px; margin-right: 6px; vertical-align: -1px; }
+
+  @media (max-width: 820px) {
+    .projects, .about { grid-template-columns: 1fr; }
+    .facts { grid-template-columns: repeat(2, 1fr); }
+    .card.wide .stats { grid-template-columns: repeat(2, 1fr); }
+    .navlinks { gap: 14px; }
+  }
+  @media (max-width: 480px) {
     .stats { grid-template-columns: repeat(2, 1fr); }
+    .navlinks a.hide-sm { display: none; }
+    .contact { padding: 28px 22px; }
+    .card-body { padding: 18px 18px 16px; }
   }
 </style>
 </head>
 <body>
-<div class="wrap">
 
-<header>
-  <h1>Eisen Hy</h1>
-  <p class="tagline">Industrial Engineering &amp; Operations Research at UC Berkeley. I build forecasting, capacity and financial models that turn messy data into clear decisions.</p>
-  <div class="links">
-    <a class="btn" href="mailto:eisenhy9@gmail.com">Email</a>
-    <a class="btn" href="https://github.com/EHy230">GitHub</a>
+<nav>
+  <div class="wrap">
+    <a class="brand" href="#top">Eisen Hy</a>
+    <div class="navlinks">
+      <a href="#projects">Projects</a>
+      <a href="#about">About</a>
+      <a class="hide-sm" href="https://github.com/EHy230">GitHub</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero" id="top">
+  <div class="wrap">
+    <p class="eyebrow">Industrial Engineering &amp; Operations Research &middot; UC Berkeley</p>
+    <h1>I turn messy operational and financial data into clear decisions.</h1>
+    <p class="lead">I'm Eisen, an IEOR student at UC Berkeley (expected 2029). I build forecasting, capacity planning and financial models, and I test them honestly against simple baselines before trusting them.</p>
+    <div class="actions">
+      <a class="btn primary" href="#projects">View projects</a>
+      <a class="btn" href="mailto:eisenhy9@gmail.com">Email me</a>
+      <a class="btn" href="https://github.com/EHy230">GitHub</a>
+    </div>
+    <div class="facts">
+      <div class="fact"><b>5</b><span>portfolio projects</span></div>
+      <div class="fact"><b>1,300+</b><span>weekly users of a system I co-founded</span></div>
+      <div class="fact"><b>154K</b><span>real loan-application records modeled</span></div>
+      <div class="fact"><b>4.0</b><span>GPA (dual enrollment)</span></div>
+    </div>
   </div>
 </header>
 
-<main>
-<h2 class="section">Projects</h2>
+<main class="wrap">
 
-<!-- DISNEY -->
-<article class="card" id="disney">
-  <div class="card-head">
-    <h3>Disney Parks Industrial Engineering Case Study</h3>
-    <span class="when">Fall 2026</span>
+<section id="projects">
+  <div class="section-head">
+    <h2>Projects</h2>
+    <p>Open "Details &amp; files" on any project to see the models.</p>
   </div>
-  <div class="tags"><span class="tag">Forecasting</span><span class="tag">Capacity planning</span><span class="tag">Optimization</span><span class="tag">Excel</span><span class="tag">Team of 3</span></div>
-  <p>A three-part plan for a four-weekend fall festival, built for Walt Disney Parks &amp; Resorts' Fall 2026 IE case with Aarnav Bhat and Justin Llamera. Each part feeds the next: how many guests will come, how many booths of each type they need, and how the festival should grow.</p>
-  <div class="stats">
-    <div class="stat"><b>68,000</b><span>visits forecast for 2026 (+21%)</span></div>
-    <div class="stat"><b>45 / 21 / 27</b><span>food, merchandise and activity booths</span></div>
-    <div class="stat"><b>~6 min</b><span>longest wait on the busiest day</span></div>
-    <div class="stat"><b>$55K</b><span>yearly gain from 12-hour days</span></div>
-  </div>
-  <ul class="points">
-    <li><strong>Attendance forecast:</strong> averaged 5 trend models, then added 2026 factors (marketing, an anniversary, new markets, a concert). Identified a peak Saturday of about 10,800 guests as the planning target.</li>
-    <li><strong>Booth mix:</strong> worked out the fewest booths needed to keep lines short at peak, then tested about 900 mixes for the remaining space. The winning mix fills all 120 spaces and earns the most (about $394,000 in vendor sales per day) without long lines.</li>
-    <li><strong>Growth options:</strong> compared staying open later, adding Fridays and adding a fifth weekend. Staying open until 10 PM was the only option that makes money whether crowds are small or large, and the only one that shortens Saturday lunch lines.</li>
-  </ul>
-  <div class="files">
-    <div class="files-title">Files</div>
-    <div class="file-list">
-      <a class="file" href="files/Disney_IE_Case_Overview.pdf">Project overview <small>PDF</small></a>
-      <a class="file" href="files/Disney%20Case%20Slide%20Deck%20.pdf">Final slide deck <small>PDF</small></a>
-      <a class="file" href="files/festival_forecast_model.xlsx">Part 1: Forecast model <small>Excel</small></a>
-      <a class="file" href="files/booth_mix_model.xlsx">Part 2: Booth mix model <small>Excel</small></a>
-      <a class="file" href="files/growth_options_model.xlsx">Part 3: Growth options model <small>Excel</small></a>
-      <a class="file" href="files/lE%202026%20Case%20Study.pdf">Case prompt <small>PDF</small></a>
-    </div>
-  </div>
-</article>
 
-<!-- SALESFORCE -->
-<article class="card" id="salesforce">
-  <div class="card-head">
-    <h3>Salesforce Financial Forecast &amp; Scenario Model</h3>
-    <span class="when">2026</span>
-  </div>
-  <div class="tags"><span class="tag">FP&amp;A</span><span class="tag">Scenario analysis</span><span class="tag">Excel</span></div>
-  <p>A forecast of Salesforce's revenue, profit and cash flow through fiscal 2029, built from its historical financials. Downside, base and upside scenarios show how the results change if growth slows or speeds up.</p>
-  <div class="stats">
-    <div class="stat"><b>$53.3B</b><span>base-case FY29 revenue</span></div>
-    <div class="stat"><b>$46.7–56.8B</b><span>revenue range across 3 scenarios</span></div>
-    <div class="stat"><b>26.6%</b><span>base-case operating margin</span></div>
-    <div class="stat"><b>31–51%</b><span>Rule of 40 score, downside to upside</span></div>
-  </div>
-  <ul class="points">
-    <li>Linked sheets for raw actuals, cleaned actuals, assumptions, the forecast and a scenario summary, so changing one assumption updates everything.</li>
-    <li>Takeaway for management: protect sales efficiency and trim operating costs early if growth starts drifting toward the downside case.</li>
-  </ul>
-  <div class="files">
-    <div class="files-title">Files</div>
-    <div class="file-list">
-      <a class="file" href="files/Salesforce_FP%26A_Project.xlsx">Forecast model <small>Excel</small></a>
-    </div>
-  </div>
-</article>
+  <div class="projects">
 
-<!-- DCF -->
-<article class="card" id="dcf">
-  <div class="card-head">
-    <h3>Cimpress (Vistaprint) DCF Valuation</h3>
-    <span class="when">2026</span>
-  </div>
-  <div class="tags"><span class="tag">Valuation</span><span class="tag">DCF</span><span class="tag">Comparable companies</span><span class="tag">Excel</span></div>
-  <p>A discounted cash flow valuation of Cimpress, the parent of Vistaprint. I forecast revenue for each of its five business segments through fiscal 2030, turned that into free cash flow, and discounted it back to today.</p>
-  <div class="stats">
-    <div class="stat"><b>5</b><span>business segments forecast separately</span></div>
-    <div class="stat"><b>10.3%</b><span>discount rate (WACC)</span></div>
-    <div class="stat"><b>6.7&times;</b><span>exit multiple from 6 comparable companies</span></div>
-    <div class="stat"><b>$4.4B</b><span>implied enterprise value</span></div>
-  </div>
-  <ul class="points">
-    <li>Built the discount rate from the risk-free rate, the company's beta, its cost of debt and its debt/equity mix.</li>
-    <li>Set the exit value from the EV/EBITDA multiples of six printing and office-products peers, including Deluxe, Pitney Bowes and 4imprint.</li>
-    <li>Result: an implied equity value of about $3.0B, roughly $117 per share, compared with about $92 per share at the market value used in the model.</li>
-  </ul>
-  <div class="files">
-    <div class="files-title">Files</div>
-    <div class="file-list">
-      <a class="file" href="files/DCF%20modeling.xlsx">DCF model <small>Excel</small></a>
-    </div>
-  </div>
-</article>
+    <article class="card wide">
+      <div class="viz">
+        <p class="viz-title">2026 attendance forecast by weekend (expected case)</p>
+        <p class="viz-sub">The new anniversary concert moves the peak to Weekend 4</p>
+        <svg id="chart-disney" role="img" aria-label="Bar chart of expected 2026 visits by weekend: Weekend 1 12,600; Weekend 2 15,700; Weekend 3 18,900; Weekend 4 20,800, the peak."></svg>
+      </div>
+      <div class="card-body">
+        <div class="meta-row"><span class="kind">Case study &middot; Team of 3</span><span>Fall 2026</span></div>
+        <h3>Disney Parks Industrial Engineering Case Study</h3>
+        <p>A three-part plan for a four-weekend fall festival, built for Walt Disney Parks &amp; Resorts' Fall 2026 IE case with Aarnav Bhat and Justin Llamera: how many guests will come, how many booths of each type they need, and how the festival should grow.</p>
+        <div class="stats">
+          <div class="stat"><b>68,000</b><span>visits forecast for 2026 (+21%)</span></div>
+          <div class="stat"><b>45 / 21 / 27</b><span>food, merchandise and activity booths</span></div>
+          <div class="stat"><b>~6 min</b><span>longest wait on the busiest day</span></div>
+          <div class="stat"><b>$55K</b><span>yearly gain from 12-hour days</span></div>
+        </div>
+        <div class="tags"><span class="tag">Forecasting</span><span class="tag">Queueing</span><span class="tag">Optimization</span><span class="tag">NPV analysis</span><span class="tag">Excel</span></div>
+        <details>
+          <summary>Details &amp; files</summary>
+          <ul>
+            <li><strong>Attendance forecast:</strong> averaged 5 trend models (with only 5 years of history, complex models would overfit), then added 2026 factors like marketing, new markets and a concert. A 1,000-run Monte Carlo simulation set the planning range at 66,300 to 70,300.</li>
+            <li><strong>Booth mix:</strong> a queueing model found the fewest booths that keep every line short at peak, then we scored all ~900 possible mixes. The winner fills all 120 spaces and earns the most (about $394,000 in vendor sales per day) with no line longer than about 6 minutes.</li>
+            <li><strong>Growth options:</strong> compared later hours, Fridays and a fifth weekend on cost, break-even and 5-year NPV. Staying open until 10 PM was the only option profitable in every demand scenario, and the only one that shortens Saturday lunch lines.</li>
+          </ul>
+          <div class="files">
+            <a class="file" href="files/Disney_IE_Case_Overview.pdf">Project overview <small>PDF</small></a>
+            <a class="file" href="files/Disney%20Case%20Slide%20Deck%20.pdf">Final slide deck <small>PDF</small></a>
+            <a class="file" href="files/festival_forecast_model.xlsx">Forecast model <small>Excel</small></a>
+            <a class="file" href="files/booth_mix_model.xlsx">Booth mix model <small>Excel</small></a>
+            <a class="file" href="files/growth_options_model.xlsx">Growth options model <small>Excel</small></a>
+            <a class="file" href="files/lE%202026%20Case%20Study.pdf">Case prompt <small>PDF</small></a>
+          </div>
+        </details>
+      </div>
+    </article>
 
-<!-- STOCK -->
-<article class="card" id="stock">
-  <div class="card-head">
-    <h3>Stock Price Forecasting with an LSTM</h3>
-    <span class="when">2025 &ndash; 2026</span>
+    <article class="card">
+      <div class="viz">
+        <p class="viz-title">Salesforce FY2029 revenue by scenario</p>
+        <p class="viz-sub">USD billions</p>
+        <svg id="chart-sf" role="img" aria-label="Bar chart of forecast FY2029 revenue: downside 46.7 billion, base 53.3 billion, upside 56.8 billion dollars."></svg>
+      </div>
+      <div class="card-body">
+        <div class="meta-row"><span class="kind">Financial model</span><span>2026</span></div>
+        <h3>Salesforce Forecast &amp; Scenario Model</h3>
+        <p>A forecast of Salesforce's revenue, profit and cash flow through fiscal 2029, with downside, base and upside cases.</p>
+        <div class="stats">
+          <div class="stat"><b>$53.3B</b><span>base-case revenue</span></div>
+          <div class="stat"><b>26.6%</b><span>base operating margin</span></div>
+          <div class="stat"><b>37.5%</b><span>base free cash flow margin</span></div>
+        </div>
+        <div class="tags"><span class="tag">FP&amp;A</span><span class="tag">Scenario analysis</span><span class="tag">Excel</span></div>
+        <details>
+          <summary>Details &amp; files</summary>
+          <ul>
+            <li>Linked sheets for raw actuals, cleaned actuals, assumptions, the forecast and a scenario summary, so changing one assumption updates everything.</li>
+            <li>The "Rule of 40" (growth plus margin) ranges from 31% in the downside case to 51% in the upside case.</li>
+            <li>Takeaway for management: protect sales efficiency and trim operating costs early if growth drifts toward the downside case.</li>
+          </ul>
+          <div class="files">
+            <a class="file" href="files/Salesforce_FP%26A_Project.xlsx">Forecast model <small>Excel</small></a>
+          </div>
+        </details>
+      </div>
+    </article>
+
+    <article class="card">
+      <div class="viz">
+        <p class="viz-title">Cimpress total revenue, actual and forecast</p>
+        <p class="viz-sub">USD billions, fiscal years</p>
+        <svg id="chart-dcf" role="img" aria-label="Line chart of Cimpress revenue: 2.48 billion in FY2020 rising to 3.40 billion in FY2025 actual, forecast to reach 4.65 billion in FY2030."></svg>
+      </div>
+      <div class="card-body">
+        <div class="meta-row"><span class="kind">Valuation</span><span>2026</span></div>
+        <h3>Cimpress (Vistaprint) DCF Valuation</h3>
+        <p>A discounted cash flow valuation of Vistaprint's parent company, forecasting each of its five business segments through fiscal 2030.</p>
+        <div class="stats">
+          <div class="stat"><b>$117</b><span>implied value per share (vs. ~$92)</span></div>
+          <div class="stat"><b>10.3%</b><span>discount rate (WACC)</span></div>
+          <div class="stat"><b>$4.4B</b><span>implied enterprise value</span></div>
+        </div>
+        <div class="tags"><span class="tag">DCF</span><span class="tag">Comparable companies</span><span class="tag">Excel</span></div>
+        <details>
+          <summary>Details &amp; files</summary>
+          <ul>
+            <li>Built the discount rate from the risk-free rate, the company's beta, its cost of debt and its debt/equity mix.</li>
+            <li>Set a 6.7&times; exit multiple from the EV/EBITDA of six printing and office-products peers, including Deluxe, Pitney Bowes and 4imprint.</li>
+            <li>Result: about $3.0B implied equity value, or roughly $117 per share compared with about $92 at the market value used in the model.</li>
+          </ul>
+          <div class="files">
+            <a class="file" href="files/DCF%20modeling.xlsx">DCF model <small>Excel</small></a>
+          </div>
+        </details>
+      </div>
+    </article>
+
+    <article class="card wide">
+      <div class="viz">
+        <p class="viz-title">Backtest: predicted vs. actual outcomes for 4,951 loan applications (Oct&ndash;Dec 2016)</p>
+        <p class="viz-sub">Share of applications ending in each outcome</p>
+        <svg id="chart-markov" role="img" aria-label="Grouped bar chart. Successful: predicted 62.8 percent, actual 45.8 percent. Denied: predicted 12.2 percent, actual 9.9 percent. Cancelled: predicted 25.0 percent, actual 44.4 percent."></svg>
+        <div class="legend"><span><i style="background:var(--series-1)"></i>Predicted by the model</span><span><i style="background:var(--series-2)"></i>What actually happened</span></div>
+      </div>
+      <div class="card-body">
+        <div class="meta-row"><span class="kind">Probability model</span><span>2026</span></div>
+        <h3>Loan Application Outcome Forecast (Absorbing Markov Chain)</h3>
+        <p>Models how real bank loan applications move through 7 review steps until they are approved, denied or cancelled, using 154,152 status changes from the public BPI Challenge 2017 dataset. Trained on January&ndash;September 2016, then tested on applications from October&ndash;December that the model never saw.</p>
+        <div class="stats">
+          <div class="stat"><b>154K</b><span>status changes used to train the model</span></div>
+          <div class="stat"><b>3,167</b><span>expected approvals from 5,049 open applications ($59.8M)</span></div>
+          <div class="stat"><b>within 6%</b><span>accuracy for applications already in review</span></div>
+          <div class="stat"><b>63% vs. 46%</b><span>predicted vs. actual approval rate overall</span></div>
+        </div>
+        <div class="tags"><span class="tag">Markov chains</span><span class="tag">Probability</span><span class="tag">Backtesting</span><span class="tag">Excel</span></div>
+        <details>
+          <summary>Details &amp; files</summary>
+          <ul>
+            <li>Built the transition matrix from every status change, split it into moves between open steps and moves to final outcomes, and solved the fundamental matrix to get each application's odds of approval, denial or cancellation and its expected steps to finish. Built-in checks confirm every row of probabilities adds up.</li>
+            <li>Backtested on 4,951 applications still open 14 days after creation. Predictions were within about 6% for applications already in validation, but overall approvals came in 17 points lower than forecast.</li>
+            <li>Almost the whole gap came from applications stalled at the "Complete" step: the model predicted 1,825 approvals there and 975 happened. A Markov chain ignores how long an application has been waiting, so the recommendation is to recalibrate on recent data and account for time spent at each step.</li>
+          </ul>
+          <div class="files">
+            <a class="file" href="files/Loan_Application_Markov_Forecast_Eisen_Hy.xlsx">Markov model <small>Excel, 11 MB</small></a>
+            <a class="file" href="https://research.tue.nl/en/datasets/bpi-challenge-2017/">BPI Challenge 2017 dataset <small>Source</small></a>
+          </div>
+        </details>
+      </div>
+    </article>
+
+    <article class="card wide">
+      <div class="viz">
+        <p class="viz-title">Average error predicting Microsoft's next-day price (2026 test data)</p>
+        <p class="viz-sub">Mean absolute percentage error; lower is better</p>
+        <svg id="chart-stock" role="img" aria-label="Bar chart of error: version 1 LSTM on raw prices 2.43 percent; version 2 LSTM on returns 1.58 percent; baseline tomorrow equals today 1.57 percent."></svg>
+      </div>
+      <div class="card-body">
+        <div class="meta-row"><span class="kind">Machine learning</span><span>2025 &ndash; 2026</span></div>
+        <h3>Stock Price Forecasting with an LSTM</h3>
+        <p>A PyTorch neural network trained on 16 years of market data and tested on 182 trading days of 2026 it never saw. Redesigning it to predict daily returns instead of prices cut the error by about a third, yet it only ties a simple "tomorrow = today" guess. That honest comparison is the main result.</p>
+        <div class="stats">
+          <div class="stat"><b>2.4% &rarr; 1.6%</b><span>average error, before and after the redesign</span></div>
+          <div class="stat"><b>8</b><span>engineered inputs, incl. RSI and market returns</span></div>
+          <div class="stat"><b>182</b><span>unseen 2026 trading days tested</span></div>
+          <div class="stat"><b>49.5%</b><span>up/down direction accuracy (coin flip)</span></div>
+        </div>
+        <div class="tags"><span class="tag">Python</span><span class="tag">PyTorch</span><span class="tag">Time series</span><span class="tag">Backtesting</span></div>
+        <details>
+          <summary>Details &amp; files</summary>
+          <ul>
+            <li>Split data by date (train 2010&ndash;2024, validate 2025, test 2026), fitted all scaling on training data only, and used early stopping to avoid overfitting.</li>
+            <li>Direction accuracy of 49.5% vs. 48.9% for always guessing "up" shows daily moves are close to unpredictable from price history alone.</li>
+          </ul>
+          <div class="files">
+            <a class="file" href="https://github.com/EHy230/msft-lstm-forecasting">Code, notebook and results <small>GitHub</small></a>
+          </div>
+        </details>
+      </div>
+    </article>
+
   </div>
-  <div class="tags"><span class="tag">Python</span><span class="tag">PyTorch</span><span class="tag">Machine learning</span></div>
-  <p>A neural network that predicts Microsoft's next-day stock price from 16 years of market data, tested on 2026 data it never saw. Switching from predicting prices to predicting daily returns cut the error by about a third.</p>
-  <div class="stats">
-    <div class="stat"><b>2.4% &rarr; 1.6%</b><span>average error, before and after the redesign</span></div>
-    <div class="stat"><b>16 yrs</b><span>of daily market data</span></div>
-    <div class="stat"><b>8</b><span>engineered inputs, incl. RSI and market returns</span></div>
-    <div class="stat"><b>182</b><span>unseen 2026 trading days tested</span></div>
-  </div>
-  <ul class="points">
-    <li>The model ties a simple "tomorrow's price = today's price" guess, which shows how hard daily stock moves are to predict. The write-up explains why that baseline matters.</li>
-  </ul>
-  <div class="files">
-    <div class="files-title">Files</div>
-    <div class="file-list">
-      <a class="file" href="https://github.com/EHy230/msft-lstm-forecasting">Code, notebook and results <small>GitHub</small></a>
+</section>
+
+<section id="about">
+  <div class="section-head"><h2>About</h2></div>
+  <div class="about">
+    <div>
+      <p>I'm a first-year Industrial Engineering &amp; Operations Research student at UC Berkeley. I like problems where a good model changes a real decision: how many booths a festival needs, which problems a transit agency should fix first, or what a company is worth.</p>
+      <p>Outside class I'm a consulting analyst for IISE Berkeley on a project with BART, and a research apprentice at Rapid Reviews\Infectious Diseases (UC Berkeley / MIT Press). In high school I co-founded a digital hall-pass system that handled 1,300+ requests a week.</p>
+      <p>I'm also hands-on. I've rebuilt my 2019 Toyota 4Runner myself, from welding and suspension to wiring, and I repair other people's cars. I captained my varsity golf team and play violin and piano.</p>
+      <div class="skills">
+        <span>Excel &amp; Google Sheets</span><span>Financial modeling</span><span>Forecasting</span><span>Queueing &amp; optimization</span><span>Python</span><span>PyTorch</span><span>Google Apps Script</span><span>JavaScript</span>
+      </div>
     </div>
+    <ul class="timeline">
+      <li><b>Consulting Analyst, IISE Berkeley</b><span>Client: BART &middot; Sept. 2026 &ndash; Present</span></li>
+      <li><b>Research Apprentice, RR\ID</b><span>UC Berkeley / MIT Press &middot; Sept. 2026 &ndash; Present</span></li>
+      <li><b>B.S. IEOR, UC Berkeley</b><span>Expected May 2029</span></li>
+      <li><b>Co-Founder, Embedded Time System</b><span>Gabrielino High School &middot; 2025 &ndash; 2026</span></li>
+      <li><b>Varsity Golf Captain</b><span>2024 CIF champions &middot; 2023 &ndash; 2026</span></li>
+    </ul>
   </div>
-</article>
+
+  <div class="contact" id="contact">
+    <div>
+      <h2>Let's talk</h2>
+      <p>Open to Summer 2027 internships in industrial engineering, operations and business analysis.</p>
+    </div>
+    <a class="btn" href="mailto:eisenhy9@gmail.com">eisenhy9@gmail.com</a>
+  </div>
+</section>
+
 </main>
 
-<footer>
-  &copy; 2026 Eisen Hy &middot; UC Berkeley IEOR &middot; <a href="mailto:eisenhy9@gmail.com">eisenhy9@gmail.com</a>
-</footer>
+<footer>&copy; 2026 Eisen Hy &middot; Hosted on GitHub Pages</footer>
 
-</div>
+<script>
+(function () {
+  const NS = 'http://www.w3.org/2000/svg';
+  const el = (tag, attrs, parent) => { const e = document.createElementNS(NS, tag); for (const k in attrs) e.setAttribute(k, attrs[k]); if (parent) parent.appendChild(e); return e; };
+
+  function tipFor(svg) {
+    const host = svg.parentElement; let t = host.querySelector('.tip');
+    if (!t) { t = document.createElement('div'); t.className = 'tip'; host.appendChild(t); }
+    return {
+      show(html, x, y) { const r = svg.getBoundingClientRect(), hr = host.getBoundingClientRect(), s = r.width / svg.viewBox.baseVal.width; t.innerHTML = html; t.style.left = (r.left - hr.left + x * s) + 'px'; t.style.top = (r.top - hr.top + y * s) + 'px'; t.style.opacity = 1; },
+      hide() { t.style.opacity = 0; }
+    };
+  }
+  const widthOf = svg => Math.max(300, Math.min(1000, Math.round(svg.parentElement.clientWidth - 40)));
+  const colorOf = d => d.highlight ? 'var(--series-2)' : (d.neutral ? 'var(--neutral-mark)' : 'var(--series-1)');
+
+  function bars(id, data, H) {
+    const svg = document.getElementById(id); if (!svg) return; svg.innerHTML = '';
+    const W = widthOf(svg);
+    const pad = { t: 22, r: 8, b: 26, l: 8 };
+    svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
+    const max = Math.max(...data.map(d => d.value)) * 1.12;
+    const iw = W - pad.l - pad.r, ih = H - pad.t - pad.b;
+    const step = iw / data.length, bw = Math.min(64, step * 0.5);
+    const tip = tipFor(svg);
+    el('line', { x1: pad.l, x2: W - pad.r, y1: pad.t + ih, y2: pad.t + ih, class: 'baseline' }, svg);
+    data.forEach((d, i) => {
+      const h = d.value / max * ih, x = pad.l + step * i + (step - bw) / 2, y = pad.t + ih - h, r = 4;
+      el('path', { d: `M${x},${pad.t + ih} V${y + r} Q${x},${y} ${x + r},${y} H${x + bw - r} Q${x + bw},${y} ${x + bw},${y + r} V${pad.t + ih} Z`, fill: colorOf(d) }, svg);
+      el('text', { x: x + bw / 2, y: y - 6, 'text-anchor': 'middle', class: 'val-text' }, svg).textContent = d.fmt;
+      el('text', { x: x + bw / 2, y: H - 8, 'text-anchor': 'middle', class: 'axis-text' }, svg).textContent = d.label;
+      const hit = el('rect', { x: pad.l + step * i, y: pad.t, width: step, height: ih, class: 'hit' }, svg);
+      hit.addEventListener('mouseenter', () => tip.show(`<b>${d.label}</b><br>${d.tip}`, x + bw / 2, y));
+      hit.addEventListener('mouseleave', () => tip.hide());
+    });
+  }
+
+  function hbars(id, data, max) {
+    const svg = document.getElementById(id); if (!svg) return; svg.innerHTML = '';
+    const W = widthOf(svg), small = W < 560, rowH = small ? 44 : 34, pad = { t: 6, r: 56, b: 6, l: small ? 0 : 260 };
+    const H = pad.t + pad.b + rowH * data.length; svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
+    const iw = W - pad.l - pad.r, tip = tipFor(svg);
+    if (!small) el('line', { x1: pad.l, x2: pad.l, y1: pad.t, y2: H - pad.b, class: 'baseline' }, svg);
+    data.forEach((d, i) => {
+      const y = pad.t + rowH * i + (small ? 20 : 7), bh = small ? 16 : rowH - 14, w = d.value / max * iw, r = 4;
+      el('path', { d: `M${pad.l},${y} H${pad.l + w - r} Q${pad.l + w},${y} ${pad.l + w},${y + r} V${y + bh - r} Q${pad.l + w},${y + bh} ${pad.l + w - r},${y + bh} H${pad.l} Z`, fill: colorOf(d) }, svg);
+      if (small) el('text', { x: 0, y: y - 5, class: 'axis-text', style: 'font-size:12px' }, svg).textContent = d.label;
+      else el('text', { x: pad.l - 12, y: y + bh / 2 + 4, 'text-anchor': 'end', class: 'axis-text', style: 'font-size:13px' }, svg).textContent = d.label;
+      el('text', { x: pad.l + w + 8, y: y + bh / 2 + 4.5, class: 'val-text', style: 'font-size:13.5px' }, svg).textContent = d.fmt;
+      const hit = el('rect', { x: 0, y: pad.t + rowH * i, width: W, height: rowH, class: 'hit' }, svg);
+      hit.addEventListener('mouseenter', () => tip.show(`<b>${d.label}</b><br>${d.tip}`, pad.l + w / 2, y));
+      hit.addEventListener('mouseleave', () => tip.hide());
+    });
+  }
+
+  function line(id, labels, values, splitIdx) {
+    const svg = document.getElementById(id); if (!svg) return; svg.innerHTML = '';
+    const W = widthOf(svg), H = 210, pad = { t: 22, r: 22, b: 26, l: 40 };
+    svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
+    const min = 2, max = 5, iw = W - pad.l - pad.r, ih = H - pad.t - pad.b;
+    const X = i => pad.l + iw * i / (values.length - 1), Y = v => pad.t + ih - (v - min) / (max - min) * ih;
+    [2, 3, 4, 5].forEach(g => { el('line', { x1: pad.l, x2: W - pad.r, y1: Y(g), y2: Y(g), class: 'gridline' }, svg); el('text', { x: pad.l - 8, y: Y(g) + 4, 'text-anchor': 'end', class: 'axis-text' }, svg).textContent = '$' + g + 'B'; });
+    el('rect', { x: X(splitIdx), y: pad.t, width: X(values.length - 1) - X(splitIdx), height: ih, fill: 'var(--accent-soft)', opacity: .8 }, svg);
+    el('text', { x: X(splitIdx) + 8, y: pad.t + 13, class: 'note-text' }, svg).textContent = 'Forecast';
+    const pts = values.map((v, i) => `${X(i)},${Y(v)}`);
+    el('polyline', { points: pts.slice(0, splitIdx + 1).join(' '), fill: 'none', stroke: 'var(--series-1)', 'stroke-width': 2, 'stroke-linejoin': 'round' }, svg);
+    el('polyline', { points: pts.slice(splitIdx).join(' '), fill: 'none', stroke: 'var(--series-1)', 'stroke-width': 2, 'stroke-dasharray': '5 4', 'stroke-linejoin': 'round' }, svg);
+    labels.forEach((lab, i) => { if (i % 2 === 0) el('text', { x: X(i), y: H - 8, 'text-anchor': 'middle', class: 'axis-text' }, svg).textContent = lab; });
+    [0, splitIdx, values.length - 1].forEach(i => {
+      el('circle', { cx: X(i), cy: Y(values[i]), r: 4.5, fill: 'var(--series-1)', stroke: 'var(--surface-2)', 'stroke-width': 2 }, svg);
+      el('text', { x: X(i) + (i === 0 ? -4 : 0), y: Y(values[i]) - 10, 'text-anchor': i === 0 ? 'start' : (i === values.length - 1 ? 'end' : 'middle'), class: 'val-text' }, svg).textContent = '$' + values[i].toFixed(2) + 'B';
+    });
+    const tip = tipFor(svg);
+    const guide = el('line', { x1: 0, x2: 0, y1: pad.t, y2: pad.t + ih, stroke: 'var(--muted)', 'stroke-width': 1, opacity: 0 }, svg);
+    const dot = el('circle', { r: 5, fill: 'var(--series-1)', stroke: 'var(--surface-2)', 'stroke-width': 2, opacity: 0 }, svg);
+    const hit = el('rect', { x: pad.l, y: pad.t, width: iw, height: ih, class: 'hit' }, svg);
+    hit.addEventListener('mousemove', e => {
+      const r = svg.getBoundingClientRect(), sx = (e.clientX - r.left) * W / r.width;
+      const i = Math.max(0, Math.min(values.length - 1, Math.round((sx - pad.l) / iw * (values.length - 1))));
+      guide.setAttribute('x1', X(i)); guide.setAttribute('x2', X(i)); guide.setAttribute('opacity', .5);
+      dot.setAttribute('cx', X(i)); dot.setAttribute('cy', Y(values[i])); dot.setAttribute('opacity', 1);
+      tip.show(`<b>FY20${labels[i].slice(2)}</b> ${i > splitIdx ? '(forecast)' : '(actual)'}<br>$${values[i].toFixed(2)}B revenue`, X(i), Y(values[i]) - 6);
+    });
+    hit.addEventListener('mouseleave', () => { tip.hide(); guide.setAttribute('opacity', 0); dot.setAttribute('opacity', 0); });
+  }
+
+  function grouped(id, groups, H) {
+    const svg = document.getElementById(id); if (!svg) return; svg.innerHTML = '';
+    const W = widthOf(svg), pad = { t: 22, r: 8, b: 26, l: 8 };
+    svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
+    const max = 70, iw = W - pad.l - pad.r, ih = H - pad.t - pad.b, step = iw / groups.length;
+    const bw = Math.min(56, step * 0.28), gap = 2, tip = tipFor(svg);
+    el('line', { x1: pad.l, x2: W - pad.r, y1: pad.t + ih, y2: pad.t + ih, class: 'baseline' }, svg);
+    groups.forEach((g, i) => {
+      const cx = pad.l + step * i + step / 2;
+      [['Predicted', g.pred, 'var(--series-1)', -1], ['Actual', g.act, 'var(--series-2)', 1]].forEach(([name, v, color, side]) => {
+        const h = v / max * ih, x = side < 0 ? cx - bw - gap / 2 : cx + gap / 2, y = pad.t + ih - h, r = 4;
+        el('path', { d: `M${x},${pad.t + ih} V${y + r} Q${x},${y} ${x + r},${y} H${x + bw - r} Q${x + bw},${y} ${x + bw},${y + r} V${pad.t + ih} Z`, fill: color }, svg);
+        el('text', { x: x + bw / 2, y: y - 6, 'text-anchor': 'middle', class: 'val-text' }, svg).textContent = v.toFixed(1) + '%';
+      });
+      el('text', { x: cx, y: H - 8, 'text-anchor': 'middle', class: 'axis-text' }, svg).textContent = g.label;
+      const hit = el('rect', { x: pad.l + step * i, y: pad.t, width: step, height: ih, class: 'hit' }, svg);
+      hit.addEventListener('mouseenter', () => tip.show(`<b>${g.label}</b><br>Predicted ${g.pred.toFixed(1)}% &middot; Actual ${g.act.toFixed(1)}%`, cx, pad.t + ih - Math.max(g.pred, g.act) / max * ih));
+      hit.addEventListener('mouseleave', () => tip.hide());
+    });
+  }
+
+  function render() {
+  bars('chart-disney', [
+    { label: 'Weekend 1', value: 12600, fmt: '12.6K', tip: '12,600 expected visits' },
+    { label: 'Weekend 2', value: 15700, fmt: '15.7K', tip: '15,700 expected visits' },
+    { label: 'Weekend 3', value: 18900, fmt: '18.9K', tip: '18,900 expected visits' },
+    { label: 'Weekend 4', value: 20800, fmt: '20.8K (peak)', highlight: true, tip: '20,800 expected visits, the peak (incl. concert)' }
+  ], 200);
+
+  bars('chart-sf', [
+    { label: 'Downside', value: 46.7, fmt: '$46.7B', tip: '$46.7B revenue, 3% growth' },
+    { label: 'Base', value: 53.3, fmt: '$53.3B', highlight: true, tip: '$53.3B revenue, 8% growth' },
+    { label: 'Upside', value: 56.8, fmt: '$56.8B', tip: '$56.8B revenue, 10% growth' }
+  ], 210);
+
+  line('chart-dcf', ['FY20','FY21','FY22','FY23','FY24','FY25','FY26','FY27','FY28','FY29','FY30'],
+    [2.48, 2.58, 2.89, 3.08, 3.29, 3.40, 3.70, 3.96, 4.20, 4.44, 4.65], 5);
+
+  grouped('chart-markov', [
+    { label: 'Approved', pred: 62.8, act: 45.8 },
+    { label: 'Denied', pred: 12.2, act: 9.9 },
+    { label: 'Cancelled', pred: 25.0, act: 44.4 }
+  ], 220);
+
+  hbars('chart-stock', [
+    { label: 'Version 1: LSTM on raw prices', value: 2.43, fmt: '2.43%', tip: '2.43% average error' },
+    { label: 'Version 2: LSTM on returns + features', value: 1.58, fmt: '1.58%', highlight: true, tip: '1.58% average error' },
+    { label: 'Baseline: tomorrow = today', value: 1.57, fmt: '1.57%', neutral: true, tip: '1.57%, a simple guess with no model' }
+  ], 2.8);
+  }
+  render();
+  let rt; addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(render, 150); });
+})();
+</script>
 </body>
 </html>
