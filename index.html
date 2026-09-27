@@ -162,6 +162,19 @@
   .flow b { display: block; font-size: 0.88rem; color: var(--text); margin-bottom: 2px; }
   .flow span { display: block; font-size: 0.78rem; color: var(--muted); line-height: 1.4; }
   @media (max-width: 820px) { .flow { grid-template-columns: 1fr; gap: 22px; } .flow li:not(:last-child)::after { content: "\2193"; right: auto; left: 50%; top: auto; bottom: -20px; transform: translateX(-50%); } }
+  .show { position: relative; }
+  .show-chips { display: flex; flex-wrap: wrap; gap: 6px; margin: 4px 0 10px; }
+  .show-chips button { font: inherit; font-size: 0.78rem; font-weight: 600; padding: 5px 10px; border-radius: 999px; border: 1px solid var(--border); background: var(--bg); color: var(--text-2); cursor: pointer; }
+  .show-chips button.on { background: var(--text); color: var(--bg); border-color: var(--text); }
+  .show-stage { position: relative; aspect-ratio: 16 / 10; max-height: 560px; width: 100%; background: #111; border-radius: 12px; overflow: hidden; touch-action: pan-y; }
+  .show-stage img { width: 100%; height: 100%; object-fit: contain; display: block; }
+  .show-nav { position: absolute; top: 50%; transform: translateY(-50%); width: 42px; height: 42px; border-radius: 50%; border: none; background: rgba(255,255,255,0.88); color: #111; font-size: 1.3rem; font-weight: 700; cursor: pointer; display: grid; place-items: center; box-shadow: 0 1px 4px rgba(0,0,0,.3); }
+  .show-nav.prev { left: 10px; } .show-nav.next { right: 10px; }
+  .show-count { position: absolute; top: 10px; right: 10px; background: rgba(0,0,0,.6); color: #fff; font-size: 0.75rem; font-weight: 600; padding: 3px 8px; border-radius: 999px; font-variant-numeric: tabular-nums; }
+  .show-cap { margin: 10px 2px 2px; min-height: 3em; }
+  .show-cap b { display: block; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--accent); margin-bottom: 2px; }
+  .show-cap span { font-size: 0.92rem; color: var(--text-2); }
+  @media (max-width: 820px) { .show-stage { aspect-ratio: 4 / 3; } }
   @media (max-width: 820px) { .panel.active { grid-template-columns: 1fr; } }
   @media (max-width: 820px) {
     .projects, .about { grid-template-columns: 1fr; }
@@ -202,7 +215,7 @@
       <a class="btn" href="https://github.com/EHy230">GitHub</a>
     </div>
     <div class="facts">
-      <div class="fact"><b>6</b><span>projects</span></div>
+      <div class="fact"><b>7</b><span>projects</span></div>
       <div class="fact"><b>1</b><span>certification (Harvard AI Winter Bootcamp)</span></div>
       <div class="fact"><b>1,300+</b><span>weekly users of a system I co-founded</span></div>
     </div>
@@ -485,6 +498,51 @@ MAPE = AVERAGE(APE_2024, APE_2025)</pre>
       </div>
     </article>
 
+    <article class="card wide">
+      <div class="viz">
+        <p class="viz-title">Build photos</p>
+        <p class="viz-sub">Use the arrows, swipe, or jump to a section</p>
+        <div class="show" id="car-show">
+          <div class="show-chips" id="car-chips"></div>
+          <div class="show-stage" id="car-stage" tabindex="0" aria-label="4Runner build photo slideshow">
+            <img id="car-img" alt="">
+            <button class="show-nav prev" id="car-prev" aria-label="Previous photo">&lsaquo;</button>
+            <button class="show-nav next" id="car-next" aria-label="Next photo">&rsaquo;</button>
+            <span class="show-count" id="car-count"></span>
+          </div>
+          <p class="show-cap" id="car-cap"><b></b><span></span></p>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="meta-row"><span class="kind">Hands-on project</span><span>May 2025 &ndash; Present</span></div>
+        <h3>2019 Toyota 4Runner Build</h3>
+        <p>Since May 2025 I've done most of the work on my 4Runner myself, including suspension, brakes, wiring, audio, welding and a transmission leak fix. When a part or bracket didn't exist for my setup, I made one by cutting and welding metal or with hardware from Home Depot. I rebuilt my rusty roof rack that way, and I made my own light bar mounts because nothing sold online fit.</p>
+        <div class="stats">
+          <div class="stat"><b>$17.5K</b><span>spent on parts across 100 mods</span></div>
+          <div class="stat"><b>$2.6K</b><span>saved by finding discounted and used parts</span></div>
+          <div class="stat"><b>~3,000</b><span>hours working on cars</span></div>
+          <div class="stat"><b>$2.4K</b><span>spent on maintenance, tracked in the same sheet</span></div>
+        </div>
+        <div class="chartbox" style="background:var(--surface-2);border-radius:12px;padding:14px 16px 8px;margin:0 0 16px;position:relative">
+          <p class="viz-title">Parts spending by category</p>
+          <p class="viz-sub">From my parts tracker, USD</p>
+          <svg id="chart-car" role="img" aria-label="Bar chart of parts spending: suspension and brakes 4,097 dollars; audio and electronics 3,527; wheels and tires 2,683; armor and recovery 2,045; exhaust and engine 1,708; electrical and charging 1,568; lighting 985; storage, camping and other 929."></svg>
+        </div>
+        <div class="tags"><span class="tag">Wiring</span><span class="tag">Welding</span><span class="tag">Fabrication</span><span class="tag">Budgeting</span><span class="tag">Diagnostics</span></div>
+        <details>
+          <summary>Details &amp; files</summary>
+          <ul>
+            <li>I track every part and maintenance item in a spreadsheet, including what I paid compared with the list price.</li>
+            <li>Around 3,000 hours working on cars in total, including learning how to do each job, how to source parts, and how to work around missing parts and brackets.</li>
+            <li>I also work on other people's cars as an independent mechanic: exhaust welding, brakes, belts and engine maintenance.</li>
+          </ul>
+          <div class="files">
+            <a class="file" href="images/4runner/4Wannuh.xlsx">Parts &amp; maintenance tracker <small>Excel</small></a>
+          </div>
+        </details>
+      </div>
+    </article>
+
   </div>
 </section>
 
@@ -745,12 +803,47 @@ MAPE = AVERAGE(APE_2024, APE_2025)</pre>
     { label: 'Cancelled', pred: 25.0, act: 44.4 }
   ], 220);
 
+  hbars('chart-car', [
+    { label: 'Suspension & brakes', value: 4097, fmt: '$4,097', tip: 'Coilovers, springs, brakes, bump stops' },
+    { label: 'Audio & electronics', value: 3527, fmt: '$3,527', tip: 'Head unit, amp, subs, speakers, radios, dash cam' },
+    { label: 'Wheels & tires', value: 2683, fmt: '$2,683', tip: 'Tires, spacers, spare' },
+    { label: 'Armor & recovery', value: 2045, fmt: '$2,045', tip: 'Bumper, skid plates, recovery gear' },
+    { label: 'Exhaust & engine', value: 1708, fmt: '$1,708', tip: 'Exhaust, tune, intake, trans cooler' },
+    { label: 'Electrical & charging', value: 1568, fmt: '$1,568', tip: 'Alternator, battery, compressor' },
+    { label: 'Lighting', value: 985, fmt: '$985', tip: 'Light bar, pods, fog lights, headlights' },
+    { label: 'Storage, camping & other', value: 929, fmt: '$929', tip: 'Roof rack, shelves, awning, ladder' }
+  ], 4600);
   hbars('chart-stock', [
     { label: 'Version 1: LSTM on raw prices', value: 2.43, fmt: '2.43%', tip: '2.43% average error' },
     { label: 'Version 2: LSTM on returns + features', value: 1.58, fmt: '1.58%', highlight: true, tip: '1.58% average error' },
     { label: 'Baseline: tomorrow = today', value: 1.57, fmt: '1.57%', neutral: true, tip: '1.57%, a simple guess with no model' }
   ], 2.8);
   }
+
+  (function carShow() {
+    const S = [["Theverystart", "Start", "My 2019 4Runner TRD Off-Road Premium before I did any work on it."], ["Frontsuspensionbrakes", "Suspension & brakes", "Front coilovers, brake calipers, pads and steel brake lines, with drilled rotors and new bump stops."], ["rearsuspensionbrakes", "Suspension & brakes", "Rear shocks and heavy-duty springs, with rear calipers, extended brake lines and new bump stops."], ["Tirerotation", "Suspension & brakes", "Up on jack stands while working on the truck."], ["weldingPANHARd", "Suspension & brakes", "Welded in a Panhard bar correction kit and installed heavy-duty springs."], ["alternatorReplacement", "Electrical", "Halfway through installing a custom billet high-output alternator."], ["enginebayWiring", "Electrical", "Running power wire from the battery to the subwoofer inside the truck."], ["tapping-fuses", "Electrical", "Tapping fuses for the switch controllers, the daytime running lights and a 24/7 dash cam."], ["crimpingandwiring", "Electrical", "Crimping and soldering wires for a 30-inch light bar and 1-inch light pods wired in parallel, then testing each connection."], ["arbcompressorANDswitchPanel", "Electrical", "Wired the ARB compressor into the switch panel, installed mounts for both, and upgraded the battery, terminals and voltage booster."], ["newHeadunit", "Audio", "Taking out the old head unit to install the new one."], ["AMPwiring", "Audio", "Mounted the amp under the passenger seat and wired it to power, the head unit and two subwoofers."], ["Subwiring", "Audio", "Took out the seats and center console to run wiring from the amp to the head unit and subs."], ["SoundDeadningnfrontspeaker", "Audio", "Added sound deadening in the doors and wired the new speakers to the factory wiring."], ["rearspeakerWiring", "Audio", "Sound deadened the trunk panel, crimped and wired a new speaker, and upgraded the trunk struts to hold the extra weight."], ["CatsComingout", "Exhaust & transmission", "Removed the catalytic converters to reach a leaking transmission pan."], ["weldingexhuast", "Exhaust & transmission", "Welded a resonator into the exhaust from under the truck to get the alignment right."], ["gettingBrokenboltout", "Exhaust & transmission", "Heating a broken bolt so I could drill it out."], ["NewtrannyPan", "Exhaust & transmission", "New transmission pan, gasket, crush washers and drain bolt to fix the leak."], ["NEWtrannypan", "Exhaust & transmission", "New pan installed. I did the transmission fluid fill procedure and put the cats back on with new hardware and cleaned-up, re-threaded bolts and studs."], ["Current_endResult", "Today", "The truck today, on the beach with all its mods."]];
+    const img = document.getElementById('car-img'); if (!img) return;
+    const cap = document.getElementById('car-cap'), cnt = document.getElementById('car-count'), chips = document.getElementById('car-chips'), stage = document.getElementById('car-stage');
+    const src = i => 'images/4runner/' + S[i][0] + '.jpg';
+    const secs = [...new Set(S.map(x => x[1]))];
+    secs.forEach(sec => { const b = document.createElement('button'); b.type = 'button'; b.textContent = sec; b.addEventListener('click', () => go(S.findIndex(x => x[1] === sec))); chips.appendChild(b); });
+    let k = 0;
+    function go(n) {
+      k = (n + S.length) % S.length;
+      img.src = src(k); img.alt = S[k][2];
+      cap.querySelector('b').textContent = S[k][1]; cap.querySelector('span').textContent = S[k][2];
+      cnt.textContent = (k + 1) + ' / ' + S.length;
+      [...chips.children].forEach(b => b.classList.toggle('on', b.textContent === S[k][1]));
+      [1, -1].forEach(d => { const p = new Image(); p.src = src((k + d + S.length) % S.length); });
+    }
+    document.getElementById('car-prev').addEventListener('click', () => go(k - 1));
+    document.getElementById('car-next').addEventListener('click', () => go(k + 1));
+    stage.addEventListener('keydown', e => { if (e.key === 'ArrowLeft') go(k - 1); if (e.key === 'ArrowRight') go(k + 1); });
+    let x0 = null;
+    stage.addEventListener('touchstart', e => { x0 = e.touches[0].clientX; }, { passive: true });
+    stage.addEventListener('touchend', e => { if (x0 === null) return; const dx = e.changedTouches[0].clientX - x0; if (Math.abs(dx) > 40) go(dx < 0 ? k + 1 : k - 1); x0 = null; });
+    go(0);
+  })();
   document.querySelectorAll('.tabs button').forEach(b => b.addEventListener('click', () => {
     const box = b.closest('.method');
     box.querySelectorAll('.tabs button').forEach(x => x.setAttribute('aria-selected', x === b ? 'true' : 'false'));
