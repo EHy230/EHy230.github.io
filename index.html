@@ -174,6 +174,15 @@
   .show-cap { margin: 10px 2px 2px; min-height: 3em; }
   .show-cap b { display: block; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--accent); margin-bottom: 2px; }
   .show-cap span { font-size: 0.92rem; color: var(--text-2); }
+  .parts { display: flex; flex-wrap: wrap; gap: 0; margin: 4px 0 14px; border: 1px solid var(--border); border-radius: 10px; overflow: hidden; width: fit-content; max-width: 100%; }
+  .parts button { font: inherit; font-size: 0.84rem; font-weight: 600; padding: 8px 14px; border: none; border-right: 1px solid var(--border); background: var(--surface); color: var(--text-2); cursor: pointer; }
+  .parts button:last-child { border-right: none; }
+  .parts button[aria-selected="true"] { background: var(--accent); color: #fff; }
+  .method-wrap { border-top: 1px solid var(--border); padding-top: 16px; margin: 4px 0 16px; }
+  .method-wrap > h4 { margin: 0 0 4px; font-size: 1rem; }
+  .method-wrap .method { border-top: none; padding-top: 0; margin: 0; }
+  .method.part-off { display: none; }
+  @media (max-width: 820px) { .parts button { flex: 1 1 auto; padding: 8px 10px; font-size: 0.8rem; } }
   @media (max-width: 820px) { .show-stage { aspect-ratio: 4 / 3; } }
   @media (max-width: 820px) { .panel.active { grid-template-columns: 1fr; } }
   @media (max-width: 820px) {
@@ -248,9 +257,15 @@
           <div class="stat"><b>~6 min</b><span>longest wait on the busiest day</span></div>
           <div class="stat"><b>$55K</b><span>yearly gain from 12-hour days</span></div>
         </div>
-        <div class="method" id="disney-method">
-          <h4>Excel forecast model</h4>
-          <p>Part 1 is built in four linked steps. The model is modular, so any input can be changed and the forecast updates.</p>
+        <div class="method-wrap" id="disney-method">
+          <h4>Excel models</h4>
+          <div class="parts" role="tablist">
+            <button type="button" role="tab" aria-selected="true" data-part="part1">Part 1: Attendance</button>
+            <button type="button" role="tab" aria-selected="false" data-part="part2">Part 2: Booth mix</button>
+            <button type="button" role="tab" aria-selected="false" data-part="part3">Part 3: Growth options</button>
+          </div>
+        <div class="method" id="part1">
+          <p><strong>Excel forecast model.</strong> Part 1 is built in four linked steps. The model is modular, so any input can be changed and the forecast updates.</p>
           <div class="tabs" role="tablist">
             <button role="tab" aria-selected="true" data-panel="p-trend">1. Trend models</button>
             <button role="tab" aria-selected="false" data-panel="p-back">2. Backtest</button>
@@ -321,6 +336,149 @@ MAPE = AVERAGE(APE_2024, APE_2025)</pre>
               <p class="note-line" style="font-size:.84rem;color:var(--muted);margin:0">98.9% of trials exceed 65,000 visits. Standard deviation: 1,489.</p>
             </div>
           </div>
+        </div>
+
+        <div class="method part-off" id="part2">
+          <p><strong>Excel booth mix model.</strong> Part 2 decides how to split the 120 booth spaces between food, merchandise and activities. It uses the Part 1 peak day (10,808 guests) and is built in four steps.</p>
+          <div class="tabs" role="tablist">
+            <button role="tab" aria-selected="true" data-panel="p2-min">1. Minimum booths</button>
+            <button role="tab" aria-selected="false" data-panel="p2-wait">2. Queue waits</button>
+            <button role="tab" aria-selected="false" data-panel="p2-opt">3. Optimizer</button>
+            <button role="tab" aria-selected="false" data-panel="p2-stress">4. Stress test</button>
+          </div>
+
+          <div class="panel active" id="p2-min" role="tabpanel">
+            <div class="chartbox">
+              <p class="viz-title">Booths needed to handle the lunch peak vs. the final mix</p>
+              <svg id="chart-p2min" role="img" aria-label="Paired bar chart. Food and beverage: 41 minimum, 45 recommended. Merchandise: 14 minimum, 21 recommended. Activities: 23 minimum, 27 recommended."></svg>
+              <div class="legend"><span><i style="background:var(--neutral-mark)"></i>Minimum from queueing</span><span><i style="background:var(--series-1)"></i>Recommended mix</span></div>
+            </div>
+            <div class="explain">
+              <p>For each category, I turned the peak day into transactions per hour at the busiest hour, then used Little's Law to find the fewest booths that keep each booth under 85% busy. Activities booths take two spaces each.</p>
+              <div class="minis">
+                <div><b>10,808</b><span>guests on the peak day</span></div>
+                <div><b>101</b><span>of 120 spaces needed at minimum</span></div>
+                <div><b>19</b><span>spaces left to allocate</span></div>
+              </div>
+              <p class="formula-label">Minimum booths (Excel)</p>
+              <pre class="formula">Arrivals = Guests * Part * Txns * PeakShare
+Booths   = CEILING(Arrivals / (Rate * 0.85), 1)</pre>
+            </div>
+          </div>
+
+          <div class="panel" id="p2-wait" role="tabpanel">
+            <div class="chartbox">
+              <p class="viz-title">Peak-hour wait at each booth type with the recommended mix</p>
+              <svg id="chart-p2wait" role="img" aria-label="Bar chart of peak-hour wait: food and beverage 4.8 minutes at 81 percent busy; merchandise 1.7 minutes at 52 percent; activities 6.1 minutes at 78 percent."></svg>
+            </div>
+            <div class="explain">
+              <p>Each booth is treated as a single-server queue (M/M/1). The wait grows quickly as a booth gets close to 100% busy, which is why the model caps peak use at 85%. Guests start leaving the line after about 5 minutes, and all of them leave by 20 minutes.</p>
+              <p class="formula-label">Wait in line, M/M/1 (Excel)</p>
+              <pre class="formula">Util = Arrivals / (Booths * Rate)
+Wait = Util / (Rate * (1 - Util)) * 60</pre>
+            </div>
+          </div>
+
+          <div class="panel" id="p2-opt" role="tabpanel">
+            <div class="chartbox">
+              <p class="viz-title">Daily vendor profit for the recommended mix vs. simple rules</p>
+              <svg id="chart-p2opt" role="img" aria-label="Bar chart of design-day contribution: recommended 45/21/27 155,553 dollars and meets all limits; proportional to participation 146,073; queueing minimums only 137,571; equal space 136,821; most food 130,503. All alternatives break a wait or variety limit."></svg>
+            </div>
+            <div class="explain">
+              <p>The optimizer sheet lists every mix that fills the 120 spaces, 943 in total, and checks each one against the wait limit and the variety rules. 49 mixes pass, and the model picks the one with the highest vendor profit.</p>
+              <ul>
+                <li>No booth type over 85% busy at the peak hour</li>
+                <li>Food is at most half the space; merchandise is at least 15% of booths; activities take 20% to 45% of the space</li>
+                <li>More activity booths keep guests longer, which adds food sales</li>
+              </ul>
+              <p class="formula-label">Pick the best feasible mix (Excel)</p>
+              <pre class="formula">Score = IF(Feasible, Contribution, -1)
+Best  = INDEX(Mix, MATCH(MAX(Score), Score, 0))</pre>
+            </div>
+          </div>
+
+          <div class="panel" id="p2-stress" role="tabpanel">
+            <div class="chartbox">
+              <p class="viz-title">Food booth utilization at the lunch peak under each Part 1 scenario</p>
+              <svg id="chart-p2stress" role="img" aria-label="Bar chart of food and beverage peak utilization with the recommended mix: low day 69 percent, expected day 81 percent, high day 102 percent, which is over capacity."></svg>
+            </div>
+            <div class="explain">
+              <p>I reran the recommended mix on the low and high peak days from Part 1. It holds on low and expected days. On a high-attendance Saturday, food booths go over 100% busy and the lines stop clearing.</p>
+              <p>That is a capacity problem that a different mix can't fix, so it leads into Part 3: adding hours or days to spread the crowd out.</p>
+              <div class="minis">
+                <div><b>$394K</b><span>vendor sales on the peak day</span></div>
+                <div><b>~6 min</b><span>longest expected wait</span></div>
+                <div><b>102%</b><span>food load on a high day</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="method part-off" id="part3">
+          <p><strong>Excel growth options model.</strong> Part 3 compares three ways to grow the festival: longer days (10 to 12 hours), adding Fridays, or adding a fifth weekend. Each option is tested under low, expected and high demand.</p>
+          <div class="tabs" role="tablist">
+            <button role="tab" aria-selected="true" data-panel="p3-opts">1. Revenue vs. cost</button>
+            <button role="tab" aria-selected="false" data-panel="p3-npv">2. 5-year NPV</button>
+            <button role="tab" aria-selected="false" data-panel="p3-peak">3. Peak relief</button>
+            <button role="tab" aria-selected="false" data-panel="p3-dec">4. Decision</button>
+          </div>
+
+          <div class="panel active" id="p3-opts" role="tabpanel">
+            <div class="chartbox">
+              <p class="viz-title">Added yearly revenue and cost for each option (expected demand)</p>
+              <svg id="chart-p3opts" role="img" aria-label="Paired bar chart in thousands of dollars. 12-hour days: revenue 87.2, cost 32.0. Add Fridays: revenue 133.4, cost 97.2. Fifth weekend: revenue 87.3, cost 84.0."></svg>
+              <div class="legend"><span><i style="background:var(--series-1)"></i>Added revenue</span><span><i style="background:var(--series-2)"></i>Added cost</span></div>
+            </div>
+            <div class="explain">
+              <p>New visits come from people who couldn't come before, minus visits that just move from another day. Revenue per visit is admission plus a 15% share of vendor sales, minus variable cost. Costs are built per operating day and per added hour.</p>
+              <div class="minis">
+                <div><b>$55K</b><span>12-hour days, year-1 gain</span></div>
+                <div><b>$36K</b><span>Fridays, year-1 gain</span></div>
+                <div><b>$3K</b><span>5th weekend, year-1 gain</span></div>
+              </div>
+              <p class="formula-label">Net-new visits and break-even (Excel)</p>
+              <pre class="formula">NetNew    = GrossNew - Shifted
+BreakEven = AddedCost / NetRevenuePerVisit</pre>
+            </div>
+          </div>
+
+          <div class="panel" id="p3-npv" role="tabpanel">
+            <div class="chartbox">
+              <p class="viz-title">5-year NPV: low, expected and high demand</p>
+              <svg id="chart-p3npv" role="img" aria-label="Range chart of 5-year NPV in thousands. 12-hour days: low 17, expected 205, high 392. Add Fridays: low minus 58, expected 143, high 462. Fifth weekend: low minus 127, expected 6, high 175."></svg>
+              <div class="legend"><span><i style="background:var(--series-1)"></i>Expected</span><span><i style="background:var(--neutral-mark)"></i>Low and high</span></div>
+            </div>
+            <div class="explain">
+              <p>Each option's yearly cash flow is discounted over 5 years at 8%, with revenue growing 4% a year and cost 3%. Longer days are the only option that still makes money if demand comes in low. Fridays have the highest upside but lose money in the low case.</p>
+              <p class="formula-label">NPV (Excel)</p>
+              <pre class="formula">= -OneTimeCost + NPV(8%, Year1:Year5)</pre>
+            </div>
+          </div>
+
+          <div class="panel" id="p3-peak" role="tabpanel">
+            <div class="chartbox">
+              <p class="viz-title">Food booth utilization at the lunch peak on a high-attendance day</p>
+              <svg id="chart-p3peak" role="img" aria-label="Bar chart of food and beverage peak utilization on a high day: today 102 percent; with 12-hour days 95 percent; with Fridays 92 percent; with a fifth weekend 97 percent."></svg>
+            </div>
+            <div class="explain">
+              <p>All three options bring the high-day food peak back under 100%. Longer days do it by spreading the lunch rush over a longer day (peak share drops from 15% to 13%). Fridays and a fifth weekend depend on guests choosing to move their visit.</p>
+              <p>I also checked vendor economics: a food booth would lose about $38 per Friday on expected demand, which makes Fridays hard to staff.</p>
+            </div>
+          </div>
+
+          <div class="panel" id="p3-dec" role="tabpanel">
+            <div class="chartbox">
+              <p class="viz-title">Weighted decision score (out of 5)</p>
+              <svg id="chart-p3dec" role="img" aria-label="Bar chart of weighted scores: 12-hour days 4.35, add Fridays 2.75, fifth weekend 2.45."></svg>
+            </div>
+            <div class="explain">
+              <p>Each option is scored 1 to 5 on financial return (30%), peak relief (25%), risk and reversibility (20%), vendor and staff feasibility (15%) and growth headroom (10%). I reran the scores under four other sets of weights, and 12-hour days came out on top every time.</p>
+              <p><strong>Recommendation:</strong> extend to 12-hour days now, keep a fifth weekend as the next step once evenings are proven, and skip full-day Fridays.</p>
+              <p class="formula-label">Weighted score (Excel)</p>
+              <pre class="formula">= SUMPRODUCT(Weights, Scores)</pre>
+            </div>
+          </div>
+        </div>
         </div>
         <div class="tags"><span class="tag">Forecasting</span><span class="tag">Monte Carlo simulation</span><span class="tag">Backtesting</span><span class="tag">Queueing</span><span class="tag">Optimization</span><span class="tag">NPV analysis</span><span class="tag">Excel</span></div>
         <details>
@@ -686,6 +844,46 @@ MAPE = AVERAGE(APE_2024, APE_2025)</pre>
     });
   }
 
+  function pairs(id, groups, o) {
+    const svg = document.getElementById(id); if (!svg) return; svg.innerHTML = '';
+    const W = widthOf(svg), H = o.H || 220, pad = { t: 22, r: 8, b: 26, l: 8 };
+    svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
+    const iw = W - pad.l - pad.r, ih = H - pad.t - pad.b, step = iw / groups.length;
+    const bw = Math.min(56, step * 0.28), gap = 3, tip = tipFor(svg);
+    el('line', { x1: pad.l, x2: W - pad.r, y1: pad.t + ih, y2: pad.t + ih, class: 'baseline' }, svg);
+    groups.forEach((g, i) => {
+      const cx = pad.l + step * i + step / 2;
+      [[g.a, o.colors[0], -1], [g.b, o.colors[1], 1]].forEach(([v, color, side]) => {
+        const h = v / o.max * ih, x = side < 0 ? cx - bw - gap / 2 : cx + gap / 2, y = pad.t + ih - h, r = 4;
+        el('path', { d: `M${x},${pad.t + ih} V${y + r} Q${x},${y} ${x + r},${y} H${x + bw - r} Q${x + bw},${y} ${x + bw},${y + r} V${pad.t + ih} Z`, fill: color }, svg);
+        el('text', { x: x + bw / 2, y: y - 6, 'text-anchor': 'middle', class: 'val-text' }, svg).textContent = o.fmt(v);
+      });
+      el('text', { x: cx, y: H - 8, 'text-anchor': 'middle', class: 'axis-text' }, svg).textContent = g.label;
+      const hit = el('rect', { x: pad.l + step * i, y: pad.t, width: step, height: ih, class: 'hit' }, svg);
+      hit.addEventListener('mouseenter', () => tip.show(`<b>${g.label}</b><br>${g.tip}`, cx, pad.t + ih - Math.max(g.a, g.b) / o.max * ih));
+      hit.addEventListener('mouseleave', () => tip.hide());
+    });
+  }
+
+  function ranges(id, rows, o) {
+    const svg = document.getElementById(id); if (!svg) return; svg.innerHTML = '';
+    const W = widthOf(svg), small = W < 520, rowH = 40, pad = { t: 10, r: 24, b: 28, l: small ? 92 : 150 };
+    const H = pad.t + pad.b + rowH * rows.length; svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
+    const iw = W - pad.l - pad.r, X = v => pad.l + (v - o.min) / (o.max - o.min) * iw, tip = tipFor(svg);
+    (small ? o.ticksSmall : o.ticks).forEach(g => { el('line', { x1: X(g), x2: X(g), y1: pad.t, y2: H - pad.b, class: g === 0 ? 'baseline' : 'gridline' }, svg); el('text', { x: X(g), y: H - 9, 'text-anchor': 'middle', class: 'axis-text' }, svg).textContent = o.fmt(g); });
+    rows.forEach((d, i) => {
+      const y = pad.t + rowH * i + rowH / 2;
+      el('text', { x: pad.l - 10, y: y + 4, 'text-anchor': 'end', class: 'axis-text', style: 'font-size:12px' }, svg).textContent = d.label;
+      el('line', { x1: X(d.lo), x2: X(d.hi), y1: y, y2: y, stroke: 'var(--neutral-mark)', 'stroke-width': 3, 'stroke-linecap': 'round' }, svg);
+      [d.lo, d.hi].forEach(v => el('circle', { cx: X(v), cy: y, r: 4.5, fill: 'var(--neutral-mark)', stroke: 'var(--surface-2)', 'stroke-width': 1.5 }, svg));
+      el('circle', { cx: X(d.mid), cy: y, r: 7, fill: 'var(--series-1)', stroke: 'var(--surface-2)', 'stroke-width': 2 }, svg);
+      el('text', { x: X(d.mid), y: y - 11, 'text-anchor': 'middle', class: 'val-text' }, svg).textContent = o.fmt(d.mid);
+      const hit = el('rect', { x: 0, y: pad.t + rowH * i, width: W, height: rowH, class: 'hit' }, svg);
+      hit.addEventListener('mouseenter', () => tip.show(`<b>${d.label}</b><br>Low ${o.fmt(d.lo)} &middot; Expected ${o.fmt(d.mid)} &middot; High ${o.fmt(d.hi)}`, X(d.mid), y - 8));
+      hit.addEventListener('mouseleave', () => tip.hide());
+    });
+  }
+
   function dots(id, rows, ref) {
     const svg = document.getElementById(id); if (!svg) return; svg.innerHTML = '';
     const W = widthOf(svg), rowH = 30, small = W < 460, pad = { t: 26, r: 60, b: 26, l: small ? 96 : 170 };
@@ -803,6 +1001,50 @@ MAPE = AVERAGE(APE_2024, APE_2025)</pre>
     { label: 'Cancelled', pred: 25.0, act: 44.4 }
   ], 220);
 
+  pairs('chart-p2min', [
+    { label: 'Food & beverage', a: 41, b: 45, tip: 'Minimum 41, recommended 45' },
+    { label: 'Merchandise', a: 14, b: 21, tip: 'Minimum 14, recommended 21' },
+    { label: 'Activities', a: 23, b: 27, tip: 'Minimum 23, recommended 27 (2 spaces each)' }
+  ], { max: 52, fmt: v => v, colors: ['var(--neutral-mark)', 'var(--series-1)'] });
+  hbars('chart-p2wait', [
+    { label: 'Food & beverage', value: 4.8, fmt: '4.8 min', tip: '81% busy at the peak hour' },
+    { label: 'Merchandise', value: 1.7, fmt: '1.7 min', tip: '52% busy at the peak hour' },
+    { label: 'Activities', value: 6.1, fmt: '6.1 min', tip: '78% busy at the peak hour' }
+  ], 7.5);
+  hbars('chart-p2opt', [
+    { label: 'Recommended 45 / 21 / 27', value: 155553, fmt: '$155.6K', highlight: true, tip: 'Meets every limit; longest wait about 6 minutes' },
+    { label: 'Match participation 52 / 22 / 23', value: 146073, fmt: '$146.1K', neutral: true, tip: 'Fails: activities wait about 12 minutes' },
+    { label: 'Minimums only 41 / 14 / 23', value: 137571, fmt: '$137.6K', neutral: true, tip: 'Fails: leaves 19 spaces empty and waits hit 12 minutes' },
+    { label: 'Equal space 40 / 40 / 20', value: 136821, fmt: '$136.8K', neutral: true, tip: 'Fails: activities wait about 45 minutes' },
+    { label: 'Most food 60 / 36 / 12', value: 130503, fmt: '$130.5K', neutral: true, tip: 'Fails: too few activity booths, lines never clear' }
+  ], 175000);
+  bars('chart-p2stress', [
+    { label: 'Low day', value: 69, fmt: '69%', tip: '9,218 guests: waits about 3 minutes' },
+    { label: 'Expected day', value: 81, fmt: '81%', tip: '10,808 guests: waits about 5 minutes' },
+    { label: 'High day', value: 102, fmt: '102%', highlight: true, tip: '13,498 guests: over capacity, lines do not clear' }
+  ], 210);
+  pairs('chart-p3opts', [
+    { label: '12-hour days', a: 87.2, b: 32.0, tip: 'Revenue $87.2K, cost $32.0K, net $55.2K' },
+    { label: 'Add Fridays', a: 133.4, b: 97.2, tip: 'Revenue $133.4K, cost $97.2K, net $36.2K' },
+    { label: 'Fifth weekend', a: 87.3, b: 84.0, tip: 'Revenue $87.3K, cost $84.0K, net $3.3K' }
+  ], { max: 150, fmt: v => '$' + v.toFixed(0) + 'K', colors: ['var(--series-1)', 'var(--series-2)'] });
+  ranges('chart-p3npv', [
+    { label: '12-hour days', lo: 17, mid: 205, hi: 392 },
+    { label: 'Add Fridays', lo: -58, mid: 143, hi: 462 },
+    { label: 'Fifth weekend', lo: -127, mid: 6, hi: 175 }
+  ], { min: -150, max: 500, ticks: [-100, 0, 100, 200, 300, 400, 500], ticksSmall: [0, 200, 400], fmt: v => (v < 0 ? '-$' : '$') + Math.abs(v) + 'K' });
+  hbars('chart-p3peak', [
+    { label: 'No change', value: 102, fmt: '102%', neutral: true, tip: 'Over capacity on a high day' },
+    { label: '12-hour days', value: 95, fmt: '95%', highlight: true, tip: 'Lunch rush spreads over a longer day' },
+    { label: 'Add Fridays', value: 92, fmt: '92%', tip: 'Relies on guests moving to Friday' },
+    { label: 'Fifth weekend', value: 97, fmt: '97%', tip: 'Relies on guests moving to the new weekend' }
+  ], 115);
+  hbars('chart-p3dec', [
+    { label: '12-hour days', value: 4.35, fmt: '4.35', highlight: true, tip: 'Ranked first under all 5 weight sets' },
+    { label: 'Add Fridays', value: 2.75, fmt: '2.75', tip: 'Negative NPV in the low case' },
+    { label: 'Fifth weekend', value: 2.45, fmt: '2.45', tip: 'Close to break-even after weather risk' }
+  ], 5);
+
   hbars('chart-car', [
     { label: 'Suspension & brakes', value: 4097, fmt: '$4,097', tip: 'Coilovers, springs, brakes, bump stops' },
     { label: 'Audio & electronics', value: 3527, fmt: '$3,527', tip: 'Head unit, amp, subs, speakers, radios, dash cam' },
@@ -844,6 +1086,12 @@ MAPE = AVERAGE(APE_2024, APE_2025)</pre>
     stage.addEventListener('touchend', e => { if (x0 === null) return; const dx = e.changedTouches[0].clientX - x0; if (Math.abs(dx) > 40) go(dx < 0 ? k + 1 : k - 1); x0 = null; });
     go(0);
   })();
+  document.querySelectorAll('.parts button').forEach(b => b.addEventListener('click', () => {
+    const wrap = b.closest('.method-wrap');
+    wrap.querySelectorAll('.parts button').forEach(x => x.setAttribute('aria-selected', x === b ? 'true' : 'false'));
+    wrap.querySelectorAll(':scope > .method').forEach(m => m.classList.toggle('part-off', m.id !== b.dataset.part));
+    render();
+  }));
   document.querySelectorAll('.tabs button').forEach(b => b.addEventListener('click', () => {
     const box = b.closest('.method');
     box.querySelectorAll('.tabs button').forEach(x => x.setAttribute('aria-selected', x === b ? 'true' : 'false'));
