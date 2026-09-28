@@ -242,8 +242,8 @@
 
     <article class="card wide">
       <div class="viz">
-        <p class="viz-title">2026 attendance forecast by weekend (expected case)</p>
-        <p class="viz-sub">Weekend 4 is the busiest because of the anniversary concert</p>
+        <p class="viz-title" id="disney-top-title">2026 attendance forecast by weekend (expected case)</p>
+        <p class="viz-sub" id="disney-top-sub">Weekend 4 is the busiest because of the anniversary concert</p>
         <svg id="chart-disney" role="img" aria-label="Bar chart of expected 2026 visits by weekend: Weekend 1 12,600; Weekend 2 15,700; Weekend 3 18,900; Weekend 4 20,800, the peak."></svg>
       </div>
       <div class="card-body">
@@ -951,13 +951,33 @@ BreakEven = AddedCost / NetRevenuePerVisit</pre>
     [64000, 66000, 68000, 70000, 72000].forEach(g => el('text', { x: X(g), y: H - 8, 'text-anchor': 'middle', class: 'axis-text' }, svg).textContent = (g / 1000) + 'K');
   }
 
+  const DISNEY_TOP = {
+    part1: { title: '2026 attendance forecast by weekend (expected case)', sub: 'Weekend 4 is the busiest because of the anniversary concert',
+      aria: 'Bar chart of expected 2026 visits by weekend: Weekend 1 12,600; Weekend 2 15,700; Weekend 3 18,900; Weekend 4 20,800, the peak.',
+      data: [
+        { label: 'Weekend 1', value: 12600, fmt: '12.6K', tip: '12,600 expected visits' },
+        { label: 'Weekend 2', value: 15700, fmt: '15.7K', tip: '15,700 expected visits' },
+        { label: 'Weekend 3', value: 18900, fmt: '18.9K', tip: '18,900 expected visits' },
+        { label: 'Weekend 4', value: 20800, fmt: '20.8K (peak)', highlight: true, tip: '20,800 expected visits, the peak (incl. concert)' }
+      ] },
+    part2: { title: 'Recommended booth mix: how the 120 spaces are used', sub: 'Booth counts in parentheses. Activities booths take 2 spaces each',
+      aria: 'Bar chart of spaces used by the recommended mix: food and beverage 45 booths using 45 spaces; merchandise 21 booths using 21 spaces; activities 27 booths using 54 spaces.',
+      data: [
+        { label: 'Food (45)', value: 45, fmt: '45 spaces', tip: '45 booths, about $101K daily vendor profit' },
+        { label: 'Merchandise (21)', value: 21, fmt: '21 spaces', tip: '21 booths, about $26K daily vendor profit' },
+        { label: 'Activities (27)', value: 54, fmt: '54 spaces', tip: '27 booths at 2 spaces each, about $28K daily vendor profit' }
+      ] },
+    part3: { title: 'Year-1 net gain from each growth option (expected demand)', sub: 'Extending to 12-hour days comes out ahead',
+      aria: 'Bar chart of year-1 net gain: 12-hour days 55,176 dollars; add Fridays 36,200; fifth weekend 3,295.',
+      data: [
+        { label: '12-hour days', value: 55.2, fmt: '$55.2K', highlight: true, tip: 'Revenue $87.2K minus cost $32.0K' },
+        { label: 'Add Fridays', value: 36.2, fmt: '$36.2K', tip: 'Revenue $133.4K minus cost $97.2K' },
+        { label: 'Fifth weekend', value: 3.3, fmt: '$3.3K', tip: 'Revenue $87.3K minus cost $84.0K' }
+      ] }
+  };
+  let disneyPart = 'part1';
   function render() {
-  bars('chart-disney', [
-    { label: 'Weekend 1', value: 12600, fmt: '12.6K', tip: '12,600 expected visits' },
-    { label: 'Weekend 2', value: 15700, fmt: '15.7K', tip: '15,700 expected visits' },
-    { label: 'Weekend 3', value: 18900, fmt: '18.9K', tip: '18,900 expected visits' },
-    { label: 'Weekend 4', value: 20800, fmt: '20.8K (peak)', highlight: true, tip: '20,800 expected visits, the peak (incl. concert)' }
-  ], 200);
+  const top = DISNEY_TOP[disneyPart]; bars('chart-disney', top.data, 200);
 
   dots('chart-trend', [
     { label: 'Linear regression', short: 'Linear', value: 57100, growth: '+2.0%' },
@@ -1091,6 +1111,12 @@ BreakEven = AddedCost / NetRevenuePerVisit</pre>
     const wrap = b.closest('.method-wrap');
     wrap.querySelectorAll('.parts button').forEach(x => x.setAttribute('aria-selected', x === b ? 'true' : 'false'));
     wrap.querySelectorAll(':scope > .method').forEach(m => m.classList.toggle('part-off', m.id !== b.dataset.part));
+    if (wrap.id === 'disney-method' && DISNEY_TOP[b.dataset.part]) {
+      disneyPart = b.dataset.part; const top = DISNEY_TOP[disneyPart];
+      document.getElementById('disney-top-title').textContent = top.title;
+      document.getElementById('disney-top-sub').textContent = top.sub;
+      document.getElementById('chart-disney').setAttribute('aria-label', top.aria);
+    }
     render();
   }));
   document.querySelectorAll('.tabs button').forEach(b => b.addEventListener('click', () => {
