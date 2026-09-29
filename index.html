@@ -224,7 +224,7 @@
       <a class="btn" href="https://github.com/EHy230">GitHub</a>
     </div>
     <div class="facts">
-      <div class="fact"><b>7</b><span>projects</span></div>
+      <div class="fact"><b>8</b><span>projects</span></div>
       <div class="fact"><b>1,300+</b><span>weekly users of a system I co-founded</span></div>
     </div>
   </div>
@@ -501,6 +501,256 @@ BreakEven = AddedCost / NetRevenuePerVisit</pre>
 
     <article class="card wide">
       <div class="viz">
+        <p class="viz-title" id="ap-top-title">Invoices flagged by each Excel check</p>
+        <p class="viz-sub" id="ap-top-sub">5,000 invoices; one invoice can fail more than one check</p>
+        <svg id="chart-ap" role="img" aria-label="Bar chart of invoices flagged by each check: missing or invalid PO 533; payment terms mismatch 338; inactive or missing vendor 278; invoice over PO 235; duplicate invoice 230; currency mismatch 96."></svg>
+      </div>
+      <div class="card-body">
+        <div class="meta-row"><span class="kind">Finance operations &middot; Excel, Python, Tableau, AI</span><span>2026</span></div>
+        <h3>Accounts Payable Invoice Automation</h3>
+        <p>Before a company pays a supplier, its accounts payable (AP) team checks the invoice. Is there a purchase order? Does the amount match? Was it already paid? I built this process in four parts for 5,000 synthetic invoices from 140 vendors. Part 1 sets up the checks in Excel. Part 2 uses Python to predict which invoices need a manual review and how many reviewers the team needs. Part 3 is a Tableau dashboard for managers. Part 4 uses Claude, an AI model, to read the invoice PDFs, so clean invoices get approved without anyone typing them in.</p>
+        <div class="stats">
+          <div class="stat"><b>5,000</b><span>invoices ($90.7M) run through 8 checks</span></div>
+          <div class="stat"><b>2</b><span>reviewers finish 96% of reviews within 8 business hours</span></div>
+          <div class="stat"><b>70%</b><span>of invoices approved with no one touching them</span></div>
+          <div class="stat"><b>97.8%</b><span>of invoice PDFs read correctly by Claude, for $3.98 total</span></div>
+        </div>
+        <div class="method-wrap" id="ap-method">
+          <h4>How it was built</h4>
+          <div class="parts" role="tablist">
+            <button type="button" role="tab" aria-selected="true" data-part="ap1">Part 1: Excel checks</button>
+            <button type="button" role="tab" aria-selected="false" data-part="ap2">Part 2: Python model</button>
+            <button type="button" role="tab" aria-selected="false" data-part="ap3">Part 3: Tableau</button>
+            <button type="button" role="tab" aria-selected="false" data-part="ap4">Part 4: AI invoice reading</button>
+          </div>
+
+        <div class="method" id="ap1">
+          <p><strong>Excel control workbook.</strong> Each invoice is linked to its vendor, purchase order (PO) and exchange rate with XLOOKUP. It then goes through the same checks an AP team runs before paying.</p>
+          <div class="tabs" role="tablist">
+            <button role="tab" aria-selected="true" data-panel="ap1-ctrl">1. Checks</button>
+            <button role="tab" aria-selected="false" data-panel="ap1-score">2. Priority score</button>
+            <button role="tab" aria-selected="false" data-panel="ap1-ops">3. Payments &amp; reviews</button>
+          </div>
+
+          <div class="panel active" id="ap1-ctrl" role="tabpanel">
+            <div class="chartbox">
+              <p class="viz-title">Invoice value held up by each check (USD millions)</p>
+              <svg id="chart-ap1val" role="img" aria-label="Bar chart of invoice value by exception type in millions of dollars: invoice over PO 18.5; missing or invalid PO 7.1; vendor master issue 6.1; payment terms mismatch 5.3; duplicate invoice 3.7; currency mismatch 1.7."></svg>
+            </div>
+            <div class="explain">
+              <p>The checks are: missing or invalid PO, invoice amount over the PO, currency different from the PO, payment terms different from the vendor's, inactive vendor, and duplicate invoice number. The rules flagged 1,514 invoices, and they match the real review decisions 96.9% of the time.</p>
+              <div class="minis">
+                <div><b>1,514</b><span>invoices flagged (30%)</span></div>
+                <div><b>96.9%</b><span>match actual reviews</span></div>
+                <div><b>$18.5M</b><span>over the PO amount</span></div>
+              </div>
+              <p class="formula-label">PO and duplicate checks (Excel)</p>
+              <pre class="formula">=IF(PO="","Missing PO",
+   IF(COUNTIFS(PO_List,PO)=0,"Invalid PO","Matched"))
+=IF(COUNTIFS(Vendor,V,InvNo,N)&gt;1,"Duplicate","Unique")</pre>
+            </div>
+          </div>
+
+          <div class="panel" id="ap1-score" role="tabpanel">
+            <div class="chartbox">
+              <p class="viz-title">Invoices by priority level</p>
+              <svg id="chart-ap1pri" role="img" aria-label="Bar chart of invoices by priority: high 155; medium 1,146; low 3,699."></svg>
+            </div>
+            <div class="explain">
+              <p>Each failed check adds points. A duplicate, missing PO, amount over the PO or inactive vendor adds 3. A currency mismatch or high-risk vendor adds 2. A terms mismatch adds 1. Large invoices get 1 or 2 extra points. Six points or more is high priority. The points live on an Assumptions sheet, so a manager can change them.</p>
+              <p>Each invoice also gets a recommended action, like "hold payment and investigate duplicate".</p>
+              <div class="minis">
+                <div><b>155</b><span>high-priority invoices</span></div>
+                <div><b>$10.0M</b><span>value of high priority</span></div>
+                <div><b>9</b><span>action codes</span></div>
+              </div>
+              <p class="formula-label">Priority level (Excel)</p>
+              <pre class="formula">=IF(Score&gt;=6,"High",IF(Score&gt;=3,"Medium","Low"))</pre>
+            </div>
+          </div>
+
+          <div class="panel" id="ap1-ops" role="tabpanel">
+            <div class="chartbox">
+              <p class="viz-title">When the 4,157 payments went out</p>
+              <svg id="chart-ap1pay" role="img" aria-label="Bar chart of payment timing: on time or early 3,230; 1 to 7 days late 403; 8 to 30 days late 524."></svg>
+            </div>
+            <div class="explain">
+              <p>The workbook also tracks what happens after the checks. 22% of payments went out after the due date, worth $17.7M. In the review log, 78% of reviews finished within 24 hours. The average review took 18.4 hours from entering the queue to being done.</p>
+              <div class="minis">
+                <div><b>22%</b><span>of payments late</span></div>
+                <div><b>78%</b><span>reviews done in 24 hours</span></div>
+                <div><b>18.4 h</b><span>average review time</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="method part-off" id="ap2">
+          <p><strong>Python model and staffing simulation.</strong> Part 2 trains a model to predict which invoices need a manual review. It then simulates the review queue to find how many reviewers the team needs. Built with pandas and scikit-learn in Google Colab.</p>
+          <div class="tabs" role="tablist">
+            <button role="tab" aria-selected="true" data-panel="ap2-model">1. Model comparison</button>
+            <button role="tab" aria-selected="false" data-panel="ap2-feat">2. What drives it</button>
+            <button role="tab" aria-selected="false" data-panel="ap2-staff">3. Staffing simulation</button>
+          </div>
+
+          <div class="panel active" id="ap2-model" role="tabpanel">
+            <div class="chartbox">
+              <p class="viz-title">Test results on the last 1,000 invoices</p>
+              <svg id="chart-ap2model" role="img" aria-label="Paired bar chart of precision and recall. Logistic regression: precision 87.5 percent, recall 98.4 percent. Random forest: precision 92.2 percent, recall 97.1 percent."></svg>
+              <div class="legend"><span><i style="background:var(--series-1)"></i>Precision (flagged invoices that needed review)</span><span><i style="background:var(--series-2)"></i>Recall (reviews it caught)</span></div>
+            </div>
+            <div class="explain">
+              <p>I trained on the first 4,000 invoices by date and tested on the last 1,000 (Nov 19, 2025 to Jan 5, 2026). That way the model never learns from the future. I compared a baseline that never flags anything (75.7% accurate), logistic regression and a random forest. The random forest was more precise, so I picked it. I set its cutoff so it keeps catching at least 85% of reviews.</p>
+              <div class="minis">
+                <div><b>97.3%</b><span>accuracy</span></div>
+                <div><b>92.2%</b><span>precision</span></div>
+                <div><b>97.1%</b><span>recall</span></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="panel" id="ap2-feat" role="tabpanel">
+            <div class="chartbox">
+              <p class="viz-title">Most important inputs to the random forest</p>
+              <svg id="chart-ap2feat" role="img" aria-label="Bar chart of feature importance: number of failed checks 27.1 percent; missing or invalid PO 13.6 percent; terms mismatch 8.7 percent; inactive vendor 7.9 percent; invoice over PO 6.0 percent; invoice amount 3.0 percent."></svg>
+            </div>
+            <div class="explain">
+              <p>The top five inputs are all Excel checks from Part 1. In this data, an invoice needs a review exactly when one of those checks fails, so the model mostly learns the checks again. That's why its accuracy is so high.</p>
+              <p>The useful part is the risk score. It ranks which invoice a reviewer should open first, and it's used that way in the staffing simulation and in Part 4.</p>
+            </div>
+          </div>
+
+          <div class="panel" id="ap2-staff" role="tabpanel">
+            <div class="chartbox">
+              <p class="viz-title">Reviews finished within 8 business hours</p>
+              <svg id="chart-ap2staff" role="img" aria-label="Paired bar chart by number of reviewers, first-in-first-out versus highest-risk-first. 1 reviewer: 64.6 and 76.7 percent. 2 reviewers: 95.5 and 96.1 percent. 3 reviewers: 99.6 and 99.7 percent. 4 reviewers: 99.9 and 100 percent."></svg>
+              <div class="legend"><span><i style="background:var(--neutral-mark)"></i>First in, first out</span><span><i style="background:var(--series-1)"></i>Highest risk first</span></div>
+            </div>
+            <div class="explain">
+              <p>The simulation replays all 1,499 real reviews, using their arrival times and review lengths from the log, through a queue with 1 to 4 reviewers working 9 to 5 on weekdays. It compares first-in-first-out with opening the highest-risk invoice first.</p>
+              <p><strong>Result:</strong> 2 reviewers with highest-risk-first finish 96% of reviews within 8 business hours. High-risk invoices wait about 13 minutes on average, down from 1.8 hours.</p>
+              <div class="minis">
+                <div><b>2</b><span>reviewers needed</span></div>
+                <div><b>96.1%</b><span>within 8 business hours</span></div>
+                <div><b>13 min</b><span>high-risk wait</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="method part-off" id="ap3">
+          <p><strong>Tableau dashboard.</strong> Part 3 turns the Python results into one dashboard for an AP manager. It shows five KPIs and four charts.</p>
+          <div class="panel active" id="ap3-dash" role="tabpanel">
+            <div class="chartbox">
+              <p class="viz-title">Manual reviews by department (one of the dashboard views)</p>
+              <svg id="chart-ap3dept" role="img" aria-label="Bar chart of manual reviews by department: Sales 170; Customer Success 161; Engineering 161; IT 159; People 155; Facilities 153; Legal 139; Finance 139; Marketing 137; Security 125."></svg>
+            </div>
+            <div class="explain">
+              <p>The dashboard has:</p>
+              <ul>
+                <li><strong>KPIs:</strong> $90.7M invoice value, 30.0% review rate, 263 high-risk invoices, 97.1% recall on future invoices, and 2 recommended reviewers</li>
+                <li><strong>Predicted review risk over time</strong>, by month</li>
+                <li><strong>Manual reviews by department</strong></li>
+                <li><strong>Invoice risk distribution:</strong> low, medium and high risk</li>
+                <li><strong>Vendor value vs. predicted review risk</strong>, to spot big vendors that often need reviews</li>
+              </ul>
+              <p>It's built from tables the Python pipeline exports for Tableau.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="method part-off" id="ap4">
+          <p><strong>AI invoice reading with the Claude API.</strong> Parts 1&ndash;3 assume someone already typed every invoice into the system. Part 4 automates that step. I made 836 realistic invoice PDFs from the test-period data, including 128 scans. Then I compared two ways of reading them: hand-written rules with OCR, and Claude.</p>
+          <div class="tabs" role="tablist">
+            <button role="tab" aria-selected="true" data-panel="ap4-how">1. How it works</button>
+            <button role="tab" aria-selected="false" data-panel="ap4-acc">2. Reading accuracy</button>
+            <button role="tab" aria-selected="false" data-panel="ap4-err">3. Mistakes &amp; safety</button>
+            <button role="tab" aria-selected="false" data-panel="ap4-impact">4. Impact</button>
+          </div>
+
+          <div class="panel active" id="ap4-how" role="tabpanel">
+            <div class="chartbox">
+              <p class="viz-title">What happened to the 1,000 test invoices (Claude)</p>
+              <svg id="chart-ap4how" role="img" aria-label="Bar chart of decisions: 704 approved automatically; 284 sent to exception review; 12 sent to a person to fix fields."></svg>
+            </div>
+            <div class="explain">
+              <ol style="margin:0 0 10px;padding-left:18px;font-size:.88rem;color:var(--text-2)">
+                <li>Claude reads each PDF and returns the vendor, invoice number, dates, PO, currency and totals as JSON.</li>
+                <li>The invoice is matched to its vendor by tax ID and to its PO. It then goes through the Part 1 checks.</li>
+                <li>Data checks look for mistakes. Do subtotal and tax add up to the total? Is the due date the invoice date plus the terms? If not, a person fixes it first.</li>
+                <li>Clean invoices are approved automatically. The rest go to the review queue from Part 2, ranked by risk.</li>
+              </ol>
+              <p class="formula-label">Claude call (Python)</p>
+              <pre class="formula">client.messages.create(model="claude-haiku-4-5",
+  tools=[record_invoice], tool_choice=forced,
+  messages=[{"role": "user", "content": [pdf, prompt]}])</pre>
+            </div>
+          </div>
+
+          <div class="panel" id="ap4-acc" role="tabpanel">
+            <div class="chartbox">
+              <p class="viz-title">Invoice PDFs with every field read correctly</p>
+              <svg id="chart-ap4acc" role="img" aria-label="Paired bar chart, rules and OCR versus Claude. Known layouts, digital: 100 and 98.8 percent. Known layouts, scanned: 79.6 and 94.2 percent. New layout, digital: 0 and 96.2 percent. New layout, scanned: 0 and 96.0 percent."></svg>
+              <div class="legend"><span><i style="background:var(--neutral-mark)"></i>Rules + OCR</span><span><i style="background:var(--series-1)"></i>Claude</span></div>
+            </div>
+            <div class="explain">
+              <p>The invoices use five supplier layouts, with different date formats (11/18/2025, 17.11.2025, 18th November 2025) and number formats (1.234,56 €). I wrote the rules for four of the layouts. The fifth stood in for a new supplier the rules had never seen.</p>
+              <p>The rules were perfect on clean digital PDFs they were written for, 80% on scans, and 0% on the new layout. Claude stayed at 94&ndash;99% on everything with no templates.</p>
+            </div>
+          </div>
+
+          <div class="panel" id="ap4-err" role="tabpanel">
+            <div class="chartbox">
+              <p class="viz-title">Claude's 18 mistakes out of 836 PDFs</p>
+              <svg id="chart-ap4err" role="img" aria-label="Bar chart of Claude's mistakes: 11 non-US dates read month first, caught; 4 due dates left blank, harmless; 2 invoice numbers with one wrong digit, not caught by a check; 1 garbled output, caught."></svg>
+            </div>
+            <div class="explain">
+              <p>12 of the 18 mistakes were caught by the data checks and sent to a person, so no invoice was approved with wrong data. Most were dates like 07/12/2025 (7 December) read month first. 4 left the due date blank, which is harmless because it can be filled in from the invoice date and terms.</p>
+              <p>2 scans had one wrong digit in the invoice number. No check catches that, and it could let a duplicate slip through. A real system should compare invoice numbers against each vendor's usual pattern.</p>
+            </div>
+          </div>
+
+          <div class="panel" id="ap4-impact" role="tabpanel">
+            <div class="chartbox">
+              <p class="viz-title">Average days from receiving an invoice to approving it</p>
+              <svg id="chart-ap4impact" role="img" aria-label="Bar chart of average days to approve: current process 4.7; rules and OCR 2.8; Claude 2.5."></svg>
+            </div>
+            <div class="explain">
+              <p>Over the 6.6 weeks of test invoices, Claude brought the share approved with no one touching them from 0% to 70.4%. The most it could reach with perfect reading is 71.2%. Clean invoices are approved the day they arrive, instead of waiting 1&ndash;5 days for a person.</p>
+              <div class="minis">
+                <div><b>70.4%</b><span>approved automatically</span></div>
+                <div><b>320 &rarr; 276</b><span>AP staff hours</span></div>
+                <div><b>$3.98</b><span>to read 836 PDFs</span></div>
+              </div>
+              <p>All of the 243 invoices with real exceptions were stopped except 1. That one comes from how duplicates are labeled in the source data, not from a reading error.</p>
+            </div>
+          </div>
+        </div>
+        </div>
+        <div class="tags"><span class="tag">Excel</span><span class="tag">Python</span><span class="tag">scikit-learn</span><span class="tag">Queue simulation</span><span class="tag">Tableau</span><span class="tag">Claude API</span><span class="tag">Process automation</span></div>
+        <details>
+          <summary>Details &amp; files</summary>
+          <ul>
+            <li><strong>Data:</strong> a synthetic data set of 5,000 invoices, 140 vendors, 2,400 purchase orders, 4,157 payments and 1,499 reviews, with exchange rates for 6 currencies.</li>
+            <li><strong>Excel:</strong> linked sheets for the checks, priority scoring, payments, reviews and an executive summary. Every threshold can be changed on the Assumptions sheet.</li>
+            <li><strong>Python:</strong> chronological train/test split, three models compared, a cutoff set to keep recall at least 85%, and a queue simulation with 1&ndash;4 reviewers.</li>
+            <li><strong>AI reading:</strong> Claude Haiku 4.5 read each PDF directly and returned JSON through a forced tool call, at about half a cent per invoice. The rules + OCR baseline used pdfplumber, Tesseract and regular expressions.</li>
+          </ul>
+          <div class="files">
+            <a class="file" href="files/AP_Finance_Operations_Eisen.xlsx">AP control workbook <small>Excel</small></a>
+            <a class="file" href="https://github.com/EHy230/EHy230.github.io/blob/main/files/AP_Finance_Operations_Predictive_Model.ipynb">Review-risk model <small>Python notebook</small></a>
+            <a class="file" href="files/AP_Finance_Operations_AI_Dashboard_Eisen_Hy_Final.twbx">AP dashboard <small>Tableau</small></a>
+            <a class="file" href="https://github.com/EHy230/EHy230.github.io/blob/main/files/AI_Invoice_Processing_README.md">AI invoice reading write-up <small>GitHub</small></a>
+            <a class="file" href="https://github.com/EHy230/EHy230.github.io/blob/main/files/process.py">Matching, checks and routing code <small>Python</small></a>
+            <a class="file" href="files/sample_invoices.png">Sample invoices <small>Image</small></a>
+            <a class="file" href="https://github.com/EHy230/EHy230.github.io/tree/main/files">All project files <small>GitHub</small></a>
+          </div>
+        </details>
+      </div>
+    </article>
+
+    <article class="card wide">
+      <div class="viz">
         <p class="viz-title">How a pass moves through the system</p>
         <p class="viz-sub">Built on Google Forms, Sheets, Gmail and Drive, automated with Apps Script</p>
         <ol class="flow" aria-label="Process flow: student request, routed to the right teacher, teacher approval, then automatic tracking and alerts.">
@@ -715,7 +965,7 @@ BreakEven = AddedCost / NetRevenuePerVisit</pre>
       <p>Outside class I'm a consulting analyst for IISE Berkeley on a project with BART, and a research apprentice at Rapid Reviews\Infectious Diseases (UC Berkeley / MIT Press). In high school I co-founded a digital pass system that handles 1,300+ requests a week.</p>
       <p>I also work on cars. I've rebuilt my 2019 Toyota 4Runner myself, including welding, suspension and wiring, and I repair other people's cars. I was captain of my varsity golf team. I also play violin: I was president of Bridge-of-Music, a club of 30 student musicians that performed at hospitals, nursing homes and festivals, and I was concertmaster and student conductor of my high school orchestra.</p>
       <div class="skills">
-        <span>Excel &amp; Google Sheets</span><span>Tableau</span><span>Financial modeling</span><span>Forecasting</span><span>Queueing &amp; optimization</span><span>Python</span><span>PyTorch</span><span>Google Apps Script</span><span>JavaScript</span>
+        <span>Excel &amp; Google Sheets</span><span>Tableau</span><span>Financial modeling</span><span>Forecasting</span><span>Queueing &amp; optimization</span><span>Python</span><span>scikit-learn</span><span>PyTorch</span><span>Claude API</span><span>Google Apps Script</span><span>JavaScript</span>
       </div>
     </div>
     <ul class="timeline">
@@ -978,9 +1228,118 @@ BreakEven = AddedCost / NetRevenuePerVisit</pre>
         { label: 'Fifth weekend', value: 3.3, fmt: '$3.3K', tip: 'Revenue $87.3K minus cost $84.0K' }
       ] }
   };
+  const AP_TOP = {
+    ap1: { title: 'Invoices flagged by each Excel check', sub: '5,000 invoices; one invoice can fail more than one check',
+      aria: 'Bar chart of invoices flagged by each check: missing or invalid PO 533; payment terms mismatch 338; inactive or missing vendor 278; invoice over PO 235; duplicate invoice 230; currency mismatch 96.',
+      data: [
+        { label: 'Missing PO', value: 533, fmt: '533', highlight: true, tip: 'Missing or invalid purchase order: 533 invoices, $7.1M' },
+        { label: 'Terms', value: 338, fmt: '338', tip: 'Payment terms differ from the vendor master: 338 invoices, $5.3M' },
+        { label: 'Vendor', value: 278, fmt: '278', tip: 'Inactive or missing vendor: 278 invoices, $6.1M' },
+        { label: 'Over PO', value: 235, fmt: '235', tip: 'Invoice amount over the PO: 235 invoices, $18.5M' },
+        { label: 'Duplicate', value: 230, fmt: '230', tip: 'Same vendor and invoice number twice: 230 invoices, $3.7M' },
+        { label: 'Currency', value: 96, fmt: '96', tip: 'Invoice currency differs from the PO: 96 invoices, $1.7M' }
+      ] },
+    ap2: { title: 'Reviews finished within 8 business hours, by number of reviewers', sub: 'Replaying 1,499 real reviews, highest-risk invoice first',
+      aria: 'Bar chart of reviews finished within 8 business hours: 1 reviewer 76.7 percent; 2 reviewers 96.1 percent; 3 reviewers 99.7 percent; 4 reviewers 100 percent.',
+      data: [
+        { label: '1 reviewer', value: 76.7, fmt: '76.7%', tip: '76.7% on time; 64.6% if first in, first out' },
+        { label: '2 reviewers', value: 96.1, fmt: '96.1%', highlight: true, tip: 'Recommended: 96.1% on time, high-risk wait about 13 minutes' },
+        { label: '3 reviewers', value: 99.7, fmt: '99.7%', tip: '99.7% on time' },
+        { label: '4 reviewers', value: 100, fmt: '100%', tip: '100% on time' }
+      ] },
+    ap3: { title: 'Invoices by predicted review risk', sub: 'The risk distribution view from the Tableau dashboard',
+      aria: 'Bar chart of invoices by predicted review risk: low 2,349; medium 2,388; high 263.',
+      data: [
+        { label: 'Low risk', value: 2349, fmt: '2,349', tip: '2,349 invoices' },
+        { label: 'Medium risk', value: 2388, fmt: '2,388', tip: '2,388 invoices' },
+        { label: 'High risk', value: 263, fmt: '263', highlight: true, tip: '263 invoices to review first' }
+      ] },
+    ap4: { title: 'Invoices approved with no one touching them', sub: '1,000 test invoices. Perfect reading is the most possible',
+      aria: 'Bar chart of invoices approved automatically: current process 0 percent; rules and OCR 62.1 percent; Claude 70.4 percent; perfect reading 71.2 percent.',
+      data: [
+        { label: 'Today', value: 0, fmt: '0%', neutral: true, tip: 'Every invoice is typed in and approved by a person' },
+        { label: 'Rules + OCR', value: 62.1, fmt: '62.1%', tip: '140 invoices had to be fixed by a person, mostly the new layout' },
+        { label: 'Claude', value: 70.4, fmt: '70.4%', highlight: true, tip: '12 invoices sent to a person to fix; $3.98 for 836 PDFs' },
+        { label: 'Perfect reading', value: 71.2, fmt: '71.2%', neutral: true, tip: 'Every field read correctly; the checks decide the rest' }
+      ] }
+  };
+  let apPart = 'ap1';
   let disneyPart = 'part1';
   function render() {
   const top = DISNEY_TOP[disneyPart]; bars('chart-disney', top.data, 200);
+
+  const apSmall = window.innerWidth < 560;
+  bars('chart-ap', AP_TOP[apPart].data, 200);
+  hbars('chart-ap1val', [
+    { label: 'Invoice over PO', value: 18.5, fmt: '$18.5M', highlight: true, tip: '235 invoices' },
+    { label: 'Missing or invalid PO', value: 7.1, fmt: '$7.1M', tip: '533 invoices' },
+    { label: 'Vendor master issue', value: 6.1, fmt: '$6.1M', tip: '278 invoices' },
+    { label: 'Payment terms mismatch', value: 5.3, fmt: '$5.3M', tip: '338 invoices' },
+    { label: 'Duplicate invoice', value: 3.7, fmt: '$3.7M', tip: '230 invoices' },
+    { label: 'Currency mismatch', value: 1.7, fmt: '$1.7M', tip: '96 invoices' }
+  ], 21);
+  bars('chart-ap1pri', [
+    { label: 'High', value: 155, fmt: '155', highlight: true, tip: '6+ points, $10.0M' },
+    { label: 'Medium', value: 1146, fmt: '1,146', tip: '3 to 5 points, $28.5M' },
+    { label: 'Low', value: 3699, fmt: '3,699', tip: '0 to 2 points, $52.3M' }
+  ], 200);
+  bars('chart-ap1pay', [
+    { label: 'On time or early', value: 3230, fmt: '3,230', tip: '78% of payments' },
+    { label: '1–7 days late', value: 403, fmt: '403', highlight: true, tip: '10% of payments' },
+    { label: '8–30 days late', value: 524, fmt: '524', highlight: true, tip: '13% of payments' }
+  ], 200);
+  pairs('chart-ap2model', [
+    { label: 'Logistic regression', a: 87.5, b: 98.4, tip: 'Precision 87.5%, recall 98.4%, accuracy 96.2%' },
+    { label: 'Random forest (chosen)', a: 92.2, b: 97.1, tip: 'Precision 92.2%, recall 97.1%, accuracy 97.3%' }
+  ], { max: 112, fmt: v => v.toFixed(1) + '%', colors: ['var(--series-1)', 'var(--series-2)'] });
+  hbars('chart-ap2feat', [
+    { label: 'Number of failed checks', value: 27.1, fmt: '27.1%', highlight: true, tip: 'How many Excel checks the invoice failed' },
+    { label: 'Missing or invalid PO', value: 13.6, fmt: '13.6%', tip: 'Excel check' },
+    { label: 'Payment terms mismatch', value: 8.7, fmt: '8.7%', tip: 'Excel check' },
+    { label: 'Inactive vendor', value: 7.9, fmt: '7.9%', tip: 'Excel check' },
+    { label: 'Invoice over PO', value: 6.0, fmt: '6.0%', tip: 'Excel check' },
+    { label: 'Invoice amount (log)', value: 3.0, fmt: '3.0%', neutral: true, tip: 'The first input that is not a check' }
+  ], 31);
+  pairs('chart-ap2staff', [
+    { label: '1 reviewer', a: 64.6, b: 76.7, tip: 'First in, first out 64.6%; highest risk first 76.7%' },
+    { label: '2 reviewers', a: 95.5, b: 96.1, tip: 'First in, first out 95.5%; highest risk first 96.1%' },
+    { label: '3 reviewers', a: 99.6, b: 99.7, tip: 'First in, first out 99.6%; highest risk first 99.7%' },
+    { label: '4 reviewers', a: 99.9, b: 100, tip: 'First in, first out 99.9%; highest risk first 100%' }
+  ], { max: 118, fmt: v => (v === 100 || apSmall ? Math.floor(v) : v.toFixed(1)) + '%', colors: ['var(--neutral-mark)', 'var(--series-1)'] });
+  hbars('chart-ap3dept', [
+    { label: 'Sales', value: 170, fmt: '170', highlight: true, tip: '170 manual reviews' },
+    { label: 'Customer Success', value: 161, fmt: '161', tip: '161 manual reviews' },
+    { label: 'Engineering', value: 161, fmt: '161', tip: '161 manual reviews' },
+    { label: 'IT', value: 159, fmt: '159', tip: '159 manual reviews' },
+    { label: 'People', value: 155, fmt: '155', tip: '155 manual reviews' },
+    { label: 'Facilities', value: 153, fmt: '153', tip: '153 manual reviews' },
+    { label: 'Legal', value: 139, fmt: '139', tip: '139 manual reviews' },
+    { label: 'Finance', value: 139, fmt: '139', tip: '139 manual reviews' },
+    { label: 'Marketing', value: 137, fmt: '137', tip: '137 manual reviews' },
+    { label: 'Security', value: 125, fmt: '125', tip: '125 manual reviews' }
+  ], 190);
+  bars('chart-ap4how', [
+    { label: 'Auto-approved', value: 704, fmt: '704', highlight: true, tip: 'Read correctly and passed every check' },
+    { label: 'Review', value: 284, fmt: '284', tip: 'Failed a Part 1 check; ranked by risk for reviewers' },
+    { label: 'Fix fields', value: 12, fmt: '12', tip: 'Failed a data check; a person fixes the fields first' }
+  ], 200);
+  pairs('chart-ap4acc', [
+    { label: apSmall ? 'Known PDF' : 'Known, digital', a: 100, b: 98.8, tip: '604 PDFs: rules 100%, Claude 98.8%' },
+    { label: apSmall ? 'Known scan' : 'Known, scanned', a: 79.6, b: 94.2, tip: '103 PDFs: rules 79.6%, Claude 94.2%' },
+    { label: apSmall ? 'New PDF' : 'New, digital', a: 0, b: 96.2, tip: '104 PDFs: rules 0%, Claude 96.2%' },
+    { label: apSmall ? 'New scan' : 'New, scanned', a: 0, b: 96.0, tip: '25 PDFs: rules 0%, Claude 96.0%' }
+  ], { max: 118, fmt: v => v.toFixed(0) + '%', colors: ['var(--neutral-mark)', 'var(--series-1)'] });
+  hbars('chart-ap4err', [
+    { label: 'Non-US date read month first', value: 11, fmt: '11, caught', tip: 'Due date did not match date + terms, so a person checked it' },
+    { label: 'Due date left blank', value: 4, fmt: '4, harmless', neutral: true, tip: 'Filled in from the invoice date and terms' },
+    { label: 'Invoice number off by a digit', value: 2, fmt: '2, not caught', highlight: true, tip: 'No check catches this; both went to review for other reasons' },
+    { label: 'Garbled output', value: 1, fmt: '1, caught', tip: 'Terms ended up inside the due-date field; flagged as missing' }
+  ], 15);
+  bars('chart-ap4impact', [
+    { label: 'Today', value: 4.7, fmt: '4.7 days', neutral: true, tip: 'Every invoice waits for a person' },
+    { label: 'Rules + OCR', value: 2.8, fmt: '2.8 days', tip: '62.1% approved the day they arrive' },
+    { label: 'Claude', value: 2.5, fmt: '2.5 days', highlight: true, tip: '70.4% approved the day they arrive' }
+  ], 200);
 
   dots('chart-trend', [
     { label: 'Linear regression', short: 'Linear', value: 57100, growth: '+2.0%' },
@@ -1119,6 +1478,12 @@ BreakEven = AddedCost / NetRevenuePerVisit</pre>
       document.getElementById('disney-top-title').textContent = top.title;
       document.getElementById('disney-top-sub').textContent = top.sub;
       document.getElementById('chart-disney').setAttribute('aria-label', top.aria);
+    }
+    if (wrap.id === 'ap-method' && AP_TOP[b.dataset.part]) {
+      apPart = b.dataset.part; const top = AP_TOP[apPart];
+      document.getElementById('ap-top-title').textContent = top.title;
+      document.getElementById('ap-top-sub').textContent = top.sub;
+      document.getElementById('chart-ap').setAttribute('aria-label', top.aria);
     }
     render();
   }));
