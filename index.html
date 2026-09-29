@@ -242,265 +242,6 @@
 
     <article class="card wide">
       <div class="viz">
-        <p class="viz-title" id="disney-top-title">2026 attendance forecast by weekend (expected case)</p>
-        <p class="viz-sub" id="disney-top-sub">Weekend 4 is the busiest because of the anniversary concert</p>
-        <svg id="chart-disney" role="img" aria-label="Bar chart of expected 2026 visits by weekend: Weekend 1 12,600; Weekend 2 15,700; Weekend 3 18,900; Weekend 4 20,800, the peak."></svg>
-      </div>
-      <div class="card-body">
-        <div class="meta-row"><span class="kind">Case study &middot; Team of 3</span><span>Fall 2026</span></div>
-        <h3>Disney Parks Industrial Engineering Case Study</h3>
-        <p>A case study from Walt Disney Parks &amp; Resorts' industrial engineering team (Fall 2026), done with Aarnav Bhat and Justin Llamera. The festival runs for four fall weekends and has 120 booth spaces for food, merchandise and activities. The case asked three questions: How many guests will come? How many booths of each type are needed? How should the festival grow? We forecast about 68,000 visits, picked a booth mix that keeps lines short, and recommended staying open 12 hours a day instead of 10.</p>
-        <div class="stats">
-          <div class="stat"><b>68,000</b><span>visits forecast for 2026 (+21%)</span></div>
-          <div class="stat"><b>45 / 21 / 27</b><span>food, merchandise and activity booths</span></div>
-          <div class="stat"><b>~6 min</b><span>longest wait on the busiest day</span></div>
-          <div class="stat"><b>$55K</b><span>yearly gain from 12-hour days</span></div>
-        </div>
-        <div class="method-wrap" id="disney-method">
-          <h4>Excel models</h4>
-          <div class="parts" role="tablist">
-            <button type="button" role="tab" aria-selected="true" data-part="part1">Part 1: Attendance</button>
-            <button type="button" role="tab" aria-selected="false" data-part="part2">Part 2: Booth mix</button>
-            <button type="button" role="tab" aria-selected="false" data-part="part3">Part 3: Growth options</button>
-          </div>
-        <div class="method" id="part1">
-          <p><strong>Excel forecast model.</strong> Part 1 is built in four linked steps. The model is modular, so any input can be changed and the forecast updates.</p>
-          <div class="tabs" role="tablist">
-            <button role="tab" aria-selected="true" data-panel="p-trend">1. Trend models</button>
-            <button role="tab" aria-selected="false" data-panel="p-back">2. Backtest</button>
-            <button role="tab" aria-selected="false" data-panel="p-drivers">3. 2026 drivers</button>
-            <button role="tab" aria-selected="false" data-panel="p-mc">4. Monte Carlo</button>
-          </div>
-
-          <div class="panel active" id="p-trend" role="tabpanel">
-            <div class="chartbox">
-              <p class="viz-title">2026 forecast from each trend method (history only)</p>
-              <svg id="chart-trend" role="img" aria-label="Dot plot of 2026 trend forecasts: linear regression 57,100; log-linear 57,262; CAGR 2021 to 2025 57,901; CAGR 2022 to 2025 58,749; average yearly growth 57,924; ensemble average 57,787."></svg>
-            </div>
-            <div class="explain">
-              <p>There are only five years of attendance data (2021&ndash;2025), which is too little for complex models like ARIMA. We used five simple trend methods and took their average. The five forecasts are within about 1,650 visits of each other.</p>
-              <p class="formula-label">Linear trend and ensemble (Excel)</p>
-              <pre class="formula">=INTERCEPT(Attendance, t) + SLOPE(Attendance, t) * 6
-=SUMPRODUCT(Forecasts, Include) / SUM(Include)</pre>
-            </div>
-          </div>
-
-          <div class="panel" id="p-back" role="tabpanel">
-            <div class="chartbox">
-              <p class="viz-title">Hold-out error: forecasting 2024 and 2025 from earlier years</p>
-              <svg id="chart-back" role="img" aria-label="Bar chart of backtest error (MAPE): linear regression 4.9 percent, log-linear 4.9 percent, CAGR 3.6 percent, average yearly growth 3.6 percent, naive last value 5.5 percent."></svg>
-            </div>
-            <div class="explain">
-              <p>To test the methods, we fit each one on 2021&ndash;2023 to forecast 2024, then on 2021&ndash;2024 to forecast 2025, and measured the error. Every method forecast too low, so we added the 2026 drivers in the next step.</p>
-              <p class="formula-label">Error metric</p>
-              <pre class="formula">APE  = ABS(Forecast - Actual) / Actual
-MAPE = AVERAGE(APE_2024, APE_2025)</pre>
-            </div>
-          </div>
-
-          <div class="panel" id="p-drivers" role="tabpanel">
-            <div class="chartbox">
-              <p class="viz-title">From the trend baseline to the 68,000-visit forecast</p>
-              <svg id="chart-drivers" role="img" aria-label="Waterfall chart: trend baseline 57,787 plus marketing 1,387, anniversary halo 1,775, new markets 5,548 and concert 1,500 equals 67,998 visits."></svg>
-            </div>
-            <div class="explain">
-              <p>We added four changes planned for 2026 that the past data doesn't include. Marketing and the anniversary are percentage increases on the baseline. New markets and the concert are added as extra visits.</p>
-              <ul>
-                <li><strong>Marketing:</strong> +20% spend &times; 0.12 advertising elasticity (meta-analysis of 751 studies)</li>
-                <li><strong>New markets:</strong> 700,000 new residents &times; local attendance rate &times; 8% distance-decay factor</li>
-                <li><strong>Anniversary + concert:</strong> our own estimates (3% increase, 1,500 concert-only visits)</li>
-              </ul>
-              <p class="formula-label">Forecast build-up</p>
-              <pre class="formula">= Baseline * (1 + Spend * Elasticity) * (1 + Halo)
-  + ReachVisits + ConcertVisits</pre>
-            </div>
-          </div>
-
-          <div class="panel" id="p-mc" role="tabpanel">
-            <div class="chartbox">
-              <p class="viz-title">1,000 simulated 2026 attendance totals</p>
-              <svg id="chart-mc" role="img" aria-label="Histogram of 1,000 Monte Carlo trials from about 64,000 to 72,600 visits, centered near 68,300, with P10 at 66,359 and P90 at 70,257."></svg>
-            </div>
-            <div class="explain">
-              <p>Each of the five uncertain inputs has a low, expected and high value. The model draws each one from a triangular distribution and recalculates the forecast 1,000 times. The middle 80% of results falls between 66,359 and 70,257 visits.</p>
-              <div class="minis">
-                <div><b>66,359</b><span>P10</span></div>
-                <div><b>68,312</b><span>P50 (median)</span></div>
-                <div><b>70,257</b><span>P90</span></div>
-              </div>
-              <p class="formula-label">Triangular sampling with RAND() (Excel)</p>
-              <pre class="formula">=IF(U &lt; (Mode-Min)/(Max-Min),
-    Min + SQRT(U*(Max-Min)*(Mode-Min)),
-    Max - SQRT((1-U)*(Max-Min)*(Max-Mode)))</pre>
-              <p class="note-line" style="font-size:.84rem;color:var(--muted);margin:0">98.9% of trials exceed 65,000 visits. Standard deviation: 1,489.</p>
-            </div>
-          </div>
-        </div>
-
-        <div class="method part-off" id="part2">
-          <p><strong>Excel booth mix model.</strong> Part 2 decides how to split the 120 booth spaces between food, merchandise and activities. It uses the Part 1 peak day (10,808 guests) and is built in four steps.</p>
-          <div class="tabs" role="tablist">
-            <button role="tab" aria-selected="true" data-panel="p2-min">1. Minimum booths</button>
-            <button role="tab" aria-selected="false" data-panel="p2-wait">2. Queue waits</button>
-            <button role="tab" aria-selected="false" data-panel="p2-opt">3. Optimizer</button>
-            <button role="tab" aria-selected="false" data-panel="p2-stress">4. Stress test</button>
-          </div>
-
-          <div class="panel active" id="p2-min" role="tabpanel">
-            <div class="chartbox">
-              <p class="viz-title">Booths needed to handle the lunch peak vs. the final mix</p>
-              <svg id="chart-p2min" role="img" aria-label="Paired bar chart. Food and beverage: 41 minimum, 45 recommended. Merchandise: 14 minimum, 21 recommended. Activities: 23 minimum, 27 recommended."></svg>
-              <div class="legend"><span><i style="background:var(--neutral-mark)"></i>Minimum from queueing</span><span><i style="background:var(--series-1)"></i>Recommended mix</span></div>
-            </div>
-            <div class="explain">
-              <p>For each category, I turned the peak day into transactions per hour at the busiest hour, then used Little's Law to find the fewest booths that keep each booth under 85% busy. Activities booths take two spaces each.</p>
-              <div class="minis">
-                <div><b>10,808</b><span>guests on the peak day</span></div>
-                <div><b>101</b><span>of 120 spaces needed at minimum</span></div>
-                <div><b>19</b><span>spaces left to allocate</span></div>
-              </div>
-              <p class="formula-label">Minimum booths (Excel)</p>
-              <pre class="formula">Arrivals = Guests * Part * Txns * PeakShare
-Booths   = CEILING(Arrivals / (Rate * 0.85), 1)</pre>
-            </div>
-          </div>
-
-          <div class="panel" id="p2-wait" role="tabpanel">
-            <div class="chartbox">
-              <p class="viz-title">Peak-hour wait at each booth type with the recommended mix</p>
-              <svg id="chart-p2wait" role="img" aria-label="Bar chart of peak-hour wait: food and beverage 4.8 minutes at 81 percent busy; merchandise 1.7 minutes at 52 percent; activities 6.1 minutes at 78 percent."></svg>
-            </div>
-            <div class="explain">
-              <p>Each booth is treated as a single-server queue (M/M/1). The wait grows quickly as a booth gets close to 100% busy, which is why the model caps peak use at 85%. Guests start leaving the line after about 5 minutes, and all of them leave by 20 minutes.</p>
-              <p class="formula-label">Wait in line, M/M/1 (Excel)</p>
-              <pre class="formula">Util = Arrivals / (Booths * Rate)
-Wait = Util / (Rate * (1 - Util)) * 60</pre>
-            </div>
-          </div>
-
-          <div class="panel" id="p2-opt" role="tabpanel">
-            <div class="chartbox">
-              <p class="viz-title">Daily vendor profit for the recommended mix vs. simple rules</p>
-              <svg id="chart-p2opt" role="img" aria-label="Bar chart of design-day contribution: recommended 45/21/27 155,553 dollars and meets all limits; proportional to participation 146,073; queueing minimums only 137,571; equal space 136,821; most food 130,503. All alternatives break a wait or variety limit."></svg>
-            </div>
-            <div class="explain">
-              <p>The optimizer sheet lists every mix that fills the 120 spaces, 943 in total, and checks each one against the wait limit and the variety rules. 49 mixes pass, and the model picks the one with the highest vendor profit.</p>
-              <ul>
-                <li>No booth type over 85% busy at the peak hour</li>
-                <li>Food is at most half the space; merchandise is at least 15% of booths; activities take 20% to 45% of the space</li>
-                <li>More activity booths keep guests longer, which adds food sales</li>
-              </ul>
-              <p class="formula-label">Pick the best feasible mix (Excel)</p>
-              <pre class="formula">Score = IF(Feasible, Contribution, -1)
-Best  = INDEX(Mix, MATCH(MAX(Score), Score, 0))</pre>
-            </div>
-          </div>
-
-          <div class="panel" id="p2-stress" role="tabpanel">
-            <div class="chartbox">
-              <p class="viz-title">Food booth utilization at the lunch peak under each Part 1 scenario</p>
-              <svg id="chart-p2stress" role="img" aria-label="Bar chart of food and beverage peak utilization with the recommended mix: low day 69 percent, expected day 81 percent, high day 102 percent, which is over capacity."></svg>
-            </div>
-            <div class="explain">
-              <p>I reran the recommended mix on the low and high peak days from Part 1. It holds on low and expected days. On a high-attendance Saturday, food booths go over 100% busy and the lines stop clearing.</p>
-              <p>That is a capacity problem that a different mix can't fix, so it leads into Part 3: adding hours or days to spread the crowd out.</p>
-              <div class="minis">
-                <div><b>$394K</b><span>vendor sales on the peak day</span></div>
-                <div><b>~6 min</b><span>longest expected wait</span></div>
-                <div><b>102%</b><span>food load on a high day</span></div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="method part-off" id="part3">
-          <p><strong>Excel growth options model.</strong> Part 3 compares three ways to grow the festival: longer days (10 to 12 hours), adding Fridays, or adding a fifth weekend. Each option is tested under low, expected and high demand.</p>
-          <div class="tabs" role="tablist">
-            <button role="tab" aria-selected="true" data-panel="p3-opts">1. Revenue vs. cost</button>
-            <button role="tab" aria-selected="false" data-panel="p3-npv">2. 5-year NPV</button>
-            <button role="tab" aria-selected="false" data-panel="p3-peak">3. Peak relief</button>
-            <button role="tab" aria-selected="false" data-panel="p3-dec">4. Decision</button>
-          </div>
-
-          <div class="panel active" id="p3-opts" role="tabpanel">
-            <div class="chartbox">
-              <p class="viz-title">Added yearly revenue and cost for each option (expected demand)</p>
-              <svg id="chart-p3opts" role="img" aria-label="Paired bar chart in thousands of dollars. 12-hour days: revenue 87.2, cost 32.0. Add Fridays: revenue 133.4, cost 97.2. Fifth weekend: revenue 87.3, cost 84.0."></svg>
-              <div class="legend"><span><i style="background:var(--series-1)"></i>Added revenue</span><span><i style="background:var(--series-2)"></i>Added cost</span></div>
-            </div>
-            <div class="explain">
-              <p>New visits come from people who couldn't come before, minus visits that just move from another day. Revenue per visit is admission plus a 15% share of vendor sales, minus variable cost. Costs are built per operating day and per added hour.</p>
-              <div class="minis">
-                <div><b>$55K</b><span>12-hour days, year-1 gain</span></div>
-                <div><b>$36K</b><span>Fridays, year-1 gain</span></div>
-                <div><b>$3K</b><span>5th weekend, year-1 gain</span></div>
-              </div>
-              <p class="formula-label">Net-new visits and break-even (Excel)</p>
-              <pre class="formula">NetNew    = GrossNew - Shifted
-BreakEven = AddedCost / NetRevenuePerVisit</pre>
-            </div>
-          </div>
-
-          <div class="panel" id="p3-npv" role="tabpanel">
-            <div class="chartbox">
-              <p class="viz-title">5-year NPV: low, expected and high demand</p>
-              <svg id="chart-p3npv" role="img" aria-label="Range chart of 5-year NPV in thousands. 12-hour days: low 17, expected 205, high 392. Add Fridays: low minus 58, expected 143, high 462. Fifth weekend: low minus 127, expected 6, high 175."></svg>
-              <div class="legend"><span><i style="background:var(--series-1)"></i>Expected</span><span><i style="background:var(--neutral-mark)"></i>Low and high</span></div>
-            </div>
-            <div class="explain">
-              <p>Each option's yearly cash flow is discounted over 5 years at 8%, with revenue growing 4% a year and cost 3%. Longer days are the only option that still makes money if demand comes in low. Fridays have the highest upside but lose money in the low case.</p>
-              <p class="formula-label">NPV (Excel)</p>
-              <pre class="formula">= -OneTimeCost + NPV(8%, Year1:Year5)</pre>
-            </div>
-          </div>
-
-          <div class="panel" id="p3-peak" role="tabpanel">
-            <div class="chartbox">
-              <p class="viz-title">Food booth utilization at the lunch peak on a high-attendance day</p>
-              <svg id="chart-p3peak" role="img" aria-label="Bar chart of food and beverage peak utilization on a high day: today 102 percent; with 12-hour days 95 percent; with Fridays 92 percent; with a fifth weekend 97 percent."></svg>
-            </div>
-            <div class="explain">
-              <p>All three options bring the high-day food peak back under 100%. Longer days do it by spreading the lunch rush over a longer day (peak share drops from 15% to 13%). Fridays and a fifth weekend depend on guests choosing to move their visit.</p>
-              <p>I also checked vendor economics: a food booth would lose about $38 per Friday on expected demand, which makes Fridays hard to staff.</p>
-            </div>
-          </div>
-
-          <div class="panel" id="p3-dec" role="tabpanel">
-            <div class="chartbox">
-              <p class="viz-title">Weighted decision score (out of 5)</p>
-              <svg id="chart-p3dec" role="img" aria-label="Bar chart of weighted scores: 12-hour days 4.35, add Fridays 2.75, fifth weekend 2.45."></svg>
-            </div>
-            <div class="explain">
-              <p>Each option is scored 1 to 5 on financial return (30%), peak relief (25%), risk and reversibility (20%), vendor and staff feasibility (15%) and growth headroom (10%). I reran the scores under four other sets of weights, and 12-hour days came out on top every time.</p>
-              <p><strong>Recommendation:</strong> extend to 12-hour days now, keep a fifth weekend as the next step once evenings are proven, and skip full-day Fridays.</p>
-              <p class="formula-label">Weighted score (Excel)</p>
-              <pre class="formula">= SUMPRODUCT(Weights, Scores)</pre>
-            </div>
-          </div>
-        </div>
-        </div>
-        <div class="tags"><span class="tag">Forecasting</span><span class="tag">Monte Carlo simulation</span><span class="tag">Backtesting</span><span class="tag">Queueing</span><span class="tag">Optimization</span><span class="tag">NPV analysis</span><span class="tag">Excel</span></div>
-        <details>
-          <summary>Details &amp; files</summary>
-          <ul>
-            <li><strong>Attendance forecast:</strong> averaged 5 trend models, then added 2026 factors like marketing, new markets and a concert. A 1,000-run Monte Carlo simulation gave a planning range of 66,300 to 70,300 visits.</li>
-            <li><strong>Booth mix:</strong> used a queueing model to find the fewest booths needed to keep lines short at peak, then checked all ~900 possible mixes. The best one fills all 120 spaces, brings in about $394,000 in vendor sales per day, and keeps every wait under about 6 minutes.</li>
-            <li><strong>Growth options:</strong> compared later hours, adding Fridays and adding a fifth weekend using cost, break-even and 5-year NPV. Staying open until 10 PM made money in every demand scenario and also shortened Saturday lunch lines.</li>
-          </ul>
-          <div class="files">
-            <a class="file" href="files/Disney_IE_Case_Overview.pdf">Project overview <small>PDF</small></a>
-            <a class="file" href="files/Disney%20Case%20Slide%20Deck%20.pdf">Final slide deck <small>PDF</small></a>
-            <a class="file" href="files/festival_forecast_model.xlsx">Forecast model <small>Excel</small></a>
-            <a class="file" href="files/booth_mix_model.xlsx">Booth mix model <small>Excel</small></a>
-            <a class="file" href="files/growth_options_model.xlsx">Growth options model <small>Excel</small></a>
-            <a class="file" href="files/lE%202026%20Case%20Study.pdf">Case prompt <small>PDF</small></a>
-          </div>
-        </details>
-      </div>
-    </article>
-
-    <article class="card wide">
-      <div class="viz">
         <p class="viz-title" id="ap-top-title">Invoices flagged by each Excel check</p>
         <p class="viz-sub" id="ap-top-sub">5,000 invoices; one invoice can fail more than one check</p>
         <svg id="chart-ap" role="img" aria-label="Bar chart of invoices flagged by each check: missing or invalid PO 533; payment terms mismatch 338; inactive or missing vendor 278; invoice over PO 235; duplicate invoice 230; currency mismatch 96."></svg>
@@ -778,6 +519,265 @@ BreakEven = AddedCost / NetRevenuePerVisit</pre>
             <li>Worked with San Gabriel USD district IT to meet their security rules and set up permissions.</li>
             <li>Tested the system before launch and trained 60+ teachers to use it.</li>
           </ul>
+        </details>
+      </div>
+    </article>
+
+    <article class="card wide">
+      <div class="viz">
+        <p class="viz-title" id="disney-top-title">2026 attendance forecast by weekend (expected case)</p>
+        <p class="viz-sub" id="disney-top-sub">Weekend 4 is the busiest because of the anniversary concert</p>
+        <svg id="chart-disney" role="img" aria-label="Bar chart of expected 2026 visits by weekend: Weekend 1 12,600; Weekend 2 15,700; Weekend 3 18,900; Weekend 4 20,800, the peak."></svg>
+      </div>
+      <div class="card-body">
+        <div class="meta-row"><span class="kind">Case study &middot; Team of 3</span><span>Fall 2026</span></div>
+        <h3>Disney Parks Industrial Engineering Case Study</h3>
+        <p>A case study from Walt Disney Parks &amp; Resorts' industrial engineering team (Fall 2026), done with Aarnav Bhat and Justin Llamera. The festival runs for four fall weekends and has 120 booth spaces for food, merchandise and activities. The case asked three questions: How many guests will come? How many booths of each type are needed? How should the festival grow? We forecast about 68,000 visits, picked a booth mix that keeps lines short, and recommended staying open 12 hours a day instead of 10.</p>
+        <div class="stats">
+          <div class="stat"><b>68,000</b><span>visits forecast for 2026 (+21%)</span></div>
+          <div class="stat"><b>45 / 21 / 27</b><span>food, merchandise and activity booths</span></div>
+          <div class="stat"><b>~6 min</b><span>longest wait on the busiest day</span></div>
+          <div class="stat"><b>$55K</b><span>yearly gain from 12-hour days</span></div>
+        </div>
+        <div class="method-wrap" id="disney-method">
+          <h4>Excel models</h4>
+          <div class="parts" role="tablist">
+            <button type="button" role="tab" aria-selected="true" data-part="part1">Part 1: Attendance</button>
+            <button type="button" role="tab" aria-selected="false" data-part="part2">Part 2: Booth mix</button>
+            <button type="button" role="tab" aria-selected="false" data-part="part3">Part 3: Growth options</button>
+          </div>
+        <div class="method" id="part1">
+          <p><strong>Excel forecast model.</strong> Part 1 is built in four linked steps. The model is modular, so any input can be changed and the forecast updates.</p>
+          <div class="tabs" role="tablist">
+            <button role="tab" aria-selected="true" data-panel="p-trend">1. Trend models</button>
+            <button role="tab" aria-selected="false" data-panel="p-back">2. Backtest</button>
+            <button role="tab" aria-selected="false" data-panel="p-drivers">3. 2026 drivers</button>
+            <button role="tab" aria-selected="false" data-panel="p-mc">4. Monte Carlo</button>
+          </div>
+
+          <div class="panel active" id="p-trend" role="tabpanel">
+            <div class="chartbox">
+              <p class="viz-title">2026 forecast from each trend method (history only)</p>
+              <svg id="chart-trend" role="img" aria-label="Dot plot of 2026 trend forecasts: linear regression 57,100; log-linear 57,262; CAGR 2021 to 2025 57,901; CAGR 2022 to 2025 58,749; average yearly growth 57,924; ensemble average 57,787."></svg>
+            </div>
+            <div class="explain">
+              <p>There are only five years of attendance data (2021&ndash;2025), which is too little for complex models like ARIMA. We used five simple trend methods and took their average. The five forecasts are within about 1,650 visits of each other.</p>
+              <p class="formula-label">Linear trend and ensemble (Excel)</p>
+              <pre class="formula">=INTERCEPT(Attendance, t) + SLOPE(Attendance, t) * 6
+=SUMPRODUCT(Forecasts, Include) / SUM(Include)</pre>
+            </div>
+          </div>
+
+          <div class="panel" id="p-back" role="tabpanel">
+            <div class="chartbox">
+              <p class="viz-title">Hold-out error: forecasting 2024 and 2025 from earlier years</p>
+              <svg id="chart-back" role="img" aria-label="Bar chart of backtest error (MAPE): linear regression 4.9 percent, log-linear 4.9 percent, CAGR 3.6 percent, average yearly growth 3.6 percent, naive last value 5.5 percent."></svg>
+            </div>
+            <div class="explain">
+              <p>To test the methods, we fit each one on 2021&ndash;2023 to forecast 2024, then on 2021&ndash;2024 to forecast 2025, and measured the error. Every method forecast too low, so we added the 2026 drivers in the next step.</p>
+              <p class="formula-label">Error metric</p>
+              <pre class="formula">APE  = ABS(Forecast - Actual) / Actual
+MAPE = AVERAGE(APE_2024, APE_2025)</pre>
+            </div>
+          </div>
+
+          <div class="panel" id="p-drivers" role="tabpanel">
+            <div class="chartbox">
+              <p class="viz-title">From the trend baseline to the 68,000-visit forecast</p>
+              <svg id="chart-drivers" role="img" aria-label="Waterfall chart: trend baseline 57,787 plus marketing 1,387, anniversary halo 1,775, new markets 5,548 and concert 1,500 equals 67,998 visits."></svg>
+            </div>
+            <div class="explain">
+              <p>We added four changes planned for 2026 that the past data doesn't include. Marketing and the anniversary are percentage increases on the baseline. New markets and the concert are added as extra visits.</p>
+              <ul>
+                <li><strong>Marketing:</strong> +20% spend &times; 0.12 advertising elasticity (meta-analysis of 751 studies)</li>
+                <li><strong>New markets:</strong> 700,000 new residents &times; local attendance rate &times; 8% distance-decay factor</li>
+                <li><strong>Anniversary + concert:</strong> our own estimates (3% increase, 1,500 concert-only visits)</li>
+              </ul>
+              <p class="formula-label">Forecast build-up</p>
+              <pre class="formula">= Baseline * (1 + Spend * Elasticity) * (1 + Halo)
+  + ReachVisits + ConcertVisits</pre>
+            </div>
+          </div>
+
+          <div class="panel" id="p-mc" role="tabpanel">
+            <div class="chartbox">
+              <p class="viz-title">1,000 simulated 2026 attendance totals</p>
+              <svg id="chart-mc" role="img" aria-label="Histogram of 1,000 Monte Carlo trials from about 64,000 to 72,600 visits, centered near 68,300, with P10 at 66,359 and P90 at 70,257."></svg>
+            </div>
+            <div class="explain">
+              <p>Each of the five uncertain inputs has a low, expected and high value. The model draws each one from a triangular distribution and recalculates the forecast 1,000 times. The middle 80% of results falls between 66,359 and 70,257 visits.</p>
+              <div class="minis">
+                <div><b>66,359</b><span>P10</span></div>
+                <div><b>68,312</b><span>P50 (median)</span></div>
+                <div><b>70,257</b><span>P90</span></div>
+              </div>
+              <p class="formula-label">Triangular sampling with RAND() (Excel)</p>
+              <pre class="formula">=IF(U &lt; (Mode-Min)/(Max-Min),
+    Min + SQRT(U*(Max-Min)*(Mode-Min)),
+    Max - SQRT((1-U)*(Max-Min)*(Max-Mode)))</pre>
+              <p class="note-line" style="font-size:.84rem;color:var(--muted);margin:0">98.9% of trials exceed 65,000 visits. Standard deviation: 1,489.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="method part-off" id="part2">
+          <p><strong>Excel booth mix model.</strong> Part 2 decides how to split the 120 booth spaces between food, merchandise and activities. It uses the Part 1 peak day (10,808 guests) and is built in four steps.</p>
+          <div class="tabs" role="tablist">
+            <button role="tab" aria-selected="true" data-panel="p2-min">1. Minimum booths</button>
+            <button role="tab" aria-selected="false" data-panel="p2-wait">2. Queue waits</button>
+            <button role="tab" aria-selected="false" data-panel="p2-opt">3. Optimizer</button>
+            <button role="tab" aria-selected="false" data-panel="p2-stress">4. Stress test</button>
+          </div>
+
+          <div class="panel active" id="p2-min" role="tabpanel">
+            <div class="chartbox">
+              <p class="viz-title">Booths needed to handle the lunch peak vs. the final mix</p>
+              <svg id="chart-p2min" role="img" aria-label="Paired bar chart. Food and beverage: 41 minimum, 45 recommended. Merchandise: 14 minimum, 21 recommended. Activities: 23 minimum, 27 recommended."></svg>
+              <div class="legend"><span><i style="background:var(--neutral-mark)"></i>Minimum from queueing</span><span><i style="background:var(--series-1)"></i>Recommended mix</span></div>
+            </div>
+            <div class="explain">
+              <p>For each category, I turned the peak day into transactions per hour at the busiest hour, then used Little's Law to find the fewest booths that keep each booth under 85% busy. Activities booths take two spaces each.</p>
+              <div class="minis">
+                <div><b>10,808</b><span>guests on the peak day</span></div>
+                <div><b>101</b><span>of 120 spaces needed at minimum</span></div>
+                <div><b>19</b><span>spaces left to allocate</span></div>
+              </div>
+              <p class="formula-label">Minimum booths (Excel)</p>
+              <pre class="formula">Arrivals = Guests * Part * Txns * PeakShare
+Booths   = CEILING(Arrivals / (Rate * 0.85), 1)</pre>
+            </div>
+          </div>
+
+          <div class="panel" id="p2-wait" role="tabpanel">
+            <div class="chartbox">
+              <p class="viz-title">Peak-hour wait at each booth type with the recommended mix</p>
+              <svg id="chart-p2wait" role="img" aria-label="Bar chart of peak-hour wait: food and beverage 4.8 minutes at 81 percent busy; merchandise 1.7 minutes at 52 percent; activities 6.1 minutes at 78 percent."></svg>
+            </div>
+            <div class="explain">
+              <p>Each booth is treated as a single-server queue (M/M/1). The wait grows quickly as a booth gets close to 100% busy, which is why the model caps peak use at 85%. Guests start leaving the line after about 5 minutes, and all of them leave by 20 minutes.</p>
+              <p class="formula-label">Wait in line, M/M/1 (Excel)</p>
+              <pre class="formula">Util = Arrivals / (Booths * Rate)
+Wait = Util / (Rate * (1 - Util)) * 60</pre>
+            </div>
+          </div>
+
+          <div class="panel" id="p2-opt" role="tabpanel">
+            <div class="chartbox">
+              <p class="viz-title">Daily vendor profit for the recommended mix vs. simple rules</p>
+              <svg id="chart-p2opt" role="img" aria-label="Bar chart of design-day contribution: recommended 45/21/27 155,553 dollars and meets all limits; proportional to participation 146,073; queueing minimums only 137,571; equal space 136,821; most food 130,503. All alternatives break a wait or variety limit."></svg>
+            </div>
+            <div class="explain">
+              <p>The optimizer sheet lists every mix that fills the 120 spaces, 943 in total, and checks each one against the wait limit and the variety rules. 49 mixes pass, and the model picks the one with the highest vendor profit.</p>
+              <ul>
+                <li>No booth type over 85% busy at the peak hour</li>
+                <li>Food is at most half the space; merchandise is at least 15% of booths; activities take 20% to 45% of the space</li>
+                <li>More activity booths keep guests longer, which adds food sales</li>
+              </ul>
+              <p class="formula-label">Pick the best feasible mix (Excel)</p>
+              <pre class="formula">Score = IF(Feasible, Contribution, -1)
+Best  = INDEX(Mix, MATCH(MAX(Score), Score, 0))</pre>
+            </div>
+          </div>
+
+          <div class="panel" id="p2-stress" role="tabpanel">
+            <div class="chartbox">
+              <p class="viz-title">Food booth utilization at the lunch peak under each Part 1 scenario</p>
+              <svg id="chart-p2stress" role="img" aria-label="Bar chart of food and beverage peak utilization with the recommended mix: low day 69 percent, expected day 81 percent, high day 102 percent, which is over capacity."></svg>
+            </div>
+            <div class="explain">
+              <p>I reran the recommended mix on the low and high peak days from Part 1. It holds on low and expected days. On a high-attendance Saturday, food booths go over 100% busy and the lines stop clearing.</p>
+              <p>That is a capacity problem that a different mix can't fix, so it leads into Part 3: adding hours or days to spread the crowd out.</p>
+              <div class="minis">
+                <div><b>$394K</b><span>vendor sales on the peak day</span></div>
+                <div><b>~6 min</b><span>longest expected wait</span></div>
+                <div><b>102%</b><span>food load on a high day</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="method part-off" id="part3">
+          <p><strong>Excel growth options model.</strong> Part 3 compares three ways to grow the festival: longer days (10 to 12 hours), adding Fridays, or adding a fifth weekend. Each option is tested under low, expected and high demand.</p>
+          <div class="tabs" role="tablist">
+            <button role="tab" aria-selected="true" data-panel="p3-opts">1. Revenue vs. cost</button>
+            <button role="tab" aria-selected="false" data-panel="p3-npv">2. 5-year NPV</button>
+            <button role="tab" aria-selected="false" data-panel="p3-peak">3. Peak relief</button>
+            <button role="tab" aria-selected="false" data-panel="p3-dec">4. Decision</button>
+          </div>
+
+          <div class="panel active" id="p3-opts" role="tabpanel">
+            <div class="chartbox">
+              <p class="viz-title">Added yearly revenue and cost for each option (expected demand)</p>
+              <svg id="chart-p3opts" role="img" aria-label="Paired bar chart in thousands of dollars. 12-hour days: revenue 87.2, cost 32.0. Add Fridays: revenue 133.4, cost 97.2. Fifth weekend: revenue 87.3, cost 84.0."></svg>
+              <div class="legend"><span><i style="background:var(--series-1)"></i>Added revenue</span><span><i style="background:var(--series-2)"></i>Added cost</span></div>
+            </div>
+            <div class="explain">
+              <p>New visits come from people who couldn't come before, minus visits that just move from another day. Revenue per visit is admission plus a 15% share of vendor sales, minus variable cost. Costs are built per operating day and per added hour.</p>
+              <div class="minis">
+                <div><b>$55K</b><span>12-hour days, year-1 gain</span></div>
+                <div><b>$36K</b><span>Fridays, year-1 gain</span></div>
+                <div><b>$3K</b><span>5th weekend, year-1 gain</span></div>
+              </div>
+              <p class="formula-label">Net-new visits and break-even (Excel)</p>
+              <pre class="formula">NetNew    = GrossNew - Shifted
+BreakEven = AddedCost / NetRevenuePerVisit</pre>
+            </div>
+          </div>
+
+          <div class="panel" id="p3-npv" role="tabpanel">
+            <div class="chartbox">
+              <p class="viz-title">5-year NPV: low, expected and high demand</p>
+              <svg id="chart-p3npv" role="img" aria-label="Range chart of 5-year NPV in thousands. 12-hour days: low 17, expected 205, high 392. Add Fridays: low minus 58, expected 143, high 462. Fifth weekend: low minus 127, expected 6, high 175."></svg>
+              <div class="legend"><span><i style="background:var(--series-1)"></i>Expected</span><span><i style="background:var(--neutral-mark)"></i>Low and high</span></div>
+            </div>
+            <div class="explain">
+              <p>Each option's yearly cash flow is discounted over 5 years at 8%, with revenue growing 4% a year and cost 3%. Longer days are the only option that still makes money if demand comes in low. Fridays have the highest upside but lose money in the low case.</p>
+              <p class="formula-label">NPV (Excel)</p>
+              <pre class="formula">= -OneTimeCost + NPV(8%, Year1:Year5)</pre>
+            </div>
+          </div>
+
+          <div class="panel" id="p3-peak" role="tabpanel">
+            <div class="chartbox">
+              <p class="viz-title">Food booth utilization at the lunch peak on a high-attendance day</p>
+              <svg id="chart-p3peak" role="img" aria-label="Bar chart of food and beverage peak utilization on a high day: today 102 percent; with 12-hour days 95 percent; with Fridays 92 percent; with a fifth weekend 97 percent."></svg>
+            </div>
+            <div class="explain">
+              <p>All three options bring the high-day food peak back under 100%. Longer days do it by spreading the lunch rush over a longer day (peak share drops from 15% to 13%). Fridays and a fifth weekend depend on guests choosing to move their visit.</p>
+              <p>I also checked vendor economics: a food booth would lose about $38 per Friday on expected demand, which makes Fridays hard to staff.</p>
+            </div>
+          </div>
+
+          <div class="panel" id="p3-dec" role="tabpanel">
+            <div class="chartbox">
+              <p class="viz-title">Weighted decision score (out of 5)</p>
+              <svg id="chart-p3dec" role="img" aria-label="Bar chart of weighted scores: 12-hour days 4.35, add Fridays 2.75, fifth weekend 2.45."></svg>
+            </div>
+            <div class="explain">
+              <p>Each option is scored 1 to 5 on financial return (30%), peak relief (25%), risk and reversibility (20%), vendor and staff feasibility (15%) and growth headroom (10%). I reran the scores under four other sets of weights, and 12-hour days came out on top every time.</p>
+              <p><strong>Recommendation:</strong> extend to 12-hour days now, keep a fifth weekend as the next step once evenings are proven, and skip full-day Fridays.</p>
+              <p class="formula-label">Weighted score (Excel)</p>
+              <pre class="formula">= SUMPRODUCT(Weights, Scores)</pre>
+            </div>
+          </div>
+        </div>
+        </div>
+        <div class="tags"><span class="tag">Forecasting</span><span class="tag">Monte Carlo simulation</span><span class="tag">Backtesting</span><span class="tag">Queueing</span><span class="tag">Optimization</span><span class="tag">NPV analysis</span><span class="tag">Excel</span></div>
+        <details>
+          <summary>Details &amp; files</summary>
+          <ul>
+            <li><strong>Attendance forecast:</strong> averaged 5 trend models, then added 2026 factors like marketing, new markets and a concert. A 1,000-run Monte Carlo simulation gave a planning range of 66,300 to 70,300 visits.</li>
+            <li><strong>Booth mix:</strong> used a queueing model to find the fewest booths needed to keep lines short at peak, then checked all ~900 possible mixes. The best one fills all 120 spaces, brings in about $394,000 in vendor sales per day, and keeps every wait under about 6 minutes.</li>
+            <li><strong>Growth options:</strong> compared later hours, adding Fridays and adding a fifth weekend using cost, break-even and 5-year NPV. Staying open until 10 PM made money in every demand scenario and also shortened Saturday lunch lines.</li>
+          </ul>
+          <div class="files">
+            <a class="file" href="files/Disney_IE_Case_Overview.pdf">Project overview <small>PDF</small></a>
+            <a class="file" href="files/Disney%20Case%20Slide%20Deck%20.pdf">Final slide deck <small>PDF</small></a>
+            <a class="file" href="files/festival_forecast_model.xlsx">Forecast model <small>Excel</small></a>
+            <a class="file" href="files/booth_mix_model.xlsx">Booth mix model <small>Excel</small></a>
+            <a class="file" href="files/growth_options_model.xlsx">Growth options model <small>Excel</small></a>
+            <a class="file" href="files/lE%202026%20Case%20Study.pdf">Case prompt <small>PDF</small></a>
+          </div>
         </details>
       </div>
     </article>
