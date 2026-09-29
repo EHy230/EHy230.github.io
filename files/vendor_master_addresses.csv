@@ -1,0 +1,141 @@
+Vendor ID,Vendor Name,Street,City,Postcode,Country,Tax ID,Layout
+V-0001,Evergreen Consulting Group,8805 King St,Bengaluru,560001,India,TX-0001-43105,A
+V-0002,Cobalt Services LLC,6786 Market St,Bengaluru,560001,India,TX-0002-28786,C
+V-0003,Cobalt Technologies Group,3955 Commerce Dr,Galway,H91 E2K7,Ireland,TX-0003-12255,D
+V-0004,Harbor Networks Ltd.,3650 Station Rd,Chicago,IL 60601,United States,TX-0004-83750,E
+V-0005,Atlas Resources Inc.,5478 Lake View Dr,Columbus,OH 43215,United States,TX-0005-88178,A
+V-0006,Copperfield Digital Group,8612 Innovation Blvd,Calgary,AB T2P 1J9,Canada,TX-0006-57912,B
+V-0007,Redwood Logistics Ltd.,6864 King St,Pune,411001,India,TX-0007-69764,A
+V-0008,Lighthouse Supply Inc.,536 Enterprise Pkwy,Austin,TX 78701,United States,TX-0008-41136,E
+V-0009,Blue Ridge Supply LLC,510 Harbour Rd,Columbus,OH 43215,United States,TX-0009-87210,B
+V-0010,Copperfield Logistics Ltd.,6723 King St,Calgary,AB T2P 1J9,Canada,TX-0010-16923,B
+V-0011,Oakmont Solutions LLC,6998 King St,Columbus,OH 43215,United States,TX-0011-62098,B
+V-0012,Oakmont Technologies LLC,4774 Enterprise Pkwy,Columbus,OH 43215,United States,TX-0012-74674,A
+V-0013,Cobalt Operations LLC,5661 Industrial Way,Denver,CO 80202,United States,TX-0013-11961,B
+V-0014,Summit Logistics Group,4758 Lake View Dr,Chicago,IL 60601,United States,TX-0014-36758,E
+V-0015,Clearview Digital Inc.,5924 Enterprise Pkwy,Phoenix,AZ 85004,United States,TX-0015-69124,A
+V-0016,Redwood Consulting LLC,5550 Market St,Dublin 2,D02 X285,Ireland,TX-0016-44050,D
+V-0017,Cobalt Analytics Group,8210 Market St,London,EC2A 4NE,United Kingdom,TX-0017-46110,C
+V-0018,Evergreen Resources Inc.,5851 Innovation Blvd,Atlanta,GA 30303,United States,TX-0018-72351,B
+V-0019,Redwood Systems LLC,2034 Commerce Dr,Toronto,ON M5H 2N2,Canada,TX-0019-24934,B
+V-0020,Copperfield Partners Group,860 Station Rd,Austin,TX 78701,United States,TX-0020-45960,C
+V-0021,Brightpath Operations LLC,2368 Innovation Blvd,Phoenix,AZ 85004,United States,TX-0021-37068,C
+V-0022,Lighthouse Solutions LLC,441 Innovation Blvd,Seattle,WA 98101,United States,TX-0022-47741,E
+V-0023,Evergreen Systems LLC,3064 Park Ave,Munich,80331,Germany,TX-0023-34364,D
+V-0024,Evergreen Solutions Inc.,3140 Market St,Munich,80331,Germany,TX-0024-91040,D
+V-0025,Oakmont Supply Group,7498 King St,Columbus,OH 43215,United States,TX-0025-19498,B
+V-0026,Oakmont Supply Ltd.,982 Innovation Blvd,Cork,T12 W8DR,Ireland,TX-0026-46682,D
+V-0027,Harbor Digital LLC,7709 Harbour Rd,Denver,CO 80202,United States,TX-0027-23409,B
+V-0028,Harbor Consulting Ltd.,1116 King St,London,EC2A 4NE,United Kingdom,TX-0028-83716,E
+V-0029,Crescent Technologies LLC,4811 Innovation Blvd,Raleigh,NC 27601,United States,TX-0029-56211,C
+V-0030,Crescent Networks Inc.,5947 King St,Raleigh,NC 27601,United States,TX-0030-52947,E
+V-0031,Lighthouse Systems Inc.,8611 Lake View Dr,Atlanta,GA 30303,United States,TX-0031-87911,E
+V-0032,Harbor Networks Group,7220 Industrial Way,Singapore,018989,Singapore,TX-0032-86220,A
+V-0033,Northstar Advisors LLC,3829 Harbour Rd,Seattle,WA 98101,United States,TX-0033-48829,E
+V-0034,Beacon Solutions Inc.,4578 King St,Chicago,IL 60601,United States,TX-0034-94278,B
+V-0035,Pioneer Networks Ltd.,6383 Station Rd,Raleigh,NC 27601,United States,TX-0035-47483,E
+V-0036,Juniper Operations Ltd.,2292 Station Rd,Phoenix,AZ 85004,United States,TX-0036-11692,B
+V-0037,Redwood Supply LLC,3739 Industrial Way,Berlin,10115,Germany,TX-0037-24439,D
+V-0038,Beacon Analytics Ltd.,2547 Park Ave,Raleigh,NC 27601,United States,TX-0038-45747,C
+V-0039,Blue Ridge Networks Group,2827 Harbour Rd,Atlanta,GA 30303,United States,TX-0039-91527,C
+V-0040,Evergreen Digital LLC,4856 Market St,Galway,H91 E2K7,Ireland,TX-0040-49956,D
+V-0041,Juniper Advisors Ltd.,2374 Enterprise Pkwy,Columbus,OH 43215,United States,TX-0041-11074,E
+V-0042,Harbor Services Group,8737 Enterprise Pkwy,Seattle,WA 98101,United States,TX-0042-54837,B
+V-0043,Crescent Analytics Group,324 Innovation Blvd,Phoenix,AZ 85004,United States,TX-0043-75924,E
+V-0044,Blue Ridge Resources LLC,3995 Harbour Rd,Raleigh,NC 27601,United States,TX-0044-84195,B
+V-0045,Atlas Services LLC,8925 Commerce Dr,Seattle,WA 98101,United States,TX-0045-69725,A
+V-0046,Beacon Solutions LLC,5236 King St,Austin,TX 78701,United States,TX-0046-43936,C
+V-0047,Stonebridge Advisors Group,1616 Harbour Rd,Cork,T12 W8DR,Ireland,TX-0047-37316,D
+V-0048,Oakmont Systems Inc.,1691 Station Rd,Raleigh,NC 27601,United States,TX-0048-57091,C
+V-0049,Harbor Resources LLC,3244 King St,Hamburg,20095,Germany,TX-0049-19644,D
+V-0050,Ironwood Services Ltd.,493 Innovation Blvd,Seattle,WA 98101,United States,TX-0050-69493,A
+V-0051,Summit Digital Ltd.,7102 Industrial Way,Hyderabad,500081,India,TX-0051-19602,E
+V-0052,Evergreen Consulting LLC,7037 Lake View Dr,Denver,CO 80202,United States,TX-0052-68137,A
+V-0053,Oakmont Supply Group,7336 Harbour Rd,Singapore,018989,Singapore,TX-0053-42836,C
+V-0054,Crescent Logistics LLC,5209 Harbour Rd,Denver,CO 80202,United States,TX-0054-19609,A
+V-0055,Silverline Analytics Group,7575 Market St,Singapore,048616,Singapore,TX-0055-46775,C
+V-0056,Oakmont Services LLC,748 Commerce Dr,Austin,TX 78701,United States,TX-0056-21648,E
+V-0057,Lighthouse Supply Ltd.,5023 Park Ave,Raleigh,NC 27601,United States,TX-0057-94723,A
+V-0058,Brightpath Logistics Inc.,2309 Enterprise Pkwy,Manchester,M1 1AE,United Kingdom,TX-0058-42609,E
+V-0059,Pioneer Solutions Group,922 Market St,Chicago,IL 60601,United States,TX-0059-74622,A
+V-0060,Clearview Solutions LLC,7175 Park Ave,Atlanta,GA 30303,United States,TX-0060-58175,C
+V-0061,Copperfield Services Inc.,8499 Enterprise Pkwy,Raleigh,NC 27601,United States,TX-0061-83099,C
+V-0062,Juniper Resources Ltd.,832 King St,Austin,TX 78701,United States,TX-0062-17232,B
+V-0063,Copperfield Systems Inc.,4662 Innovation Blvd,Chicago,IL 60601,United States,TX-0063-67062,E
+V-0064,Summit Consulting Inc.,7665 Market St,Calgary,AB T2P 1J9,Canada,TX-0064-39165,B
+V-0065,Stonebridge Networks Inc.,4203 Market St,Raleigh,NC 27601,United States,TX-0065-32403,C
+V-0066,Stonebridge Networks Ltd.,1724 Enterprise Pkwy,Austin,TX 78701,United States,TX-0066-17224,A
+V-0067,Beacon Operations Ltd.,3394 Station Rd,Chicago,IL 60601,United States,TX-0067-45894,B
+V-0068,Redwood Technologies Inc.,1981 Harbour Rd,Toronto,ON M5H 2N2,Canada,TX-0068-22381,C
+V-0069,Atlas Logistics Inc.,7237 Lake View Dr,Denver,CO 80202,United States,TX-0069-10137,B
+V-0070,Beacon Services LLC,6471 Market St,Atlanta,GA 30303,United States,TX-0070-80671,A
+V-0071,Summit Services LLC,2113 Innovation Blvd,Seattle,WA 98101,United States,TX-0071-54213,C
+V-0072,Silverline Systems LLC,7204 Station Rd,Singapore,018989,Singapore,TX-0072-14104,A
+V-0073,Pioneer Partners Ltd.,2345 Station Rd,Denver,CO 80202,United States,TX-0073-32545,B
+V-0074,Harbor Analytics Ltd.,7032 Market St,Phoenix,AZ 85004,United States,TX-0074-79332,C
+V-0075,Evergreen Digital Group,7492 Market St,Phoenix,AZ 85004,United States,TX-0075-26492,E
+V-0076,Summit Systems LLC,6338 Enterprise Pkwy,Galway,H91 E2K7,Ireland,TX-0076-41538,D
+V-0077,Cobalt Operations LLC,2928 Innovation Blvd,Austin,TX 78701,United States,TX-0077-86128,B
+V-0078,Crescent Networks Ltd.,7821 Lake View Dr,Denver,CO 80202,United States,TX-0078-49721,C
+V-0079,Brightpath Technologies LLC,4917 Industrial Way,Denver,CO 80202,United States,TX-0079-81417,E
+V-0080,Juniper Resources Inc.,1911 Harbour Rd,Galway,H91 E2K7,Ireland,TX-0080-26211,D
+V-0081,Silverline Supply Group,3470 Station Rd,Columbus,OH 43215,United States,TX-0081-73770,C
+V-0082,Cobalt Partners Ltd.,3809 Industrial Way,Seattle,WA 98101,United States,TX-0082-48109,C
+V-0083,Pioneer Services Group,389 Industrial Way,Seattle,WA 98101,United States,TX-0083-82789,B
+V-0084,Redwood Supply LLC,8745 Harbour Rd,Berlin,10115,Germany,TX-0084-70345,D
+V-0085,Silverline Analytics Inc.,4300 Harbour Rd,Austin,TX 78701,United States,TX-0085-56800,B
+V-0086,Lighthouse Technologies LLC,6853 King St,Seattle,WA 98101,United States,TX-0086-70653,B
+V-0087,Atlas Digital Ltd.,5838 Industrial Way,Hamburg,20095,Germany,TX-0087-76038,D
+V-0088,Atlas Systems Group,7873 Park Ave,Denver,CO 80202,United States,TX-0088-45873,A
+V-0089,Atlas Supply LLC,1361 Station Rd,Calgary,AB T2P 1J9,Canada,TX-0089-88461,E
+V-0090,Copperfield Advisors Ltd.,3910 Innovation Blvd,Chicago,IL 60601,United States,TX-0090-82710,B
+V-0091,Summit Resources Ltd.,8295 Station Rd,Singapore,048616,Singapore,TX-0091-39995,B
+V-0092,Summit Resources Group,1272 Industrial Way,Austin,TX 78701,United States,TX-0092-15472,A
+V-0093,Clearview Systems Inc.,7568 Commerce Dr,Austin,TX 78701,United States,TX-0093-95568,B
+V-0094,Copperfield Systems Group,5596 King St,Pune,411001,India,TX-0094-30896,A
+V-0095,Crescent Supply Ltd.,6383 Station Rd,Raleigh,NC 27601,United States,TX-0095-51083,A
+V-0096,Copperfield Systems Group,8676 Harbour Rd,Vancouver,BC V6B 1A1,Canada,TX-0096-18776,A
+V-0097,Clearview Analytics Ltd.,2411 Harbour Rd,Manchester,M1 1AE,United Kingdom,TX-0097-36111,A
+V-0098,Cobalt Partners Group,2882 King St,Columbus,OH 43215,United States,TX-0098-91882,B
+V-0099,Copperfield Networks Ltd.,6762 Lake View Dr,Columbus,OH 43215,United States,TX-0099-76362,E
+V-0100,Summit Logistics Inc.,7710 Commerce Dr,Chicago,IL 60601,United States,TX-0100-21510,E
+V-0101,Juniper Technologies LLC,7129 Enterprise Pkwy,Berlin,10115,Germany,TX-0101-51229,D
+V-0102,Blue Ridge Analytics Inc.,305 Park Ave,Munich,80331,Germany,TX-0102-39905,D
+V-0103,Silverline Services Group,5809 Commerce Dr,Denver,CO 80202,United States,TX-0103-92209,C
+V-0104,Oakmont Operations Group,8314 Park Ave,Chicago,IL 60601,United States,TX-0104-57614,C
+V-0105,Ironwood Analytics Inc.,1101 Market St,Seattle,WA 98101,United States,TX-0105-55701,C
+V-0106,Oakmont Analytics Inc.,1895 Commerce Dr,Atlanta,GA 30303,United States,TX-0106-56495,A
+V-0107,Silverline Advisors Inc.,3949 Lake View Dr,Seattle,WA 98101,United States,TX-0107-50949,C
+V-0108,Summit Supply Ltd.,8958 Harbour Rd,Toronto,ON M5H 2N2,Canada,TX-0108-54358,C
+V-0109,Blue Ridge Analytics LLC,6149 Industrial Way,Denver,CO 80202,United States,TX-0109-51449,A
+V-0110,Ironwood Networks Ltd.,7737 King St,Hyderabad,500081,India,TX-0110-54537,E
+V-0111,Brightpath Solutions Inc.,5723 Enterprise Pkwy,Raleigh,NC 27601,United States,TX-0111-16923,B
+V-0112,Crescent Systems Group,6988 King St,Phoenix,AZ 85004,United States,TX-0112-59988,C
+V-0113,Stonebridge Logistics Inc.,2591 Harbour Rd,Galway,H91 E2K7,Ireland,TX-0113-54591,D
+V-0114,Beacon Logistics Group,5429 Station Rd,Seattle,WA 98101,United States,TX-0114-88629,A
+V-0115,Ironwood Services Group,8208 King St,Galway,H91 E2K7,Ireland,TX-0115-48708,D
+V-0116,Juniper Supply LLC,5988 Enterprise Pkwy,Austin,TX 78701,United States,TX-0116-23088,C
+V-0117,Atlas Consulting LLC,5187 Commerce Dr,Toronto,ON M5H 2N2,Canada,TX-0117-90487,C
+V-0118,Stonebridge Logistics Ltd.,5746 Park Ave,Chicago,IL 60601,United States,TX-0118-10046,C
+V-0119,Evergreen Systems Group,3534 Enterprise Pkwy,Chicago,IL 60601,United States,TX-0119-27534,E
+V-0120,Oakmont Advisors Group,1627 King St,Calgary,AB T2P 1J9,Canada,TX-0120-96327,C
+V-0121,Cobalt Systems Inc.,4555 Harbour Rd,Atlanta,GA 30303,United States,TX-0121-33255,E
+V-0122,Summit Operations Ltd.,533 Enterprise Pkwy,Seattle,WA 98101,United States,TX-0122-68733,C
+V-0123,Oakmont Analytics Ltd.,5477 King St,Denver,CO 80202,United States,TX-0123-99977,E
+V-0124,Brightpath Systems Ltd.,2957 Lake View Dr,Calgary,AB T2P 1J9,Canada,TX-0124-51957,A
+V-0125,Brightpath Resources Ltd.,7798 Lake View Dr,Galway,H91 E2K7,Ireland,TX-0125-42798,D
+V-0126,Blue Ridge Digital LLC,3694 King St,Chicago,IL 60601,United States,TX-0126-41894,C
+V-0127,Ironwood Solutions Inc.,6596 Market St,Phoenix,AZ 85004,United States,TX-0127-49996,A
+V-0128,Harbor Systems LLC,3485 Park Ave,Seattle,WA 98101,United States,TX-0128-19285,A
+V-0129,Blue Ridge Digital Ltd.,5542 Park Ave,Chicago,IL 60601,United States,TX-0129-39742,C
+V-0130,Harbor Technologies Ltd.,8569 Lake View Dr,Hamburg,20095,Germany,TX-0130-24969,D
+V-0131,Copperfield Systems LLC,408 Harbour Rd,Austin,TX 78701,United States,TX-0131-83608,A
+V-0132,Atlas Supply Group,5339 Enterprise Pkwy,Atlanta,GA 30303,United States,TX-0132-11639,A
+V-0133,Cobalt Partners Group,4376 King St,Austin,TX 78701,United States,TX-0133-30576,C
+V-0134,Atlas Resources Ltd.,8668 Harbour Rd,Phoenix,AZ 85004,United States,TX-0134-16068,E
+V-0135,Stonebridge Systems LLC,2199 Station Rd,Raleigh,NC 27601,United States,TX-0135-50499,B
+V-0136,Clearview Services Inc.,4286 Harbour Rd,Singapore,018989,Singapore,TX-0136-10386,A
+V-0137,Pioneer Consulting Ltd.,8991 Harbour Rd,Atlanta,GA 30303,United States,TX-0137-44191,A
+V-0138,Atlas Partners Group,7552 Station Rd,Dublin 2,D02 X285,Ireland,TX-0138-43552,D
+V-0139,Evergreen Systems Group,3322 Industrial Way,Chicago,IL 60601,United States,TX-0139-47222,B
+V-0140,Blue Ridge Operations Inc.,7585 Market St,Denver,CO 80202,United States,TX-0140-96185,C
