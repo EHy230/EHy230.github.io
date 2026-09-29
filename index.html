@@ -224,7 +224,7 @@
       <a class="btn" href="https://github.com/EHy230">GitHub</a>
     </div>
     <div class="facts">
-      <div class="fact"><b>8</b><span>projects</span></div>
+      <div class="fact"><b>7</b><span>projects</span></div>
       <div class="fact"><b>1,300+</b><span>weekly users of a system I co-founded</span></div>
     </div>
   </div>
@@ -879,36 +879,6 @@ BreakEven = AddedCost / NetRevenuePerVisit</pre>
 
     <article class="card wide">
       <div class="viz">
-        <p class="viz-title">Average error predicting Microsoft's next-day price (2026 test data)</p>
-        <p class="viz-sub">Mean absolute percentage error; lower is better</p>
-        <svg id="chart-stock" role="img" aria-label="Bar chart of error: version 1 LSTM on raw prices 2.43 percent; version 2 LSTM on returns 1.58 percent; baseline tomorrow equals today 1.57 percent."></svg>
-      </div>
-      <div class="card-body">
-        <div class="meta-row"><span class="kind">Machine learning</span><span>2025 &ndash; 2026</span></div>
-        <h3>Stock Price Forecasting with an LSTM</h3>
-        <p>An LSTM neural network in PyTorch that predicts Microsoft's next-day stock price. It was trained on 16 years of market data and tested on 182 trading days in 2026. Changing the model to predict daily returns instead of prices lowered the error by about a third. Its error is about the same as guessing that tomorrow's price equals today's.</p>
-        <div class="stats">
-          <div class="stat"><b>2.4% &rarr; 1.6%</b><span>average error, before and after the redesign</span></div>
-          <div class="stat"><b>8</b><span>engineered inputs, incl. RSI and market returns</span></div>
-          <div class="stat"><b>182</b><span>unseen 2026 trading days tested</span></div>
-          <div class="stat"><b>49.5%</b><span>up/down direction accuracy</span></div>
-        </div>
-        <div class="tags"><span class="tag">Python</span><span class="tag">PyTorch</span><span class="tag">Time series</span><span class="tag">Backtesting</span></div>
-        <details>
-          <summary>Details &amp; files</summary>
-          <ul>
-            <li>Split data by date (train 2010&ndash;2024, validate 2025, test 2026), fitted all scaling on training data only, and used early stopping to avoid overfitting.</li>
-            <li>Direction accuracy was 49.5%, compared with 48.9% for always guessing "up", so price history alone can't reliably predict daily direction.</li>
-          </ul>
-          <div class="files">
-            <a class="file" href="https://github.com/EHy230/msft-lstm-forecasting">Code, notebook and results <small>GitHub</small></a>
-          </div>
-        </details>
-      </div>
-    </article>
-
-    <article class="card wide">
-      <div class="viz">
         <p class="viz-title">Build photos</p>
         <p class="viz-sub">Use the arrows, swipe, or jump to a section</p>
         <div class="show" id="car-show">
@@ -1438,11 +1408,6 @@ BreakEven = AddedCost / NetRevenuePerVisit</pre>
     { label: 'Lighting', value: 985, fmt: '$985', tip: 'Light bar, pods, fog lights, headlights' },
     { label: 'Storage, camping & other', value: 929, fmt: '$929', tip: 'Roof rack, shelves, awning, ladder' }
   ], 4600);
-  hbars('chart-stock', [
-    { label: 'Version 1: LSTM on raw prices', value: 2.43, fmt: '2.43%', tip: '2.43% average error' },
-    { label: 'Version 2: LSTM on returns + features', value: 1.58, fmt: '1.58%', highlight: true, tip: '1.58% average error' },
-    { label: 'Baseline: tomorrow = today', value: 1.57, fmt: '1.57%', neutral: true, tip: '1.57%, a simple guess with no model' }
-  ], 2.8);
   }
 
   (function carShow() {
