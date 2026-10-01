@@ -180,6 +180,43 @@
   .pop li a::after { content: "\2192"; color: var(--muted); }
   .pop li a:hover { background: var(--accent-soft); color: var(--accent-ink); text-decoration: none; }
 
+
+  /* ---------- 4Runner scroll story ---------- */
+  .drive { grid-column: 1 / -1; position: relative; }
+  .dv-sticky { position: relative; }
+  .dv-stage { position: relative; border-radius: var(--radius); overflow: hidden; aspect-ratio: 16 / 9; background: #1b2230; }
+  .dv-shot { margin: 0; position: absolute; inset: 0; }
+  .dv-shot img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .dv-shot:not(.dv-hero), .dv-stat:not(:first-child) { display: none; }
+  .dv-scrim { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(10,14,22,0) 40%, rgba(10,14,22,.62) 100%); pointer-events: none; }
+  .dv-title, .dv-stat { position: absolute; left: clamp(20px, 5vw, 64px); bottom: clamp(20px, 6vh, 64px); right: 20px; color: #fff; }
+  .dv-title p { margin: 0 0 6px; font-size: 0.78rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; opacity: .85; }
+  .dv-title h3 { margin: 0 0 6px; font-family: "Inter Tight", Inter, sans-serif; font-weight: 800; font-size: clamp(2rem, 6vw, 4.4rem); letter-spacing: -0.04em; line-height: 1; }
+  .dv-title span { font-size: clamp(0.95rem, 1.6vw, 1.2rem); opacity: .9; }
+  .dv-stats { display: none; }
+  .dv-stat b { display: block; font-family: "Inter Tight", Inter, sans-serif; font-weight: 800; font-size: clamp(3rem, 10vw, 7.5rem); letter-spacing: -0.045em; line-height: 0.95; }
+  .dv-stat span { display: block; max-width: 520px; font-size: clamp(1rem, 2vw, 1.45rem); font-weight: 500; opacity: .92; margin-top: 8px; }
+  .dv-strip { padding: 28px 0 4px; }
+  .dv-strip h3 { margin: 0 0 14px; font-family: "Inter Tight", Inter, sans-serif; font-size: 1.3rem; letter-spacing: -0.02em; }
+  .dv-track { display: flex; gap: 14px; overflow-x: auto; scroll-snap-type: x mandatory; padding-bottom: 8px; }
+  .dv-track img { height: 220px; width: auto; aspect-ratio: 3 / 2; object-fit: cover; border-radius: 14px; scroll-snap-align: start; flex: none; }
+
+  /* live, pinned version */
+  .drive.dv-live { height: 560vh; width: 100vw; margin-left: calc(50% - 50vw); margin-top: -10px; }
+  .dv-live .dv-sticky { position: sticky; top: 0; height: 100vh; height: 100svh; overflow: hidden; }
+  .dv-live .dv-stage { position: absolute; inset: 0; aspect-ratio: auto; border-radius: 0; will-change: clip-path; }
+  .dv-live .dv-shot { opacity: 0; display: block; will-change: opacity; }
+  .dv-live .dv-shot img { will-change: transform; }
+  .dv-live .dv-hero { opacity: 1; }
+  .dv-live .dv-stats { display: block; }
+  .dv-live .dv-stat { display: block; opacity: 0; bottom: clamp(32px, 10vh, 110px); }
+  .dv-live .dv-title { opacity: 0; bottom: clamp(32px, 10vh, 110px); }
+  .dv-live .dv-scrim { background: linear-gradient(180deg, rgba(10,14,22,.08) 30%, rgba(10,14,22,.66) 100%); }
+  .dv-live .dv-strip { position: absolute; inset: 0; padding: 0; display: flex; flex-direction: column; justify-content: center; background: var(--bg); opacity: 0; visibility: hidden; }
+  .dv-live .dv-strip h3 { font-size: clamp(1.8rem, 4vw, 3rem); font-weight: 800; letter-spacing: -0.035em; margin: 0 0 clamp(16px, 4vh, 36px) clamp(20px, 5vw, 64px); }
+  .dv-live .dv-track { overflow: visible; padding: 0 clamp(20px, 5vw, 64px); width: max-content; will-change: transform; }
+  .dv-live .dv-track img { height: min(56vh, 62vw); border-radius: 20px; box-shadow: var(--shadow-lg); }
+
   /* ---------- about ---------- */
   .about { display: grid; grid-template-columns: 1.3fr 1fr; gap: 40px; }
   .about p { color: var(--text-2); margin: 0 0 14px; }
@@ -1053,6 +1090,41 @@ BreakEven = AddedCost / NetRevenuePerVisit</pre>
       </div>
     </article>
 
+    <div class="drive" id="drive" aria-label="2019 Toyota 4Runner photo story">
+      <div class="dv-sticky">
+        <div class="dv-stage">
+          <figure class="dv-shot dv-hero"><img src="images/drive/DSC01027-1920.webp" srcset="images/drive/DSC01027-960.webp 960w, images/drive/DSC01027-1920.webp 1920w" sizes="100vw" alt="My 4Runner parked on a beach" style="object-position:70% 60%" loading="lazy" decoding="async"></figure>
+          <figure class="dv-shot" data-i="0"><img src="images/drive/DSC01018-1920.webp" srcset="images/drive/DSC01018-960.webp 960w, images/drive/DSC01018-1920.webp 1920w" sizes="100vw" alt="" style="object-position:62% 55%" loading="lazy" decoding="async"></figure>
+          <figure class="dv-shot" data-i="1"><img src="images/drive/DSC00991-1920.webp" srcset="images/drive/DSC00991-960.webp 960w, images/drive/DSC00991-1920.webp 1920w" sizes="100vw" alt="" style="object-position:28% 60%" loading="lazy" decoding="async"></figure>
+          <figure class="dv-shot" data-i="2"><img src="images/drive/DSC00983-1920.webp" srcset="images/drive/DSC00983-960.webp 960w, images/drive/DSC00983-1920.webp 1920w" sizes="100vw" alt="" style="object-position:58% 60%" loading="lazy" decoding="async"></figure>
+          <figure class="dv-shot" data-i="3"><img src="images/drive/DSC00976-1920.webp" srcset="images/drive/DSC00976-960.webp 960w, images/drive/DSC00976-1920.webp 1920w" sizes="100vw" alt="" style="object-position:45% 60%" loading="lazy" decoding="async"></figure>
+          <div class="dv-scrim" aria-hidden="true"></div>
+          <div class="dv-title">
+            <p>Hands-on project</p>
+            <h3>2019 Toyota 4Runner</h3>
+            <span>Since May 2025 I've done most of the work on it myself.</span>
+          </div>
+          <div class="dv-stats">
+          <div class="dv-stat" data-i="0"><b>100</b><span>mods, from suspension and brakes to wiring and audio</span></div>
+          <div class="dv-stat" data-i="1"><b>$18.0K</b><span>spent on parts, every one tracked in a spreadsheet</span></div>
+          <div class="dv-stat" data-i="2"><b>~$20K</b><span>saved by buying used and doing all the work myself</span></div>
+          <div class="dv-stat" data-i="3"><b>~3,000</b><span>hours working on cars</span></div>
+          </div>
+        </div>
+        <div class="dv-strip">
+          <h3>Where it's been</h3>
+          <div class="dv-track">
+            <img src="images/drive/DSC00928-1200.webp" alt="" loading="lazy" decoding="async">
+            <img src="images/drive/DSC00968-1200.webp" alt="" loading="lazy" decoding="async">
+            <img src="images/drive/DSC00942-1200.webp" alt="" loading="lazy" decoding="async">
+            <img src="images/drive/DSC00887-1200.webp" alt="" loading="lazy" decoding="async">
+            <img src="images/drive/DSC01122-1200.webp" alt="" loading="lazy" decoding="async">
+            <img src="images/drive/DSC00858-1200.webp" alt="" loading="lazy" decoding="async">
+          </div>
+        </div>
+      </div>
+    </div>
+
     <article class="card wide" id="p-4runner" data-cat="hands">
       <div class="viz">
         <p class="viz-title">Build photos</p>
@@ -1892,6 +1964,53 @@ BreakEven = AddedCost / NetRevenuePerVisit</pre>
   document.addEventListener('click', e => { if (pop && !pop.contains(e.target)) closePop(); });
   document.addEventListener('keydown', e => { if (e.key === 'Escape') closePop(true); });
   addEventListener('resize', () => closePop());
+
+
+  /* 4Runner scroll story: photo grows to full screen, numbers step through, then a strip of trip photos pans sideways */
+  const dv = $('#drive');
+  if (dv && !RM && 'IntersectionObserver' in window) {
+    dv.classList.add('dv-live');
+    const stage = $('.dv-stage', dv), hero = $('.dv-hero img', dv), title = $('.dv-title', dv);
+    const shots = $$('.dv-shot[data-i]', dv), dstats = $$('.dv-stat', dv);
+    const strip = $('.dv-strip', dv), track = $('.dv-track', dv);
+    $$('img', dv).forEach(im => im.loading = 'eager');
+    const seg = (p, a, b) => Math.min(1, Math.max(0, (p - a) / (b - a)));
+    const ease = t => 1 - Math.pow(1 - t, 3);
+    const N = shots.length, S0 = 0.22, STEP = 0.11, END = S0 + N * STEP;
+    let ticking = false, active = false;
+    function frame() {
+      ticking = false;
+      const r = dv.getBoundingClientRect(), total = dv.offsetHeight - innerHeight;
+      const p = Math.min(1, Math.max(0, -r.top / total));
+      const e = ease(seg(p, 0, 0.16)), small = innerWidth < 700;
+      const iy = (small ? 10 : 12) * (1 - e), ix = (small ? 5 : 11) * (1 - e), rad = 28 * (1 - e);
+      stage.style.clipPath = `inset(${iy}% ${ix}% round ${rad}px)`;
+      hero.style.transform = `scale(${1.16 - 0.16 * e})`;
+      const tin = seg(p, 0.07, 0.15), tout = seg(p, 0.19, 0.23);
+      title.style.opacity = tin * (1 - tout);
+      title.style.transform = `translateY(${(1 - tin) * 24 - tout * 24}px)`;
+      shots.forEach((f, i) => {
+        const st = S0 + i * STEP, k = seg(p, st - 0.035, st + 0.01);
+        f.style.opacity = k;
+        f.firstElementChild.style.transform = `scale(${1.1 - 0.1 * seg(p, st - 0.035, st + STEP)})`;
+      });
+      dstats.forEach((d, i) => {
+        const st = S0 + i * STEP, a = seg(p, st - 0.005, st + 0.03), z = i < N - 1 ? seg(p, st + STEP - 0.03, st + STEP - 0.005) : seg(p, END + 0.01, END + 0.04);
+        d.style.opacity = a * (1 - z);
+        d.style.transform = `translateY(${(1 - a) * 36 - z * 36}px)`;
+      });
+      const sIn = seg(p, END + 0.02, END + 0.08);
+      strip.style.opacity = sIn; strip.style.visibility = sIn > 0 ? 'visible' : 'hidden';
+      stage.style.opacity = 1 - sIn * 0.999;
+      const dist = Math.max(0, track.scrollWidth - innerWidth);
+      track.style.transform = `translateX(${-dist * ease(seg(p, END + 0.08, 0.98))}px)`;
+    }
+    const req = () => { if (active && !ticking) { ticking = true; requestAnimationFrame(frame); } };
+    new IntersectionObserver(es => { active = es[0].isIntersecting; if (active) req(); }, { rootMargin: '200px 0px' }).observe(dv);
+    addEventListener('scroll', req, { passive: true });
+    addEventListener('resize', () => { active = true; req(); });
+    frame();
+  }
 
   /* copy email */
   $$('.copy').forEach(b => b.addEventListener('click', async () => {
