@@ -10,6 +10,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Inter+Tight:wght@600;700;800&display=swap" rel="stylesheet">
 <meta name="color-scheme" content="light">
 <meta name="theme-color" content="#f7f8fb">
+<script>document.documentElement.classList.add('js');</script>
 <style>
   :root {
     color-scheme: light;
@@ -103,6 +104,13 @@
   .hi-go { font-size: 0.75rem; color: var(--muted); display: inline-flex; align-items: center; gap: 6px; white-space: nowrap; }
   .hi-go::after { content: "\2192"; display: inline-grid; place-items: center; width: 24px; height: 24px; border-radius: 50%; background: var(--surface-2); color: var(--text-2); font-size: 0.8rem; transition: transform .25s var(--ease), background .2s, color .2s; }
   .hero-index a:hover .hi-go::after { transform: translateX(3px); background: var(--accent); color: #fff; }
+  .hi-list { position: relative; overflow: hidden; }
+  .js .hero-index.collapsed .hi-list { max-height: 158px; -webkit-mask-image: linear-gradient(180deg, #000 20%, rgba(0,0,0,.35) 62%, transparent 100%); mask-image: linear-gradient(180deg, #000 20%, rgba(0,0,0,.35) 62%, transparent 100%); }
+  .hi-toggle { display: none; align-items: center; justify-content: center; gap: 8px; width: 100%; margin-top: 6px; padding: 10px 12px; border: 0; border-radius: 12px; background: var(--surface-2); font: inherit; font-size: 0.86rem; font-weight: 600; color: var(--text); cursor: pointer; transition: background .2s, color .2s; }
+  .js .hi-toggle { display: flex; }
+  .hi-toggle:hover { background: var(--accent-soft); color: var(--accent-ink); }
+  .hi-toggle::after { content: ""; width: 6px; height: 6px; border-right: 2px solid currentColor; border-bottom: 2px solid currentColor; transform: translateY(-2px) rotate(45deg); transition: transform .25s var(--ease); }
+  .hi-toggle[aria-expanded="true"]::after { transform: translateY(2px) rotate(-135deg); }
   .hero-index li { opacity: 0; transform: translateY(8px); animation: rise .6s var(--ease) forwards; animation-delay: calc(0.25s + var(--i, 0) * 0.07s); }
 
   /* ---------- sections ---------- */
@@ -112,19 +120,9 @@
   .section-head .kicker { display: block; font-family: Inter, sans-serif; font-size: 0.78rem; font-weight: 600; letter-spacing: 0.09em; text-transform: uppercase; color: var(--accent); margin-bottom: 8px; }
   .section-head p { margin: 0; color: var(--muted); font-size: 0.92rem; }
 
-  .filters { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 24px; }
-  .filters button { font: inherit; font-size: 0.86rem; font-weight: 600; padding: 8px 14px; border-radius: 999px; border: 1px solid var(--border); background: var(--surface); color: var(--text-2); cursor: pointer; display: inline-flex; align-items: center; gap: 8px; transition: all .2s var(--ease); }
-  .filters button:hover { border-color: var(--border-2); color: var(--text); }
-  .filters button small { font-size: 0.72rem; font-weight: 700; color: var(--muted); background: var(--surface-2); border-radius: 999px; padding: 1px 7px; transition: inherit; }
-  .filters button[aria-pressed="true"] { background: var(--text); border-color: var(--text); color: #fff; box-shadow: 0 8px 18px -10px rgba(15,23,42,.6); }
-  .filters button[aria-pressed="true"] small { background: rgba(255,255,255,.18); color: #fff; }
-
   /* ---------- project cards ---------- */
   .projects { display: grid; grid-template-columns: 1fr 1fr; gap: 26px; }
   .card { position: relative; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow); display: flex; flex-direction: column; overflow: hidden; min-width: 0; transition: box-shadow .35s var(--ease), border-color .35s, transform .35s var(--ease), opacity .35s; }
-  .card::before { content: ""; position: absolute; inset: 0; pointer-events: none; z-index: 2; border-radius: inherit; opacity: 0; transition: opacity .3s; background: radial-gradient(520px circle at var(--mx, 50%) var(--my, 0%), rgba(37,99,235,.06), transparent 45%); }
-  .card:hover { box-shadow: var(--shadow-lg); border-color: var(--border-2); }
-  .card:hover::before { opacity: 1; }
   .card.wide, .card.solo { grid-column: 1 / -1; }
   .card.hidden { display: none; }
   .card.flash { animation: flash 1.6s var(--ease); }
@@ -141,8 +139,7 @@
   .card p { margin: 0 0 16px; color: var(--text-2); }
   .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin: 4px 0 18px; }
   .card.wide .stats { grid-template-columns: repeat(4, 1fr); }
-  .stat { background: var(--surface-2); border-radius: 12px; padding: 12px 14px; border: 1px solid transparent; transition: border-color .25s, background .25s, transform .25s var(--ease); }
-  .stat:hover { background: var(--accent-soft); border-color: var(--accent-line); transform: translateY(-2px); }
+  .stat { background: var(--surface-2); border-radius: 12px; padding: 12px 14px; border: 1px solid transparent; transition: border-color .2s, background .2s; position: relative; }
   .stat b { display: block; font-family: "Inter Tight", Inter, sans-serif; font-size: 1.32rem; font-weight: 700; color: var(--accent-ink); font-variant-numeric: tabular-nums; line-height: 1.25; letter-spacing: -0.015em; }
   .stat span { font-size: 0.78rem; color: var(--muted); line-height: 1.4; display: block; margin-top: 2px; }
   .tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 18px; }
@@ -164,21 +161,51 @@
   .file:hover { border-color: var(--accent-line); background: var(--accent-soft); color: var(--accent-ink); text-decoration: none; transform: translateY(-1px); }
   .file small { color: var(--muted); font-weight: 500; }
 
+  .has-info { cursor: pointer; }
+  .info-i { position: absolute; top: 9px; right: 9px; width: 17px; height: 17px; border-radius: 50%; border: 1.5px solid currentColor; color: var(--muted); font: italic 700 10px/14px Georgia, serif; text-align: center; opacity: .5; transition: opacity .2s, color .2s, background .2s; pointer-events: none; }
+  .skills .info-i { position: static; display: inline-block; vertical-align: -3px; margin-left: 6px; width: 15px; height: 15px; font-size: 9px; line-height: 12px; }
+  .has-info:hover .info-i, .has-info[aria-expanded="true"] .info-i { opacity: 1; color: var(--accent); }
+  .stat.has-info { padding-right: 30px; }
+  .stat.has-info:hover, .stat[aria-expanded="true"] { background: var(--accent-soft); border-color: var(--accent-line); }
+  .flow li.has-info:hover, .flow li[aria-expanded="true"] { border-color: var(--accent-line); background: #fbfcff; }
+  .pop { position: absolute; z-index: 40; width: min(340px, calc(100vw - 24px)); background: #fff; border: 1px solid var(--border); border-radius: 14px; box-shadow: var(--shadow-lg); padding: 14px 16px 15px; font-size: 0.88rem; line-height: 1.55; color: var(--text-2); opacity: 0; transform: translateY(4px) scale(.98); transition: opacity .18s, transform .18s var(--ease); }
+  .pop.is-open { opacity: 1; transform: none; }
+  .pop h5 { margin: 0 34px 2px 0; font-family: "Inter Tight", Inter, sans-serif; font-size: 1.05rem; color: var(--accent-ink); letter-spacing: -0.01em; }
+  .pop .sub { margin: 0 34px 8px 0; font-size: 0.78rem; color: var(--muted); }
+  .pop p { margin: 0; }
+  .pop .x { position: absolute; top: 9px; right: 9px; width: 26px; height: 26px; border-radius: 8px; border: 0; background: var(--surface-2); color: var(--text-2); font-size: 1rem; line-height: 1; cursor: pointer; }
+  .pop .x:hover { background: var(--text); color: #fff; }
+  .pop ul { list-style: none; margin: 6px -6px 0; padding: 0; }
+  .pop li a { display: flex; justify-content: space-between; gap: 10px; padding: 7px 8px; border-radius: 8px; color: var(--text); font-weight: 500; }
+  .pop li a::after { content: "\2192"; color: var(--muted); }
+  .pop li a:hover { background: var(--accent-soft); color: var(--accent-ink); text-decoration: none; }
+
   /* ---------- about ---------- */
   .about { display: grid; grid-template-columns: 1.3fr 1fr; gap: 40px; }
   .about p { color: var(--text-2); margin: 0 0 14px; }
   .about-card { align-self: start; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow); padding: 26px 26px 12px; }
   .about-card h3 { margin: 0 0 16px; font-size: 0.78rem; font-weight: 600; letter-spacing: 0.09em; text-transform: uppercase; color: var(--muted); font-family: Inter, sans-serif; }
   .timeline { list-style: none; margin: 0; padding: 0; }
-  .timeline li { padding: 0 0 18px 22px; border-left: 2px solid var(--surface-3); position: relative; }
-  .timeline li:last-child { border-left-color: transparent; }
-  .timeline li::before { content: ""; position: absolute; left: -7px; top: 5px; width: 12px; height: 12px; border-radius: 50%; background: var(--surface); border: 3px solid var(--accent); transition: transform .25s var(--ease), background .25s; }
-  .timeline li:hover::before { transform: scale(1.25); background: var(--accent); }
-  .timeline b { display: block; font-size: 0.95rem; line-height: 1.35; }
-  .timeline span { display: block; font-size: 0.84rem; color: var(--muted); }
+  .timeline > li { padding: 0 0 16px 22px; border-left: 2px solid var(--surface-3); position: relative; }
+  .timeline > li:last-child { border-left-color: transparent; padding-bottom: 6px; }
+  .timeline > li::before { content: ""; box-sizing: border-box; position: absolute; left: -7px; top: 6px; width: 12px; height: 12px; border-radius: 50%; background: var(--surface); border: 3px solid var(--accent); transition: background .2s; }
+  .timeline > li.open::before { background: var(--accent); }
+  .tl-head { display: block; width: 100%; text-align: left; background: none; border: 0; padding: 0 30px 0 0; margin: 0; font: inherit; color: inherit; cursor: pointer; position: relative; border-radius: 6px; }
+  .tl-head b { display: block; font-size: 0.95rem; line-height: 1.4; transition: color .2s; }
+  .tl-head span { display: block; font-size: 0.84rem; color: var(--muted); }
+  .tl-head::after { content: ""; position: absolute; right: 4px; top: 6px; width: 7px; height: 7px; border-right: 2px solid var(--muted); border-bottom: 2px solid var(--muted); transform: rotate(45deg); transition: transform .25s var(--ease), border-color .2s; }
+  .tl-head:hover b { color: var(--accent-ink); }
+  .tl-head:hover::after { border-color: var(--accent); }
+  .open > .tl-head::after { transform: translate(0, 4px) rotate(-135deg); border-color: var(--accent); }
+  .tl-body { overflow: hidden; font-size: 0.87rem; color: var(--text-2); }
+  .tl-body ul { margin: 8px 0 2px; padding-left: 18px; }
+  .tl-body li { margin-bottom: 4px; }
+  .tl-body li::marker { color: var(--accent); }
+  .tl-body p { margin: 8px 0 2px; }
   .skills { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; }
-  .skills span { font-size: 0.82rem; font-weight: 500; padding: 6px 12px; border-radius: 999px; border: 1px solid var(--border); background: var(--surface); transition: all .2s var(--ease); cursor: default; }
-  .skills span:hover { border-color: var(--accent-line); background: var(--accent-soft); color: var(--accent-ink); transform: translateY(-2px); }
+  .skills > span { font-size: 0.82rem; font-weight: 500; padding: 6px 12px; border-radius: 999px; border: 1px solid var(--border); background: var(--surface); transition: border-color .2s, background .2s, color .2s; }
+  .skills > span.has-info { padding-right: 9px; }
+  .skills > span.has-info:hover, .skills > span[aria-expanded="true"] { border-color: var(--accent-line); background: var(--accent-soft); color: var(--accent-ink); }
 
   .contact { position: relative; overflow: hidden; margin: 56px 0 0; padding: 44px 40px; border-radius: 24px; background: linear-gradient(135deg, #eef4ff 0%, #f3f0ff 55%, #fff4ee 100%); border: 1px solid var(--accent-line); display: flex; justify-content: space-between; align-items: center; gap: 24px; flex-wrap: wrap; }
   .contact::after { content: ""; position: absolute; right: -80px; top: -120px; width: 320px; height: 320px; border-radius: 50%; background: radial-gradient(circle, rgba(37,99,235,.16), transparent 70%); pointer-events: none; }
@@ -251,15 +278,13 @@
   .minis b { display: block; color: var(--accent-ink); font-size: 1.02rem; font-variant-numeric: tabular-nums; }
   .minis span { font-size: 0.72rem; color: var(--muted); }
   .flow { list-style: none; margin: 10px 0 8px; padding: 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: 28px; counter-reset: step; }
-  .flow li { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 14px 14px; position: relative; counter-increment: step; box-shadow: var(--shadow); transition: transform .3s var(--ease), border-color .3s, box-shadow .3s; }
-  .flow li:hover { transform: translateY(-3px); border-color: var(--accent-line); box-shadow: var(--shadow-lg); }
+  .flow li { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 14px 14px; position: relative; counter-increment: step; box-shadow: var(--shadow); transition: border-color .2s, background .2s; }
   .flow li::before { content: counter(step); display: inline-grid; place-items: center; width: 26px; height: 26px; border-radius: 8px; background: linear-gradient(135deg, var(--accent), #6d5efc); color: #fff; font-size: 0.78rem; font-weight: 700; margin-bottom: 8px; }
   .flow li:not(:last-child)::after { content: ""; position: absolute; right: -24px; top: 50%; width: 20px; height: 2px; background: linear-gradient(90deg, var(--accent-line), var(--accent)); transform: translateY(-50%); }
   .flow b { display: block; font-size: 0.9rem; color: var(--text); margin-bottom: 2px; }
   .flow span { display: block; font-size: 0.79rem; color: var(--muted); line-height: 1.45; }
   .js .flow.reveal li { opacity: 0; transform: translateY(10px); }
   .js .flow.reveal.in li { animation: rise .55s var(--ease) forwards; animation-delay: calc(var(--i, 0) * 0.14s); }
-  .js .flow.reveal.in li:hover { transform: translateY(-3px); }
   @media (max-width: 820px) { .flow { grid-template-columns: 1fr; gap: 22px; } .flow li:not(:last-child)::after { right: auto; left: 50%; top: auto; bottom: -16px; width: 2px; height: 12px; transform: translateX(-50%); background: var(--accent-line); } }
   .show { position: relative; }
   .show-chips { display: flex; flex-wrap: wrap; gap: 6px; margin: 4px 0 12px; }
@@ -361,8 +386,9 @@
       <div class="fact"><b>1,300+</b><span>weekly users of a system I co-founded</span></div>
     </div>
     </div>
-    <aside class="hero-index" aria-label="Project index">
+    <aside class="hero-index collapsed" aria-label="Project index">
       <div class="hi-head"><span>Project index</span><b>7 projects</b></div>
+      <div class="hi-list" id="hi-list">
       <ol>
         <li style="--i:0"><a href="#p-ap"><span class="hi-n">01</span><span class="hi-t"><b>Accounts Payable Invoice Automation</b><span>Finance operations &middot; Excel, Python, Tableau, AI</span></span><span class="hi-go">2026</span></a></li>
         <li style="--i:1"><a href="#p-et"><span class="hi-n">02</span><span class="hi-t"><b>Embedded Time Digital Pass System</b><span>Operations system</span></span><span class="hi-go">2025 &ndash; 2026</span></a></li>
@@ -372,6 +398,8 @@
         <li style="--i:5"><a href="#p-loan"><span class="hi-n">06</span><span class="hi-t"><b>Loan Application Outcome Forecast</b><span>Probability model</span></span><span class="hi-go">2026</span></a></li>
         <li style="--i:6"><a href="#p-4runner"><span class="hi-n">07</span><span class="hi-t"><b>2019 Toyota 4Runner Build</b><span>Hands-on project</span></span><span class="hi-go">May 2025 &ndash; Present</span></a></li>
       </ol>
+      </div>
+      <button type="button" class="hi-toggle" aria-expanded="false" aria-controls="hi-list">Show all 7 projects</button>
     </aside>
   </div>
 </header>
@@ -381,14 +409,7 @@
 <section id="projects">
   <div class="section-head">
     <div><span class="kicker">Selected work</span><h2>Projects</h2></div>
-    <p>Filter by area, or open "Details &amp; files" on a project to see more and download the models.</p>
-  </div>
-  <div class="filters" role="group" aria-label="Filter projects">
-    <button type="button" data-f="all" aria-pressed="true">All <small>7</small></button>
-    <button type="button" data-f="finance" aria-pressed="false">Finance <small></small></button>
-    <button type="button" data-f="ops" aria-pressed="false">Operations <small></small></button>
-    <button type="button" data-f="ml" aria-pressed="false">Forecasting &amp; ML <small></small></button>
-    <button type="button" data-f="hands" aria-pressed="false">Hands-on <small></small></button>
+    <p>Click a number to see where it comes from, or open "Details &amp; files" to download the models.</p>
   </div>
 
   <div class="projects">
@@ -404,10 +425,10 @@
         <h3>Accounts Payable Invoice Automation</h3>
         <p>Before a company pays a supplier, its accounts payable (AP) team checks the invoice. Is there a purchase order? Does the amount match? Was it already paid? I built this process in four parts for 5,000 synthetic invoices from 140 vendors. Part 1 sets up the checks in Excel. Part 2 uses Python to predict which invoices need a manual review and how many reviewers the team needs. Part 3 is a <a href="https://public.tableau.com/app/profile/eisen.hy/viz/AP_Finance_Operations_AI_Dashboard_Eisen_Hy_Final/APAIOperationsDashboard">Tableau dashboard</a> for managers. Part 4 uses Claude, an AI model, to read the invoice PDFs, so clean invoices get approved without anyone typing them in.</p>
         <div class="stats">
-          <div class="stat"><b>5,000</b><span>invoices ($90.7M) run through 8 checks</span></div>
-          <div class="stat"><b>2</b><span>reviewers finish 96% of reviews within 8 business hours</span></div>
-          <div class="stat"><b>70%</b><span>of invoices approved with no one touching them</span></div>
-          <div class="stat"><b>97.8%</b><span>of invoice PDFs read correctly by Claude, for $3.98 total</span></div>
+          <div class="stat" data-info="A synthetic data set of 5,000 invoices worth $90.7M from 140 vendors, with 2,400 purchase orders and exchange rates for 6 currencies. Every invoice goes through the Part 1 checks in Excel."><b>5,000</b><span>invoices ($90.7M) run through 8 checks</span></div>
+          <div class="stat" data-info="From the Part 2 queue simulation with 1 to 4 reviewers. With 2 reviewers, 95.5% of manual reviews finish within 8 business hours first in, first out, and 96.1% when the highest-risk invoices go first. One reviewer only reaches 65 to 77%."><b>2</b><span>reviewers finish 96% of reviews within 8 business hours</span></div>
+          <div class="stat" data-info="In Part 4, invoices that Claude read correctly and that passed every check were approved automatically: 70.4% of test invoices, up from 0%. The most possible with perfect reading is 71.2%. Average approval time drops from 4.7 days to 2.5."><b>70%</b><span>of invoices approved with no one touching them</span></div>
+          <div class="stat" data-info="Claude read 836 invoice PDFs, including 128 scans, and got every field right on all but 18 (97.8%). It cost $3.98 in total, about half a cent per invoice. 12 of the 18 mistakes were caught by data checks before approval."><b>97.8%</b><span>of invoice PDFs read correctly by Claude, for $3.98 total</span></div>
         </div>
         <div class="method-wrap" id="ap-method">
           <h4>How it was built</h4>
@@ -648,10 +669,10 @@
         <p class="viz-title">How a pass moves through the system</p>
         <p class="viz-sub">Built on Google Forms, Sheets, Gmail and Drive, automated with Apps Script</p>
         <ol class="flow" aria-label="Process flow: student request, routed to the right teacher, teacher approval, then automatic tracking and alerts.">
-          <li><b>Request</b><span>A student submits a pass request for the work period</span></li>
-          <li><b>Routing</b><span>The request goes automatically to the right teachers</span></li>
-          <li><b>Approval</b><span>Teachers approve or deny it, and some requests are approved automatically</span></li>
-          <li><b>Tracking &amp; alerts</b><span>Every pass is logged and teachers get automatic alerts</span></li>
+          <li data-info="The student fills out a Google Form and picks their homeroom teacher, the teacher they want to visit and the reason. The form only accepts responses on Embedded Time days and times."><b>Request</b><span>A student submits a pass request for the work period</span></li>
+          <li data-info="Duplicate requests are rejected. If the teacher uses automatic mode, students are accepted until the room reaches its limit. If the teacher is marked absent, the request is rejected. Otherwise it goes to the teacher as pending."><b>Routing</b><span>The request goes automatically to the right teachers</span></li>
+          <li data-info="Each teacher approves or rejects requests from the Incoming tab of their own Google Sheet. A custom menu lets them mark absences and save settings like automatic mode and the room limit."><b>Approval</b><span>Teachers approve or deny it, and some requests are approved automatically</span></li>
+          <li data-info="Students get an email when a pass is approved or rejected. Approved students show up on their homeroom teacher&#x27;s Outgoing tab. Teacher sheets clear every afternoon and each day is saved to a history tab."><b>Tracking &amp; alerts</b><span>Every pass is logged and teachers get automatic alerts</span></li>
         </ol>
       </div>
       <div class="card-body">
@@ -659,10 +680,10 @@
         <h3>Embedded Time Digital Pass System</h3>
         <p>Embedded Time is a school-wide work period that my high school has run since 2019. I co-founded the digital pass system the school uses to manage it. The system runs on its own without errors, even though I'm no longer at the school. The school plans to keep using it for about the next 10 years, or for as long as Embedded Time continues.</p>
         <div class="stats">
-          <div class="stat"><b>1,300+</b><span>students using it</span></div>
-          <div class="stat"><b>1,300+</b><span>pass requests handled each week</span></div>
-          <div class="stat"><b>60+</b><span>teachers trained and using it</span></div>
-          <div class="stat"><b>~2 hrs</b><span>saved per teacher each week (about 120 hours school-wide)</span></div>
+          <div class="stat" data-info="Students use a Google Form to request a pass for Embedded Time, the school-wide work period, choosing the teacher they want to visit and the reason."><b>1,300+</b><span>students using it</span></div>
+          <div class="stat" data-info="Each request is routed automatically. Duplicate requests are rejected, teachers in automatic mode accept students until the room is full, and requests to absent teachers are rejected. Students get an email with the result."><b>1,300+</b><span>pass requests handled each week</span></div>
+          <div class="stat" data-info="Each teacher has a Google Sheet with an Incoming tab for students coming in and an Outgoing tab for their own students who are leaving, plus a menu to approve requests, mark absences and change settings."><b>60+</b><span>teachers trained and using it</span></div>
+          <div class="stat" data-info="Teachers no longer handle paper passes. Approvals, alerts and the daily reset happen on their own, saving about 2 hours per teacher each week, or about 120 hours across the school."><b>~2 hrs</b><span>saved per teacher each week (about 120 hours school-wide)</span></div>
         </div>
         <div class="tags"><span class="tag">Process design</span><span class="tag">Automation</span><span class="tag">Google Apps Script</span><span class="tag">Stakeholder management</span></div>
         <details>
@@ -690,10 +711,10 @@
         <h3>Disney Parks Industrial Engineering Case Study</h3>
         <p>A case study from Walt Disney Parks &amp; Resorts' industrial engineering team (Fall 2026), done with Aarnav Bhat and Justin Llamera. The festival runs for four fall weekends and has 120 booth spaces for food, merchandise and activities. The case asked three questions: How many guests will come? How many booths of each type are needed? How should the festival grow? We forecast about 68,000 visits, picked a booth mix that keeps lines short, and recommended staying open 12 hours a day instead of 10.</p>
         <div class="stats">
-          <div class="stat"><b>68,000</b><span>visits forecast for 2026 (+21%)</span></div>
-          <div class="stat"><b>45 / 21 / 27</b><span>food, merchandise and activity booths</span></div>
-          <div class="stat"><b>~6 min</b><span>longest wait on the busiest day</span></div>
-          <div class="stat"><b>$55K</b><span>yearly gain from 12-hour days</span></div>
+          <div class="stat" data-info="The average of 5 trend models gives 57,787 visits. Adding 2026 factors (marketing, the anniversary, new markets and a concert) brings it to about 68,000. A 1,000-run Monte Carlo simulation gives a planning range of 66,300 to 70,300."><b>68,000</b><span>visits forecast for 2026 (+21%)</span></div>
+          <div class="stat" data-info="A queueing model found the fewest booths needed at peak (41 / 14 / 23), and then all ~900 possible mixes were checked. 45 / 21 / 27 fills all 120 spaces, since activity booths take 2 spaces each, and brings in about $394,000 in vendor sales per day."><b>45 / 21 / 27</b><span>food, merchandise and activity booths</span></div>
+          <div class="stat" data-info="Expected wait at the peak hour with the recommended mix: about 6.1 minutes for activities, 4.8 for food and 1.7 for merchandise."><b>~6 min</b><span>longest wait on the busiest day</span></div>
+          <div class="stat" data-info="Staying open 12 hours a day adds about $87.2K in revenue for $32.0K in cost, a net gain of $55.2K a year. It had a positive 5-year NPV in every demand scenario and ranked first under all 5 weight sets."><b>$55K</b><span>yearly gain from 12-hour days</span></div>
         </div>
         <div class="method-wrap" id="disney-method">
           <h4>Excel models</h4>
@@ -949,9 +970,9 @@ BreakEven = AddedCost / NetRevenuePerVisit</pre>
         <h3>Salesforce Forecast &amp; Scenario Model</h3>
         <p>A forecast of Salesforce's revenue, profit and cash flow through fiscal 2029, with downside, base and upside cases. I also built an <a href="https://public.tableau.com/app/profile/eisen.hy/viz/SalesforceFPAScenarioDashboardEisenHy/SalesforceFPADashboard">interactive Tableau dashboard</a> from the model.</p>
         <div class="stats">
-          <div class="stat"><b>$53.3B</b><span>base-case revenue</span></div>
-          <div class="stat"><b>26.6%</b><span>base operating margin</span></div>
-          <div class="stat"><b>37.5%</b><span>base free cash flow margin</span></div>
+          <div class="stat" data-info="Forecast FY2029 revenue in the base case, which assumes 8% growth. The downside case (3% growth) gives $46.7B and the upside case (10% growth) gives $56.8B."><b>$53.3B</b><span>base-case revenue</span></div>
+          <div class="stat" data-info="Operating income as a share of revenue in FY2029 in the base case."><b>26.6%</b><span>base operating margin</span></div>
+          <div class="stat" data-info="Free cash flow as a share of revenue in FY2029 in the base case. The &quot;Rule of 40&quot; (growth plus margin) ranges from 31% in the downside case to 51% in the upside case."><b>37.5%</b><span>base free cash flow margin</span></div>
         </div>
         <div class="tags"><span class="tag">FP&amp;A</span><span class="tag">Scenario analysis</span><span class="tag">Excel</span><span class="tag">Tableau</span></div>
         <details>
@@ -981,9 +1002,9 @@ BreakEven = AddedCost / NetRevenuePerVisit</pre>
         <h3>Cimpress (Vistaprint) DCF Valuation</h3>
         <p>A discounted cash flow valuation of Vistaprint's parent company, forecasting each of its five business segments through fiscal 2030.</p>
         <div class="stats">
-          <div class="stat"><b>$117</b><span>implied value per share (vs. ~$92)</span></div>
-          <div class="stat"><b>10.3%</b><span>discount rate (WACC)</span></div>
-          <div class="stat"><b>$4.4B</b><span>implied enterprise value</span></div>
+          <div class="stat" data-info="The model gives an implied equity value of about $3.0B, or about $117 per share. The share price used in the model was about $92."><b>$117</b><span>implied value per share (vs. ~$92)</span></div>
+          <div class="stat" data-info="The weighted average cost of capital, built from the risk-free rate, the company&#x27;s beta, its cost of debt and its debt/equity mix."><b>10.3%</b><span>discount rate (WACC)</span></div>
+          <div class="stat" data-info="Forecast cash flows for each of the five business segments through fiscal 2030, plus a terminal value at a 6.7× EV/EBITDA exit multiple from six peers, including Deluxe, Pitney Bowes and 4imprint."><b>$4.4B</b><span>implied enterprise value</span></div>
         </div>
         <div class="tags"><span class="tag">DCF</span><span class="tag">Comparable companies</span><span class="tag">Excel</span></div>
         <details>
@@ -1012,10 +1033,10 @@ BreakEven = AddedCost / NetRevenuePerVisit</pre>
         <h3>Loan Application Outcome Forecast (Absorbing Markov Chain)</h3>
         <p>Models how bank loan applications move through 7 review steps until they are approved, denied or cancelled. It uses 154,152 status changes from the public BPI Challenge 2017 dataset. I trained it on January&ndash;September 2016 data and tested it on applications from October&ndash;December.</p>
         <div class="stats">
-          <div class="stat"><b>154K</b><span>status changes used to train the model</span></div>
-          <div class="stat"><b>3,167</b><span>expected approvals from 5,049 open applications ($59.8M)</span></div>
-          <div class="stat"><b>within 6%</b><span>accuracy for applications already in review</span></div>
-          <div class="stat"><b>63% vs. 46%</b><span>predicted vs. actual approval rate overall</span></div>
+          <div class="stat" data-info="Every status change in the public BPI Challenge 2017 dataset from January to September 2016 (154,152 in total) was used to build the transition matrix."><b>154K</b><span>status changes used to train the model</span></div>
+          <div class="stat" data-info="Solving the absorbing Markov chain gives each open application&#x27;s chance of being approved. Adding those up over 5,049 open applications ($59.8M) gives 3,167 expected approvals."><b>3,167</b><span>expected approvals from 5,049 open applications ($59.8M)</span></div>
+          <div class="stat" data-info="In the backtest, predictions for applications already in validation were within about 6% of what actually happened."><b>within 6%</b><span>accuracy for applications already in review</span></div>
+          <div class="stat" data-info="Backtest on 4,951 applications still open 14 days after they were created. Most of the gap came from the &quot;Complete&quot; step, where the model predicted 1,825 approvals and 975 happened, because a Markov chain does not account for how long an application has been waiting."><b>63% vs. 46%</b><span>predicted vs. actual approval rate overall</span></div>
         </div>
         <div class="tags"><span class="tag">Markov chains</span><span class="tag">Probability</span><span class="tag">Backtesting</span><span class="tag">Excel</span></div>
         <details>
@@ -1053,10 +1074,10 @@ BreakEven = AddedCost / NetRevenuePerVisit</pre>
         <h3>2019 Toyota 4Runner Build</h3>
         <p>Since May 2025 I've done most of the work on my 4Runner myself: suspension, exhaust, brakes, skid plates, roof rack, accessories and audio, most of which needed custom wiring, cutting or welding. I've also fixed a transmission leak and a faulty catalytic converter Y-pipe. I buy most of my parts secondhand, so they often arrive worn or missing pieces, and I make my own brackets and mounts to get them on the truck. That's how I rebuilt my rusty roof rack, and I made my own light bar mounts because no bracket sold online fit my roof rack and light bar.</p>
         <div class="stats">
-          <div class="stat"><b>$18.0K</b><span>spent on parts across 100 mods</span></div>
-          <div class="stat"><b>~$20K</b><span>saved by buying used and doing all the work myself</span></div>
-          <div class="stat"><b>$6.3K</b><span>of that saved by paying under list price for parts</span></div>
-          <div class="stat"><b>~3,000</b><span>hours working on cars</span></div>
+          <div class="stat" data-info="From the spreadsheet where I track every part and maintenance item. About $2.4K more went to maintenance. The chart below breaks the parts spending down by category."><b>$18.0K</b><span>spent on parts across 100 mods</span></div>
+          <div class="stat" data-info="$6.3K from paying less than list price for parts, plus about $14K in labor: roughly 105 hours of shop work at the 2026 U.S. average shop rate of $132 an hour. Jobs I paid a shop for are not included."><b>~$20K</b><span>saved by buying used and doing all the work myself</span></div>
+          <div class="stat" data-info="Compares what I paid with each part&#x27;s list price. Several parts cost me nothing because I sold my old parts to pay for them."><b>$6.3K</b><span>of that saved by paying under list price for parts</span></div>
+          <div class="stat" data-info="Total time working on cars, including learning how to do each job, sourcing parts and working around missing parts and brackets, plus work on other people&#x27;s cars."><b>~3,000</b><span>hours working on cars</span></div>
         </div>
         <div class="chartbox" style="background:var(--surface-2);border-radius:12px;padding:14px 16px 8px;margin:0 0 16px;position:relative">
           <p class="viz-title">Parts spending by category</p>
@@ -1091,18 +1112,18 @@ BreakEven = AddedCost / NetRevenuePerVisit</pre>
       <p>Outside class I'm a consulting analyst for IISE Berkeley on a project with BART, and a research apprentice at Rapid Reviews\Infectious Diseases (UC Berkeley / MIT Press). In high school I co-founded a digital pass system that handles 1,300+ requests a week.</p>
       <p>I also work on cars. I've rebuilt my 2019 Toyota 4Runner myself, including welding, suspension and wiring, and I repair other people's cars. I was captain of my varsity golf team. I also play violin: I was president of Bridge-of-Music, a club of 30 student musicians that performed at hospitals, nursing homes and festivals, and I was concertmaster and student conductor of my high school orchestra.</p>
       <div class="skills">
-        <span>Excel &amp; Google Sheets</span><span>Tableau</span><span>Financial modeling</span><span>Forecasting</span><span>Queueing &amp; optimization</span><span>Python</span><span>scikit-learn</span><span>PyTorch</span><span>Claude API</span><span>Google Apps Script</span><span>JavaScript</span>
+        <span data-projects="p-ap p-et p-disney p-salesforce p-cimpress p-loan p-4runner">Excel &amp; Google Sheets</span><span data-projects="p-ap p-salesforce">Tableau</span><span data-projects="p-salesforce p-cimpress p-disney">Financial modeling</span><span data-projects="p-disney p-salesforce p-cimpress p-loan">Forecasting</span><span data-projects="p-ap p-disney">Queueing &amp; optimization</span><span data-projects="p-ap">Python</span><span data-projects="p-ap">scikit-learn</span><span>PyTorch</span><span data-projects="p-ap">Claude API</span><span data-projects="p-et">Google Apps Script</span><span>JavaScript</span>
       </div>
     </div>
     <div class="about-card">
     <h3>Timeline</h3>
     <ul class="timeline">
-      <li><b>Consulting Analyst, IISE Berkeley</b><span>Client: BART &middot; Sept. 2026 &ndash; Present</span></li>
-      <li><b>Research Apprentice, RR\ID</b><span>UC Berkeley / MIT Press &middot; Sept. 2026 &ndash; Present</span></li>
-      <li><b>B.S. IEOR, UC Berkeley</b><span>Expected May 2029</span></li>
-      <li><b>Co-Founder, Embedded Time System</b><span>Gabrielino High School &middot; 2025 &ndash; 2026</span></li>
-      <li><b>President, Bridge-of-Music Club</b><span>30 musicians &middot; 30+ community performances &middot; 2022 &ndash; 2026</span></li>
-      <li><b>Varsity Golf Captain</b><span>2024 CIF champions &middot; 2023 &ndash; 2026</span></li>
+      <li><button type="button" class="tl-head" aria-expanded="false" aria-controls="tl-0"><b>Consulting Analyst, IISE Berkeley</b><span>Client: BART &middot; Sept. 2026 &ndash; Present</span></button><div class="tl-body" id="tl-0" hidden><ul><li>Measuring what staff learned and applied from BART's Lean 101 training, and the value it creates</li><li>Building a tool to log, score and rank staff-reported operational problems, with dashboard views of project status for managers</li><li>Interviewing BART staff with the ADKAR change management framework to document success stories</li></ul></div></li>
+      <li><button type="button" class="tl-head" aria-expanded="false" aria-controls="tl-1"><b>Research Apprentice, RR\ID</b><span>UC Berkeley / MIT Press &middot; Sept. 2026 &ndash; Present</span></button><div class="tl-body" id="tl-1" hidden><ul><li>Read 50+ infectious-disease preprints and matched each with expert reviewers suited to its methods and data</li><li>Pitched a public health modeling preprint to the global editorial team, including its key limitations</li></ul></div></li>
+      <li><button type="button" class="tl-head" aria-expanded="false" aria-controls="tl-2"><b>B.S. IEOR, UC Berkeley</b><span>Expected May 2029</span></button><div class="tl-body" id="tl-2" hidden><p>Coursework: Engineering Economics, Probability &amp; Risk Analysis, Data Science, Linear Algebra.</p></div></li>
+      <li><button type="button" class="tl-head" aria-expanded="false" aria-controls="tl-3"><b>Co-Founder, Embedded Time System</b><span>Gabrielino High School &middot; 2025 &ndash; 2026</span></button><div class="tl-body" id="tl-3" hidden><p>A digital pass system used by 1,300+ students and 60+ teachers. <a href="#p-et" data-jump>See the project</a></p></div></li>
+      <li><button type="button" class="tl-head" aria-expanded="false" aria-controls="tl-4"><b>President, Bridge-of-Music Club</b><span>30 musicians &middot; 30+ community performances &middot; 2022 &ndash; 2026</span></button><div class="tl-body" id="tl-4" hidden><ul><li>Led 30 student musicians in 30+ performances at hospitals, nursing homes and festivals, and planned practices and events</li><li>Coached members one-on-one, and was concertmaster and student conductor of the school orchestra</li></ul></div></li>
+      <li><button type="button" class="tl-head" aria-expanded="false" aria-controls="tl-5"><b>Varsity Golf Captain</b><span>2024 CIF champions &middot; 2023 &ndash; 2026</span></button><div class="tl-body" id="tl-5" hidden><ul><li>Led an 8-player team to the 2024 CIF championship and 2nd place in 2025, and mentored younger players</li></ul></div></li>
     </ul>
     </div>
   </div>
@@ -1693,38 +1714,14 @@ BreakEven = AddedCost / NetRevenuePerVisit</pre>
   addEventListener('scroll', setActive, { passive: true }); setActive();
 
   /* project index: jump + highlight */
-  $$('.hero-index a, a[data-jump]').forEach(a => a.addEventListener('click', e => {
+  document.addEventListener('click', e => {
+    const a = e.target.closest('.hero-index a, a[data-jump]'); if (!a) return;
     const card = document.getElementById(a.getAttribute('href').slice(1)); if (!card) return;
-    if (card.classList.contains('hidden')) { const all = $('.filters button[data-f="all"]'); if (all) all.click(); }
     e.preventDefault(); card.classList.add('in');
     card.scrollIntoView({ behavior: RM ? 'auto' : 'smooth', block: 'start' });
     history.replaceState(null, '', '#' + card.id);
     card.classList.remove('flash'); setTimeout(() => card.classList.add('flash'), RM ? 0 : 450);
-  }));
-
-  /* filters */
-  const fbar = $('.filters'), cards = $$('.projects > .card');
-  if (fbar) {
-    const counts = { all: cards.length };
-    cards.forEach(c => (c.dataset.cat || '').split(' ').forEach(k => counts[k] = (counts[k] || 0) + 1));
-    $$('button', fbar).forEach(b => { const s = b.querySelector('small'); if (s) s.textContent = counts[b.dataset.f] || 0; });
-    fbar.addEventListener('click', e => {
-      const b = e.target.closest('button'); if (!b) return;
-      $$('button', fbar).forEach(x => x.setAttribute('aria-pressed', x === b ? 'true' : 'false'));
-      const f = b.dataset.f;
-      const show = cards.filter(c => f === 'all' || (c.dataset.cat || '').split(' ').includes(f));
-      cards.forEach(c => { c.classList.toggle('hidden', !show.includes(c)); c.classList.remove('solo'); });
-      const halves = show.filter(c => !c.classList.contains('wide'));
-      if (halves.length % 2) halves[halves.length - 1].classList.add('solo');
-      if (!RM) show.forEach((c, i) => c.animate([{ opacity: 0, transform: 'translateY(14px) scale(.985)' }, { opacity: 1, transform: 'none' }], { duration: 450, delay: i * 60, easing: 'cubic-bezier(.2,.75,.2,1)', fill: 'backwards' }));
-      dispatchEvent(new Event('resize'));
-    });
-  }
-
-  /* card spotlight */
-  if (matchMedia('(hover: hover)').matches) cards.forEach(c => c.addEventListener('pointermove', e => {
-    const r = c.getBoundingClientRect(); c.style.setProperty('--mx', (e.clientX - r.left) + 'px'); c.style.setProperty('--my', (e.clientY - r.top) + 'px');
-  }));
+  });
 
   /* count-up numbers */
   function countUp(b) {
@@ -1743,8 +1740,7 @@ BreakEven = AddedCost / NetRevenuePerVisit</pre>
   }
 
   /* reveal on scroll */
-  document.documentElement.classList.add('js');
-  const revealEls = [...$$('.section-head, .filters, .projects > .card, .about > *, .contact, .flow')];
+  const revealEls = [...$$('.section-head, .projects > .card, .about > *, .contact, .flow')];
   revealEls.forEach(el => el.classList.add('reveal'));
   $$('.flow li').forEach((li, i) => li.style.setProperty('--i', i));
   const nums = $$('.fact b, .stat b, .minis b');
@@ -1803,6 +1799,100 @@ BreakEven = AddedCost / NetRevenuePerVisit</pre>
     new MutationObserver(() => { if (!RM) { img.classList.remove('fadein'); void img.offsetWidth; img.classList.add('fadein'); } upd(); }).observe(img, { attributes: true, attributeFilter: ['src'] });
     upd();
   }
+
+  /* expand / collapse helper */
+  function slide(el, open, done) {
+    if (RM) { el.hidden = !open; if (done) done(); return; }
+    if (open) {
+      el.hidden = false; const h = el.scrollHeight;
+      el.animate([{ height: '0px', opacity: 0 }, { height: h + 'px', opacity: 1 }], { duration: 320, easing: 'cubic-bezier(.2,.75,.2,1)' }).onfinish = () => done && done();
+    } else {
+      const h = el.scrollHeight;
+      el.animate([{ height: h + 'px', opacity: 1 }, { height: '0px', opacity: 0 }], { duration: 240, easing: 'ease-in' }).onfinish = () => { el.hidden = true; if (done) done(); };
+    }
+  }
+
+  /* project index: collapsed preview that expands */
+  const hi = $('.hero-index'), hiList = $('#hi-list'), hiBtn = $('.hi-toggle');
+  if (hi && hiList && hiBtn) {
+    const rows = $$('li', hiList), PEEK = 2;
+    const setInert = on => rows.forEach((r, i) => { if (i >= PEEK) r.inert = on; });
+    setInert(true);
+    hiBtn.addEventListener('click', () => {
+      const open = hiBtn.getAttribute('aria-expanded') !== 'true';
+      hiBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+      hiBtn.textContent = open ? 'Show less' : 'Show all ' + rows.length + ' projects';
+      const from = hiList.offsetHeight;
+      hi.classList.toggle('collapsed', !open); setInert(!open);
+      const to = hiList.offsetHeight;
+      if (!RM) hiList.animate([{ height: from + 'px' }, { height: to + 'px' }], { duration: 420, easing: 'cubic-bezier(.2,.75,.2,1)' });
+    });
+  }
+
+  /* timeline: click a role to see what it involved */
+  $$('.tl-head').forEach(b => b.addEventListener('click', () => {
+    const li = b.parentElement, body = document.getElementById(b.getAttribute('aria-controls'));
+    if (li.dataset.busy) return; li.dataset.busy = '1';
+    const open = b.getAttribute('aria-expanded') !== 'true';
+    b.setAttribute('aria-expanded', open ? 'true' : 'false'); li.classList.toggle('open', open);
+    slide(body, open, () => delete li.dataset.busy);
+  }));
+
+  /* click-for-detail popovers on stats, process steps and skills */
+  let pop = null, owner = null;
+  function closePop(refocus) {
+    if (!pop) return;
+    const p = pop; pop = null; p.classList.remove('is-open'); setTimeout(() => p.remove(), 200);
+    if (owner) { owner.setAttribute('aria-expanded', 'false'); if (refocus) owner.focus(); }
+    owner = null;
+  }
+  function place(p, el) {
+    const r = el.getBoundingClientRect(), pw = p.offsetWidth, ph = p.offsetHeight;
+    const left = Math.max(12, Math.min(innerWidth - pw - 12, r.left + r.width / 2 - pw / 2));
+    let top = r.bottom + 8;
+    if (top + ph > innerHeight - 8 && r.top - ph - 8 > 8) top = r.top - ph - 8;
+    p.style.left = (left + scrollX) + 'px'; p.style.top = (top + scrollY) + 'px';
+  }
+  function openPop(el) {
+    if (owner === el) { closePop(); return; }
+    closePop();
+    const p = document.createElement('div'); p.className = 'pop'; p.setAttribute('role', 'dialog');
+    const add = (tag, cls, text) => { const n = document.createElement(tag); if (cls) n.className = cls; n.textContent = text; p.appendChild(n); return n; };
+    if (el.dataset.projects) {
+      add('h5', '', el.dataset.label);
+      add('p', 'sub', 'Projects that use it');
+      const ul = document.createElement('ul');
+      el.dataset.projects.split(' ').forEach(id => {
+        const c = document.getElementById(id); if (!c) return;
+        const li = document.createElement('li'), a = document.createElement('a');
+        a.href = '#' + id; a.setAttribute('data-jump', ''); a.textContent = c.querySelector('h3').textContent.replace(/\s*\(.*\)$/, '');
+        a.addEventListener('click', () => closePop());
+        li.appendChild(a); ul.appendChild(li);
+      });
+      p.appendChild(ul);
+    } else {
+      const b = el.querySelector('b'), sp = el.querySelector('span:not(.info-i)');
+      add('h5', '', b ? b.textContent : '');
+      if (el.classList.contains('stat') && sp) add('p', 'sub', sp.textContent);
+      add('p', '', el.dataset.info);
+    }
+    const x = document.createElement('button'); x.type = 'button'; x.className = 'x'; x.setAttribute('aria-label', 'Close'); x.innerHTML = '&times;';
+    x.addEventListener('click', e => { e.stopPropagation(); closePop(true); });
+    p.appendChild(x);
+    document.body.appendChild(p); place(p, el);
+    requestAnimationFrame(() => p.classList.add('is-open'));
+    pop = p; owner = el; el.setAttribute('aria-expanded', 'true');
+  }
+  $$('[data-info], [data-projects]').forEach(el => {
+    el.dataset.label = el.textContent.trim(); el.classList.add('has-info');
+    el.setAttribute('role', 'button'); el.setAttribute('tabindex', '0'); el.setAttribute('aria-haspopup', 'dialog'); el.setAttribute('aria-expanded', 'false');
+    const i = document.createElement('span'); i.className = 'info-i'; i.setAttribute('aria-hidden', 'true'); i.textContent = 'i'; el.appendChild(i);
+    el.addEventListener('click', e => { e.stopPropagation(); openPop(el); });
+    el.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openPop(el); } });
+  });
+  document.addEventListener('click', e => { if (pop && !pop.contains(e.target)) closePop(); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closePop(true); });
+  addEventListener('resize', () => closePop());
 
   /* copy email */
   $$('.copy').forEach(b => b.addEventListener('click', async () => {
