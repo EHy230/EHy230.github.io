@@ -1730,7 +1730,7 @@ BreakEven = AddedCost / NetRevenuePerVisit</pre>
   function countUp(b) {
     if (b.dataset.counted) return; b.dataset.counted = '1';
     const t = b.textContent, m = t.match(/^([^\d]*?)(\d[\d,]*(?:\.\d+)?)([^\d]*)$/);
-    if (!m || RM) return;
+    if (!m || RM || document.hidden) return;
     const target = parseFloat(m[2].replace(/,/g, '')), dec = (m[2].split('.')[1] || '').length, comma = m[2].includes(',');
     const fmt = v => { let s = v.toFixed(dec); if (comma) { const p = s.split('.'); s = p[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',') + (p[1] ? '.' + p[1] : ''); } return m[1] + s + m[3]; };
     const t0 = performance.now(), dur = 1200;
@@ -1739,6 +1739,7 @@ BreakEven = AddedCost / NetRevenuePerVisit</pre>
       b.textContent = k < 1 ? fmt(target * e) : t;
       if (k < 1) requestAnimationFrame(step);
     })(t0);
+    setTimeout(() => { b.textContent = t; }, dur + 100);
   }
 
   /* reveal on scroll */
