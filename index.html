@@ -182,7 +182,7 @@
 
 
   /* ---------- 4Runner scroll story ---------- */
-  .drive { grid-column: 1 / -1; position: relative; }
+  .drive { grid-column: 1 / -1; position: relative; min-width: 0; }
   .dv-sticky { position: relative; }
   .dv-stage { position: relative; border-radius: var(--radius); overflow: hidden; aspect-ratio: 16 / 9; background: #1b2230; }
   .dv-shot { margin: 0; position: absolute; inset: 0; }
@@ -198,7 +198,7 @@
   .dv-stat span { display: block; max-width: 520px; font-size: clamp(1rem, 2vw, 1.45rem); font-weight: 500; opacity: .92; margin-top: 8px; }
   .dv-strip { padding: 28px 0 4px; }
   .dv-strip h3 { margin: 0 0 14px; font-family: "Inter Tight", Inter, sans-serif; font-size: 1.3rem; letter-spacing: -0.02em; }
-  .dv-track { display: flex; gap: 14px; overflow-x: auto; scroll-snap-type: x mandatory; padding-bottom: 8px; }
+  .dv-track { display: flex; gap: 14px; max-width: 100%; overflow-x: auto; scroll-snap-type: x mandatory; padding-bottom: 8px; }
   .dv-track img { height: 220px; width: auto; aspect-ratio: 3 / 2; object-fit: cover; border-radius: 14px; scroll-snap-align: start; flex: none; }
 
   /* live, pinned version */
@@ -214,8 +214,16 @@
   .dv-live .dv-scrim { background: linear-gradient(180deg, rgba(10,14,22,.08) 30%, rgba(10,14,22,.66) 100%); }
   .dv-live .dv-strip { position: absolute; inset: 0; padding: 0; display: flex; flex-direction: column; justify-content: center; background: var(--bg); opacity: 0; visibility: hidden; }
   .dv-live .dv-strip h3 { font-size: clamp(1.8rem, 4vw, 3rem); font-weight: 800; letter-spacing: -0.035em; margin: 0 0 clamp(16px, 4vh, 36px) clamp(20px, 5vw, 64px); }
-  .dv-live .dv-track { overflow: visible; padding: 0 clamp(20px, 5vw, 64px); width: max-content; will-change: transform; }
+  .dv-live .dv-track { overflow: visible; max-width: none; padding: 0 clamp(20px, 5vw, 64px); width: max-content; will-change: transform; }
   .dv-live .dv-track img { height: min(56vh, 62vw); border-radius: 20px; box-shadow: var(--shadow-lg); }
+  .dv-skip, .dv-again { font: inherit; font-size: 0.86rem; font-weight: 600; color: #fff; background: rgba(15,23,42,.58); border: 1px solid rgba(255,255,255,.22); border-radius: 999px; padding: 9px 16px; cursor: pointer; backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); transition: background .2s, opacity .3s, transform .3s var(--ease); }
+  .dv-skip:hover, .dv-again:hover { background: rgba(15,23,42,.85); }
+  .dv-skip { display: none; }
+  .dv-live .dv-skip { display: block; position: absolute; z-index: 3; top: 80px; right: clamp(16px, 4vw, 40px); opacity: 0; transform: translateY(-6px); pointer-events: none; }
+  .dv-live .dv-skip.on { opacity: 1; transform: none; pointer-events: auto; }
+  .dv-again { display: none; position: absolute; z-index: 2; top: 16px; right: 16px; }
+  .dv-done .dv-again { display: inline-flex; align-items: center; gap: 6px; }
+  @media (max-width: 700px) { .drive:not(.dv-live) .dv-stage { aspect-ratio: 4 / 5; } }
 
   /* ---------- about ---------- */
   .about { display: grid; grid-template-columns: 1.3fr 1fr; gap: 40px; }
@@ -1093,12 +1101,13 @@ BreakEven = AddedCost / NetRevenuePerVisit</pre>
     <div class="drive" id="drive" aria-label="2019 Toyota 4Runner photo story">
       <div class="dv-sticky">
         <div class="dv-stage">
-          <figure class="dv-shot dv-hero"><img src="images/drive/DSC01027-1920.webp" srcset="images/drive/DSC01027-960.webp 960w, images/drive/DSC01027-1920.webp 1920w" sizes="100vw" alt="My 4Runner parked on a beach" style="object-position:70% 60%" loading="lazy" decoding="async"></figure>
-          <figure class="dv-shot" data-i="0"><img src="images/drive/DSC01018-1920.webp" srcset="images/drive/DSC01018-960.webp 960w, images/drive/DSC01018-1920.webp 1920w" sizes="100vw" alt="" style="object-position:62% 55%" loading="lazy" decoding="async"></figure>
-          <figure class="dv-shot" data-i="1"><img src="images/drive/DSC00991-1920.webp" srcset="images/drive/DSC00991-960.webp 960w, images/drive/DSC00991-1920.webp 1920w" sizes="100vw" alt="" style="object-position:28% 60%" loading="lazy" decoding="async"></figure>
-          <figure class="dv-shot" data-i="2"><img src="images/drive/DSC00983-1920.webp" srcset="images/drive/DSC00983-960.webp 960w, images/drive/DSC00983-1920.webp 1920w" sizes="100vw" alt="" style="object-position:58% 60%" loading="lazy" decoding="async"></figure>
-          <figure class="dv-shot" data-i="3"><img src="images/drive/DSC00976-1920.webp" srcset="images/drive/DSC00976-960.webp 960w, images/drive/DSC00976-1920.webp 1920w" sizes="100vw" alt="" style="object-position:45% 60%" loading="lazy" decoding="async"></figure>
+          <figure class="dv-shot dv-hero"><img src="images/drive/DSC01027-1920.webp" srcset="images/drive/DSC01027-960.webp 960w, images/drive/DSC01027-1920.webp 1920w, images/drive/DSC01027-2880.webp 2880w" sizes="100vw" alt="My 4Runner parked on a beach" style="object-position:70% 60%" loading="lazy" decoding="async"></figure>
+          <figure class="dv-shot" data-i="0"><img src="images/drive/DSC01018-1920.webp" srcset="images/drive/DSC01018-960.webp 960w, images/drive/DSC01018-1920.webp 1920w, images/drive/DSC01018-2880.webp 2880w" sizes="100vw" alt="" style="object-position:62% 55%" loading="lazy" decoding="async"></figure>
+          <figure class="dv-shot" data-i="1"><img src="images/drive/DSC00991-1920.webp" srcset="images/drive/DSC00991-960.webp 960w, images/drive/DSC00991-1920.webp 1920w, images/drive/DSC00991-2880.webp 2880w" sizes="100vw" alt="" style="object-position:28% 60%" loading="lazy" decoding="async"></figure>
+          <figure class="dv-shot" data-i="2"><img src="images/drive/DSC00983-1920.webp" srcset="images/drive/DSC00983-960.webp 960w, images/drive/DSC00983-1920.webp 1920w, images/drive/DSC00983-2880.webp 2880w" sizes="100vw" alt="" style="object-position:58% 60%" loading="lazy" decoding="async"></figure>
+          <figure class="dv-shot" data-i="3"><img src="images/drive/DSC00976-1920.webp" srcset="images/drive/DSC00976-960.webp 960w, images/drive/DSC00976-1920.webp 1920w, images/drive/DSC00976-2880.webp 2880w" sizes="100vw" alt="" style="object-position:45% 60%" loading="lazy" decoding="async"></figure>
           <div class="dv-scrim" aria-hidden="true"></div>
+          <button type="button" class="dv-again">&#8634; Play again</button>
           <div class="dv-title">
             <p>Hands-on project</p>
             <h3>2019 Toyota 4Runner</h3>
@@ -1111,15 +1120,16 @@ BreakEven = AddedCost / NetRevenuePerVisit</pre>
           <div class="dv-stat" data-i="3"><b>~3,000</b><span>hours working on cars</span></div>
           </div>
         </div>
+        <button type="button" class="dv-skip" aria-label="Skip the photo story">Skip &darr;</button>
         <div class="dv-strip">
           <h3>Where it's been</h3>
           <div class="dv-track">
-            <img src="images/drive/DSC00928-1200.webp" alt="" loading="lazy" decoding="async">
-            <img src="images/drive/DSC00968-1200.webp" alt="" loading="lazy" decoding="async">
-            <img src="images/drive/DSC00942-1200.webp" alt="" loading="lazy" decoding="async">
-            <img src="images/drive/DSC00887-1200.webp" alt="" loading="lazy" decoding="async">
-            <img src="images/drive/DSC01122-1200.webp" alt="" loading="lazy" decoding="async">
-            <img src="images/drive/DSC00858-1200.webp" alt="" loading="lazy" decoding="async">
+            <img src="images/drive/DSC00928-1200.webp" srcset="images/drive/DSC00928-1200.webp 1200w, images/drive/DSC00928-1800.webp 1800w" sizes="(max-width: 700px) 93vw, 84vh" alt="" loading="lazy" decoding="async">
+            <img src="images/drive/DSC00968-1200.webp" srcset="images/drive/DSC00968-1200.webp 1200w, images/drive/DSC00968-1800.webp 1800w" sizes="(max-width: 700px) 93vw, 84vh" alt="" loading="lazy" decoding="async">
+            <img src="images/drive/DSC00942-1200.webp" srcset="images/drive/DSC00942-1200.webp 1200w, images/drive/DSC00942-1800.webp 1800w" sizes="(max-width: 700px) 93vw, 84vh" alt="" loading="lazy" decoding="async">
+            <img src="images/drive/DSC00887-1200.webp" srcset="images/drive/DSC00887-1200.webp 1200w, images/drive/DSC00887-1800.webp 1800w" sizes="(max-width: 700px) 93vw, 84vh" alt="" loading="lazy" decoding="async">
+            <img src="images/drive/DSC01122-1200.webp" srcset="images/drive/DSC01122-1200.webp 1200w, images/drive/DSC01122-1800.webp 1800w" sizes="(max-width: 700px) 93vw, 84vh" alt="" loading="lazy" decoding="async">
+            <img src="images/drive/DSC00858-1200.webp" srcset="images/drive/DSC00858-1200.webp 1200w, images/drive/DSC00858-1800.webp 1800w" sizes="(max-width: 700px) 93vw, 84vh" alt="" loading="lazy" decoding="async">
           </div>
         </div>
       </div>
@@ -1966,21 +1976,37 @@ BreakEven = AddedCost / NetRevenuePerVisit</pre>
   addEventListener('resize', () => closePop());
 
 
-  /* 4Runner scroll story: photo grows to full screen, numbers step through, then a strip of trip photos pans sideways */
+  /* 4Runner scroll story: photo grows to full screen, numbers step through, then a strip of trip photos pans sideways.
+     It plays once; after the reader passes it (or skips) it turns into a still card with a "Play again" button. */
   const dv = $('#drive');
   if (dv && !RM && 'IntersectionObserver' in window) {
-    dv.classList.add('dv-live');
     const stage = $('.dv-stage', dv), hero = $('.dv-hero img', dv), title = $('.dv-title', dv);
     const shots = $$('.dv-shot[data-i]', dv), dstats = $$('.dv-stat', dv);
     const strip = $('.dv-strip', dv), track = $('.dv-track', dv);
+    const skip = $('.dv-skip', dv), again = $('.dv-again', dv), next = dv.nextElementSibling;
+    const styled = [stage, hero, title, strip, track, ...shots, ...shots.map(f => f.firstElementChild), ...dstats];
+    styled.forEach(el => el.dataset.css = el.getAttribute('style') || '');
     $$('img', dv).forEach(im => im.loading = 'eager');
     const seg = (p, a, b) => Math.min(1, Math.max(0, (p - a) / (b - a)));
     const ease = t => 1 - Math.pow(1 - t, 3);
     const N = shots.length, S0 = 0.22, STEP = 0.11, END = S0 + N * STEP;
-    let ticking = false, active = false;
+    let ticking = false, active = false, live = false;
+    function setLive(on) {
+      live = on; dv.classList.toggle('dv-live', on); dv.classList.toggle('dv-done', !on);
+      if (!on) { styled.forEach(el => el.setAttribute('style', el.dataset.css)); skip.classList.remove('on'); }
+    }
+    function finish(keepPlace) {
+      if (!live) return;
+      const before = next.getBoundingClientRect().top;
+      setLive(false);
+      if (keepPlace) { const d = next.getBoundingClientRect().top - before; if (d) scrollTo({ top: scrollY + d, behavior: 'instant' }); }
+    }
     function frame() {
       ticking = false;
-      const r = dv.getBoundingClientRect(), total = dv.offsetHeight - innerHeight;
+      if (!live) return;
+      const r = dv.getBoundingClientRect();
+      if (r.bottom < 0) { finish(true); return; }
+      const total = dv.offsetHeight - innerHeight;
       const p = Math.min(1, Math.max(0, -r.top / total));
       const e = ease(seg(p, 0, 0.16)), small = innerWidth < 700;
       const iy = (small ? 10 : 12) * (1 - e), ix = (small ? 5 : 11) * (1 - e), rad = 28 * (1 - e);
@@ -2004,12 +2030,26 @@ BreakEven = AddedCost / NetRevenuePerVisit</pre>
       stage.style.opacity = 1 - sIn * 0.999;
       const dist = Math.max(0, track.scrollWidth - innerWidth);
       track.style.transform = `translateX(${-dist * ease(seg(p, END + 0.08, 0.98))}px)`;
+      skip.classList.toggle('on', p > 0.1 && r.top <= 1 && r.bottom > innerHeight * 0.6);
     }
-    const req = () => { if (active && !ticking) { ticking = true; requestAnimationFrame(frame); } };
-    new IntersectionObserver(es => { active = es[0].isIntersecting; if (active) req(); }, { rootMargin: '200px 0px' }).observe(dv);
+    const req = () => { if (live && active && !ticking) { ticking = true; requestAnimationFrame(frame); } };
+    new IntersectionObserver(es => {
+      const en = es[es.length - 1]; active = en.isIntersecting;
+      if (active) req(); else if (live && en.boundingClientRect.bottom < 0) finish(true);
+    }, { rootMargin: '200px 0px' }).observe(dv);
     addEventListener('scroll', req, { passive: true });
     addEventListener('resize', () => { active = true; req(); });
-    frame();
+    skip.addEventListener('click', () => {
+      setLive(false);
+      next.scrollIntoView({ behavior: 'instant', block: 'start' });
+    });
+    again.addEventListener('click', () => {
+      setLive(true); active = true;
+      scrollTo({ top: dv.getBoundingClientRect().top + scrollY, behavior: 'instant' });
+      frame();
+    });
+    setLive(true);
+    if (dv.getBoundingClientRect().bottom < 0) finish(true); else frame();
   }
 
   /* copy email */
