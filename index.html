@@ -233,6 +233,7 @@
   .timeline { list-style: none; margin: 0; padding: 0; }
   .timeline > li { padding: 0 0 16px 22px; border-left: 2px solid var(--surface-3); position: relative; }
   .timeline > li:last-child { border-left-color: transparent; padding-bottom: 6px; }
+  .timeline > li:last-child::after { content: ""; position: absolute; left: -2px; top: 0; height: 6px; border-left: 2px solid var(--surface-3); }
   .timeline > li::before { content: ""; box-sizing: border-box; position: absolute; left: -7px; top: 6px; width: 12px; height: 12px; border-radius: 50%; background: var(--surface); border: 3px solid var(--accent); transition: background .2s; }
   .timeline > li.open::before { background: var(--accent); }
   .tl-head { display: block; width: 100%; text-align: left; background: none; border: 0; padding: 0 30px 0 0; margin: 0; font: inherit; color: inherit; cursor: pointer; position: relative; border-radius: 6px; }
@@ -271,7 +272,7 @@
   .gridline { stroke: var(--grid); stroke-width: 1; }
   .baseline { stroke: var(--muted); stroke-width: 1; opacity: .5; }
   .hit { fill: transparent; cursor: crosshair; }
-  .tip { position: absolute; pointer-events: none; background: #0f172a; color: #fff; font-size: 12px; line-height: 1.4; padding: 7px 10px; border-radius: 8px; white-space: nowrap; opacity: 0; transform: translate(-50%, -112%); transition: opacity .15s; z-index: 5; box-shadow: 0 10px 24px -10px rgba(15,23,42,.6); }
+  .tip { position: absolute; pointer-events: none; background: #0f172a; color: #fff; font-size: 12px; line-height: 1.4; padding: 7px 10px; border-radius: 8px; width: max-content; max-width: min(300px, calc(100% - 12px)); opacity: 0; transform: translate(-50%, -112%); transition: opacity .15s; z-index: 5; box-shadow: 0 10px 24px -10px rgba(15,23,42,.6); }
   .tip b { font-weight: 700; }
   .legend { display: flex; flex-wrap: wrap; gap: 16px; font-size: 0.76rem; color: var(--text-2); margin: 4px 0 2px; }
   .legend i { display: inline-block; width: 10px; height: 10px; border-radius: 3px; margin-right: 6px; vertical-align: -1px; }
@@ -1554,7 +1555,15 @@ t = N * 1                                  expected steps to finish</pre>
     const host = svg.parentElement; let t = host.querySelector('.tip');
     if (!t) { t = document.createElement('div'); t.className = 'tip'; host.appendChild(t); }
     return {
-      show(html, x, y) { const r = svg.getBoundingClientRect(), hr = host.getBoundingClientRect(), s = r.width / svg.viewBox.baseVal.width; t.innerHTML = html; t.style.left = (r.left - hr.left + x * s) + 'px'; t.style.top = (r.top - hr.top + y * s) + 'px'; t.style.opacity = 1; },
+      show(html, x, y) {
+        const r = svg.getBoundingClientRect(), hr = host.getBoundingClientRect(), s = r.width / svg.viewBox.baseVal.width;
+        t.innerHTML = html; t.style.left = '0px';
+        const w = t.offsetWidth, h = t.offsetHeight, W = host.clientWidth, top = r.top - hr.top + y * s;
+        const left = Math.max(w / 2 + 6, Math.min(W - w / 2 - 6, r.left - hr.left + x * s));  // keep the bubble inside the card
+        t.style.left = left + 'px'; t.style.top = top + 'px';
+        t.style.transform = top - h * 1.12 < 0 ? 'translate(-50%, 14px)' : '';  // flip below if there is no room above
+        t.style.opacity = 1;
+      },
       hide() { t.style.opacity = 0; }
     };
   }
