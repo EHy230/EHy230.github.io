@@ -317,6 +317,10 @@
   .panel .explain p { font-size: 0.92rem; margin: 0 0 10px; }
   .panel .explain ul { margin: 0 0 10px; padding-left: 18px; font-size: 0.89rem; color: var(--text-2); }
   .formula { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 0.76rem; line-height: 1.55; background: #f8fafc; border: 1px solid var(--border); border-left: 3px solid var(--accent); border-radius: 8px; padding: 10px 12px; overflow-x: auto; white-space: pre; color: var(--text); margin: 0 0 10px; }
+  .howto { margin: 16px 0 14px; padding-top: 14px; border-top: 1px dashed var(--border); }
+  .howto-title { font-weight: 700; font-size: 0.92rem; color: var(--text); margin: 0 0 4px; }
+  .howto-note { font-size: 0.84rem; color: var(--muted); margin: 0 0 12px; }
+  .howto .formula-label { margin-top: 10px; }
   .formula-label { font-size: 0.72rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); margin: 0 0 4px; }
   .minis { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 0 0 12px; }
   .minis div { background: var(--accent-soft); border: 1px solid var(--accent-line); border-radius: 10px; padding: 8px 10px; }
@@ -696,6 +700,28 @@
             <li><strong>Python:</strong> chronological train/test split, three models compared, a cutoff set to keep recall at least 85%, and a queue simulation with 1&ndash;4 reviewers.</li>
             <li><strong>AI reading:</strong> Claude Haiku 4.5 read each PDF directly and returned JSON through a forced tool call, at about half a cent per invoice. The rules + OCR baseline used pdfplumber, Tesseract and regular expressions.</li>
           </ul>
+          <div class="howto">
+            <p class="howto-title">How the model works</p>
+            <p class="howto-note">The review model and the staffing simulation are in Python (pandas and scikit-learn). Simplified from the notebook.</p>
+            <p class="formula-label">1. Train on older invoices, test on newer ones (Python)</p>
+            <pre class="formula">df = df.sort_values("invoice_date")
+train, test = df.iloc[:4000], df.iloc[4000:]        # never learns from the future
+model = RandomForestClassifier(n_estimators=350, max_depth=12,
+            min_samples_leaf=4, class_weight="balanced_subsample")
+model.fit(train[features], train["needs_review"])
+risk = model.predict_proba(test[features])[:, 1]       # 0 to 1 review risk</pre>
+            <p class="formula-label">2. Pick the cutoff (Python)</p>
+            <pre class="formula"># the most precise cutoff that still catches at least 85% of reviews
+cutoff = max((precision(t), t) for t in np.linspace(0.05, 0.95, 181)
+             if recall(t) &gt;= 0.85)[1]
+flag = risk &gt;= cutoff</pre>
+            <p class="formula-label">3. Replay the review queue (Python)</p>
+            <pre class="formula"># times are in business hours (Mon-Fri, 9 to 5)
+invoice = max(waiting, key=lambda i: i.risk)    # "highest risk first"
+start   = max(reviewer_free_at, invoice.arrival)
+end     = start + invoice.review_hours
+met_sla = (end - invoice.arrival) &lt;= 8</pre>
+          </div>
           <div class="files">
             <a class="file" href="files/AP_Finance_Operations_Eisen.xlsx">AP control workbook <small>Excel</small></a>
             <a class="file" href="https://github.com/EHy230/EHy230.github.io/blob/main/files/AP_Finance_Operations_Predictive_Model.ipynb">Review-risk model <small>Python notebook</small></a>
@@ -735,6 +761,31 @@
             <li>Python sends each statement page to Claude, which returns every value with its page and the exact row it came from. Python then checks the quote, the year column, the units and 36 accounting checks. Sonnet 5.5 got 174 of 174 for about $0.30; Haiku 4.5 got 171 of 174 for about $0.13.</li>
             <li>I checked all 174 values against the 10-K pages and approved them in a 41-minute review.</li>
           </ul>
+          <div class="howto">
+            <p class="howto-title">How the model works</p>
+            <p class="howto-note">The credit model is in Excel. The AI spreading is in Python with the Claude API.</p>
+            <p class="formula-label">1. Credit ratios (Excel)</p>
+            <pre class="formula">EBITDA proxy     = Operating income + Depreciation &amp; amortization
+Leverage         = Gross debt / EBITDA proxy
+Interest cover   = EBITDA proxy / Cash interest
+CFADS            = EBITDA proxy - Cash taxes - Increase in working capital
+                   - Capex (maintenance share, or total capex)
+DSCR             = CFADS / (Cash interest + Scheduled debt and lease principal)
+Funding gap      = MAX(0, $500M reserve - Modeled liquid assets)</pre>
+            <p class="formula-label">2. Read the 10-K page with Claude (Python)</p>
+            <pre class="formula">with client.messages.stream(model="claude-sonnet-5-5", max_tokens=32000,
+        system=SYSTEM_PROMPT,                     # copy numbers, never calculate
+        messages=[{"role": "user", "content": page_text}],
+        output_config={"format": {"type": "json_schema", "schema": schema}}) as s:
+    msg = s.get_final_message()
+text = "".join(b.text for b in msg.content if b.type == "text")
+records = json.loads(text)["records"]
+# each record: field, year, value, page, label, exact row quote</pre>
+            <p class="formula-label">3. Check every value before review (Python)</p>
+            <pre class="formula">quote in page_text                              # the quoted row is really on the page
+value == numbers_in(quote)[year_column]         # number sits in the right year column
+assets == liabilities + equity                  # one of 36 accounting checks</pre>
+          </div>
           <div class="files">
             <a class="file" href="files/Amkor_Credit_Memo_Eisen_Hy.pdf">Credit memo <small>PDF, 2 pages</small></a>
             <a class="file" href="files/Amkor_Credit_Analysis_Eisen_Hy.xlsx">Credit model <small>Excel</small></a>
@@ -1027,6 +1078,21 @@ BreakEven = AddedCost / NetRevenuePerVisit</pre>
             <li><strong>Booth mix:</strong> used a queueing model to find the fewest booths needed to keep lines short at peak, then checked all ~900 possible mixes. The best one fills all 120 spaces, brings in about $394,000 in vendor sales per day, and keeps every wait under about 6 minutes.</li>
             <li><strong>Growth options:</strong> compared later hours, adding Fridays and adding a fifth weekend using cost, break-even and 5-year NPV. Staying open until 10 PM made money in every demand scenario and also shortened Saturday lunch lines.</li>
           </ul>
+          <div class="howto">
+            <p class="howto-title">How the model works</p>
+            <p class="howto-note">All three models are in Excel. The formulas behind each step are also shown in the tabs above.</p>
+            <p class="formula-label">1. Attendance forecast and range</p>
+            <pre class="formula">Forecast = AVERAGE(5 trend forecasts) * (1 + Spend * Elasticity) * (1 + Halo)
+           + NewMarketVisits + ConcertVisits
+Range    = P10 to P90 of 1,000 Monte Carlo runs (triangular inputs)</pre>
+            <p class="formula-label">2. Booths and wait times (M/M/1 queue)</p>
+            <pre class="formula">Booths   = CEILING(PeakArrivals / (ServiceRate * 0.85), 1)
+Util     = Arrivals / (Booths * ServiceRate)
+Wait     = Util / (ServiceRate * (1 - Util)) * 60          minutes</pre>
+            <p class="formula-label">3. Growth options</p>
+            <pre class="formula">NPV      = -OneTimeCost + NPV(8%, Year1:Year5)
+BreakEven = AddedCost / NetRevenuePerVisit</pre>
+          </div>
           <div class="files">
             <a class="file" href="files/Disney_IE_Case_Overview.pdf">Project overview <small>PDF</small></a>
             <a class="file" href="files/Disney%20Case%20Slide%20Deck%20.pdf">Final slide deck <small>PDF</small></a>
@@ -1063,6 +1129,21 @@ BreakEven = AddedCost / NetRevenuePerVisit</pre>
             <li>Recommendation: keep sales efficient and cut operating costs early if growth moves toward the downside case.</li>
             <li>Built an interactive Tableau dashboard with a scenario selector, four FY29 KPIs, and charts for revenue, margins and operating expenses.</li>
           </ul>
+          <div class="howto">
+            <p class="howto-title">How the model works</p>
+            <p class="howto-note">Every line comes from revenue and a few assumptions, and one case selector switches all of them.</p>
+            <p class="formula-label">Forecast (Excel)</p>
+            <pre class="formula">Revenue(t)       = Revenue(t-1) * (1 + Growth)
+Gross profit     = Revenue * Gross margin
+R&amp;D, S&amp;M, G&amp;A    = Revenue * cost % of revenue
+Operating income = Gross profit - R&amp;D - S&amp;M
+                   - G&amp;A - Restructuring
+Free cash flow   = Revenue * FCF margin
+Rule of 40       = Revenue growth + FCF margin</pre>
+            <p class="formula-label">Case selector (Excel)</p>
+            <pre class="formula">=IF(Case="Base", Base_Growth,
+  IF(Case="Upside", Up_Growth, Down_Growth))</pre>
+          </div>
           <div class="files">
             <a class="file" href="files/Salesforce_FP%26A_Project.xlsx">Forecast model <small>Excel</small></a>
             <a class="file" href="https://public.tableau.com/app/profile/eisen.hy/viz/SalesforceFPAScenarioDashboardEisenHy/SalesforceFPADashboard">Interactive dashboard <small>Tableau</small></a>
@@ -1094,6 +1175,21 @@ BreakEven = AddedCost / NetRevenuePerVisit</pre>
             <li>Set a 6.7&times; exit multiple from the EV/EBITDA of six printing and office-products peers, including Deluxe, Pitney Bowes and 4imprint.</li>
             <li>The model gives an implied equity value of about $3.0B, or about $117 per share. The share price used in the model was about $92.</li>
           </ul>
+          <div class="howto">
+            <p class="howto-title">How the model works</p>
+            <p class="formula-label">Discount rate (Excel)</p>
+            <pre class="formula">Cost of equity = Rf + Beta * MRP
+               = 4.49% + 1.79 * 4.42% = 12.4%
+WACC           = E/(D+E) * Re + D/(D+E) * Rd
+               = 60% * 12.4% + 40% * 7.2% = 10.3%</pre>
+            <p class="formula-label">Cash flows and value (Excel)</p>
+            <pre class="formula">UFCF        = EBIT * (1 - Tax) - Capex
+              + D&amp;A - Change in NWC
+TV          = FY2030 EBITDA * 6.7x exit multiple
+EV          = SUM( UFCF(t) / (1+WACC)^t )
+              + TV / (1+WACC)^5
+Share price = (EV + Cash - Debt) / Shares = ~$117</pre>
+          </div>
           <div class="files">
             <a class="file" href="files/DCF%20modeling.xlsx">DCF model <small>Excel</small></a>
           </div>
@@ -1126,6 +1222,19 @@ BreakEven = AddedCost / NetRevenuePerVisit</pre>
             <li>Backtested on 4,951 applications that were still open 14 days after they were created. For applications already in validation, the predictions were within about 6%. Overall, actual approvals were 17 points lower than the forecast.</li>
             <li>Most of the gap came from applications at the "Complete" step. The model predicted 1,825 approvals there, and 975 happened. A Markov chain doesn't account for how long an application has been waiting, so the next step would be to recalibrate on recent data and include time spent at each step.</li>
           </ul>
+          <div class="howto">
+            <p class="howto-title">How the model works</p>
+            <p class="howto-note">Built entirely in Excel with matrix functions.</p>
+            <p class="formula-label">1. Transition probabilities (Excel)</p>
+            <pre class="formula">P(i -&gt; j) = COUNTIFS(From, i, To, j) / COUNTIFS(From, i)
+            split into  Q = open -&gt; open   and   R = open -&gt; approved / denied / cancelled</pre>
+            <p class="formula-label">2. Absorbing Markov chain (Excel)</p>
+            <pre class="formula">N = (I - Q)^-1        =MINVERSE(I - Q)     expected visits to each step
+B = N * R             =MMULT(N, R)         chance of each final outcome
+t = N * 1                                  expected steps to finish</pre>
+            <p class="formula-label">3. Forecast (Excel)</p>
+            <pre class="formula">Expected approvals = SUM over steps( open applications in step * B[step, Approved] )</pre>
+          </div>
           <div class="files">
             <a class="file" href="files/Loan_Application_Markov_Forecast_Eisen_Hy.xlsx">Markov model <small>Excel, 11 MB</small></a>
             <a class="file" href="https://research.tue.nl/en/datasets/bpi-challenge-2017/">BPI Challenge 2017 dataset <small>Source</small></a>
