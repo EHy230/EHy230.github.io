@@ -323,11 +323,11 @@
   .howto .formula-label { margin-top: 12px; }
   .viz-cap { font-size: 0.8rem; color: var(--muted); margin: 6px 0 12px; }
   .howto .flow { margin: 6px 0 14px; }
-  .flow.f6 { grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 22px; }
+  .howto .flow li { margin-bottom: 0; }
+  .flow.f6 { grid-template-columns: repeat(6, minmax(0, 1fr)); --fg: 22px; }
   .flow.f6 li { padding: 12px; }
-  .flow.f6 li:not(:last-child)::after { right: -19px; width: 16px; }
-  .flow.v { grid-template-columns: 1fr; gap: 22px; }
-  .flow.v li:not(:last-child)::after { right: auto; left: 50%; top: auto; bottom: -16px; width: 2px; height: 12px; transform: translateX(-50%); background: var(--accent-line); }
+  .flow.v { grid-template-columns: 1fr; --fg: 24px; }
+  .flow.v li:not(:last-child)::after { left: 50%; top: calc(100% + 1px); width: 2px; height: var(--fg); transform: translateX(-50%); background: linear-gradient(180deg, transparent 0 6px, var(--accent-line) 6px calc(100% - 6px), transparent calc(100% - 6px)); }
   .flow li.hl { border-color: var(--accent-line); background: var(--accent-soft); }
   @media (max-width: 1100px) and (min-width: 821px) { .flow.f6 { grid-template-columns: repeat(3, minmax(0, 1fr)); } .flow.f6 li:nth-child(3n)::after { display: none; } }
   .split { display: flex; height: 34px; border-radius: 10px; overflow: hidden; font-size: 0.78rem; margin: 4px 0 0; }
@@ -365,8 +365,6 @@
   .mk-leg { display: flex; gap: 14px; font-size: 0.76rem; color: var(--muted); margin-top: 6px; }
   .mk-leg i { display: inline-block; width: 9px; height: 9px; border-radius: 3px; margin-right: 5px; vertical-align: -1px; }
   @media (max-width: 700px) {
-    .flow.f6 { grid-template-columns: 1fr; gap: 22px; }
-    .flow.f6 li:not(:last-child)::after { right: auto; left: 50%; top: auto; bottom: -16px; width: 2px; height: 12px; transform: translateX(-50%); }
     .br-row { grid-template-columns: minmax(0, 7.5em) 1fr 4.4em; font-size: 0.76rem; }
     .mk-hint { display: block; }
   }
@@ -375,15 +373,15 @@
   .minis div { background: var(--accent-soft); border: 1px solid var(--accent-line); border-radius: 10px; padding: 8px 10px; }
   .minis b { display: block; color: var(--accent-ink); font-size: 1.02rem; font-variant-numeric: tabular-nums; }
   .minis span { font-size: 0.72rem; color: var(--muted); }
-  .flow { list-style: none; margin: 10px 0 8px; padding: 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: 28px; counter-reset: step; }
+  .flow { --fg: 28px; list-style: none; margin: 10px 0 8px; padding: 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--fg); counter-reset: step; }
   .flow li { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 14px 14px; position: relative; counter-increment: step; box-shadow: var(--shadow); transition: border-color .2s, background .2s; }
   .flow li::before { content: counter(step); display: inline-grid; place-items: center; width: 26px; height: 26px; border-radius: 8px; background: linear-gradient(135deg, var(--accent), #6d5efc); color: #fff; font-size: 0.78rem; font-weight: 700; margin-bottom: 8px; }
-  .flow li:not(:last-child)::after { content: ""; position: absolute; right: -24px; top: 50%; width: 20px; height: 2px; background: linear-gradient(90deg, var(--accent-line), var(--accent)); transform: translateY(-50%); }
+  .flow li:not(:last-child)::after { content: ""; position: absolute; left: calc(100% + 1px); top: 50%; width: var(--fg); height: 2px; background: linear-gradient(90deg, transparent 0 5px, var(--accent-line) 5px, var(--accent) calc(100% - 5px), transparent calc(100% - 5px)); transform: translateY(-50%); }
   .flow b { display: block; font-size: 0.9rem; color: var(--text); margin-bottom: 2px; }
   .flow span { display: block; font-size: 0.79rem; color: var(--muted); line-height: 1.45; }
   .js .flow.reveal li { opacity: 0; transform: translateY(10px); }
   .js .flow.reveal.in li { animation: rise .55s var(--ease) forwards; animation-delay: calc(var(--i, 0) * 0.14s); }
-  @media (max-width: 820px) { .flow { grid-template-columns: 1fr; gap: 22px; } .flow li:not(:last-child)::after { right: auto; left: 50%; top: auto; bottom: -16px; width: 2px; height: 12px; transform: translateX(-50%); background: var(--accent-line); } }
+  @media (max-width: 820px) { .flow, .flow.f6 { grid-template-columns: 1fr; --fg: 24px; } .flow li:not(:last-child)::after { left: 50%; top: calc(100% + 1px); width: 2px; height: var(--fg); transform: translateX(-50%); background: linear-gradient(180deg, transparent 0 6px, var(--accent-line) 6px calc(100% - 6px), transparent calc(100% - 6px)); } }
   .show { position: relative; }
   .show-chips { display: flex; flex-wrap: wrap; gap: 6px; margin: 4px 0 12px; }
   .show-chips button { font: inherit; font-size: 0.78rem; font-weight: 600; padding: 6px 11px; border-radius: 999px; border: 1px solid var(--border); background: var(--surface); color: var(--text-2); cursor: pointer; transition: all .2s var(--ease); }
@@ -1341,14 +1339,14 @@ Share price = (EV + Cash - Debt) / Shares = ~$117</pre>
               <path d="M240,105 L304,155" class="mk-e" marker-end="url(#mk-ar)"/>
               <path d="M392,175 L426,175" class="mk-e" marker-end="url(#mk-ar)"/>
               <path d="M532,175 L566,175" class="mk-e" marker-end="url(#mk-ar)"/>
-              <path d="M652,156 L721,114" class="mk-e" marker-end="url(#mk-ar)"/>
-              <path d="M620,194 C620,300 760,322 856,302" class="mk-e c" marker-end="url(#mk-arc)"/>
+              <path d="M652,156 L736,116" class="mk-e" marker-end="url(#mk-ar)"/>
+              <path d="M620,194 C620,300 760,322 859,304" class="mk-e c" marker-end="url(#mk-arc)"/>
               <path d="M760,114 L760,234" class="mk-e" marker-end="url(#mk-ar)"/>
               <path d="M790,236 L790,116" class="mk-e" marker-end="url(#mk-ar)"/>
-              <path d="M827,84 L858,54" class="mk-e d" marker-end="url(#mk-ard)"/>
-              <path d="M827,106 L858,162" class="mk-e a" marker-end="url(#mk-ara)"/>
-              <path d="M827,244 L858,188" class="mk-e a" marker-end="url(#mk-ara)"/>
-              <path d="M827,266 L858,286" class="mk-e c" marker-end="url(#mk-arc)"/>
+              <path d="M827,84 L861,49" class="mk-e d" marker-end="url(#mk-ard)"/>
+              <path d="M827,106 L862,164" class="mk-e a" marker-end="url(#mk-ara)"/>
+              <path d="M827,244 L862,186" class="mk-e a" marker-end="url(#mk-ara)"/>
+              <path d="M827,266 L860,288" class="mk-e c" marker-end="url(#mk-arc)"/>
               <text x="128" y="122" text-anchor="end" class="mk-p">64.7%</text>
               <text x="204" y="168" text-anchor="middle" class="mk-p">35.3%</text>
               <text x="284" y="122" text-anchor="start" class="mk-p">100%</text>
