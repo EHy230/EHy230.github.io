@@ -322,6 +322,11 @@
   .howto-note { font-size: 0.84rem; color: var(--muted); margin: 14px 0 4px; }
   .howto .formula-label { margin-top: 12px; }
   .viz-cap { font-size: 0.8rem; color: var(--muted); margin: 6px 0 12px; }
+  .be-table { width: 100%; border-collapse: collapse; font-size: 0.82rem; margin: 2px 0 0; font-variant-numeric: tabular-nums; }
+  .be-table th { text-align: right; font-size: 0.72rem; font-weight: 600; color: var(--muted); padding: 6px 10px; border-bottom: 1px solid var(--border); }
+  .be-table td { text-align: right; padding: 7px 10px; border-bottom: 1px solid var(--surface-2); color: var(--text-2); }
+  .be-table th:first-child, .be-table td:first-child { text-align: left; }
+  .be-table tr.hl td { background: var(--accent-soft); color: var(--text); font-weight: 600; }
   .howto .flow { margin: 6px 0 14px; }
   .howto .flow li { margin-bottom: 0; }
   .flow.f6 { grid-template-columns: repeat(6, minmax(0, 1fr)); --fg: 22px; }
@@ -800,7 +805,7 @@ met_sla = (end - invoice.arrival) &lt;= 8</pre>
     <article class="card wide" id="p-amkor" data-cat="finance ml">
       <div class="viz">
         <p class="viz-title">Amkor funding gap by 2029, by scenario</p>
-        <p class="viz-sub">USD billions below a $500M minimum cash reserve</p>
+        <p class="viz-sub">USD billions needed to stay above a $500M cash reserve. Hover a bar for the capex cut that would close it.</p>
         <svg id="chart-amkor" role="img" aria-label="Horizontal bar chart of the cumulative funding gap by 2029: base 3.02 billion, rates plus 200 basis points 3.04 billion, revenue minus 20 percent 4.21 billion, combined stress 4.24 billion, severe funding 6.14 billion dollars."></svg>
       </div>
       <div class="card-body">
@@ -811,7 +816,7 @@ met_sla = (end - invoice.arrival) &lt;= 8</pre>
           <div class="stat" data-info="Amkor guides to $2.5&ndash;3.0B of capital spending in 2026. Under my base-case assumptions, liquid assets fall below a $500M minimum reserve in 2028 and the shortfall reaches $3.02B by 2029. The combined revenue and rate stress raises it to $4.24B."><b>$3.02B</b><span>base-case funding gap by 2029</span></div>
           <div class="stat" data-info="Gross debt was about 1.9&times; the EBITDA proxy for the twelve months to June 2026, and earnings cover interest many times over. Free cash flow over the same twelve months was about &minus;$172M because of expansion spending."><b>1.9&times;</b><span>gross debt / EBITDA (June 2026)</span></div>
           <div class="stat" data-info="58 fields across FY2023&ndash;FY2025. Every value Claude Sonnet 5.5 returned matched a hand-entered benchmark and passed 36 accounting checks, and I checked each one against the 10-K pages before approving it. The run cost about $0.30."><b>174 / 174</b><span>10-K values read correctly by Claude</span></div>
-          <div class="stat" data-info="Hold the loan until Amkor shows a fully funded expansion plan and verified repayment sources. Making the loan smaller would not close the funding gap."><b>Defer</b><span>loan recommendation</span></div>
+          <div class="stat" data-info="Hold the loan until Amkor shows a fully funded expansion plan and verified repayment sources. Making the loan smaller would not close the funding gap. To break even in the base case, Amkor needs about $3.02B of new funding by 2029, or a uniform cut of about 33% to planned 2026&ndash;2029 capex with maintenance spending protected."><b>Defer</b><span>loan recommendation</span></div>
         </div>
         <div class="tags"><span class="tag">Credit analysis</span><span class="tag">Cash-flow forecasting</span><span class="tag">Scenario analysis</span><span class="tag">Excel</span><span class="tag">Python</span><span class="tag">Claude API</span></div>
         <details>
@@ -821,6 +826,7 @@ met_sla = (end - invoice.arrival) &lt;= 8</pre>
             <li>Tested five cases from one dropdown: Base, Revenue &minus;20%, Rates +200bp, Combined stress, and Severe funding (25% more capex and customer advances arriving a year late).</li>
             <li>In the base case, gross debt stays under 1.6&times; EBITDA and EBITDA covers cash interest more than 20 times. The problem is liquidity: expansion spending uses up the cash reserve in 2028, so the memo recommends deferring the loan.</li>
             <li>Python sends each statement page to Claude, which returns every value with its page and the exact row it came from. Python then checks the quote, the year column, the units and 36 accounting checks. Sonnet 5.5 got 174 of 174 for about $0.30; Haiku 4.5 got 171 of 174 for about $0.13.</li>
+            <li>Built a break-even sheet with two separate routes back above the $500M reserve: about $3.02B of outside funding by 2029, or a uniform 33% cut to planned 2026&ndash;2029 capex with maintenance protected. In the combined stress case it rises to $4.24B or a 47% cut.</li>
             <li>I checked all 174 values against the 10-K pages and approved them in a 41-minute review.</li>
           </ul>
           <div class="files">
@@ -838,7 +844,7 @@ met_sla = (end - invoice.arrival) &lt;= 8</pre>
               <li><b>Python checks</b><span>Quote on the page, year column, units, 36 accounting checks</span></li>
               <li class="hl"><b>My review</b><span>All 174 values checked against the 10-K and approved</span></li>
               <li><b>Excel model</b><span>Ratios, debt schedule and cash forecast to 2029</span></li>
-              <li><b>5 scenarios</b><span>Funding gap of $3.02B by 2029 in the base case, so defer</span></li>
+              <li><b>Scenarios &amp; break-even</b><span>Base case needs $3.02B of funding or a 33% capex cut, so defer</span></li>
             </ol>
             <p class="howto-note">The credit model is in Excel. The AI spreading is in Python with the Claude API.</p>
             <p class="formula-label">1. Credit ratios (Excel)</p>
@@ -849,7 +855,23 @@ CFADS            = EBITDA proxy - Cash taxes - Increase in working capital
                    - Capex (maintenance share, or total capex)
 DSCR             = CFADS / (Cash interest + Scheduled debt and lease principal)
 Funding gap      = MAX(0, $500M reserve - Modeled liquid assets)</pre>
-            <p class="formula-label">2. Read the 10-K page with Claude (Python)</p>
+            <p class="formula-label">2. Break-even (Excel)</p>
+            <table class="be-table">
+              <thead><tr><th>Case</th><th>Funding needed by 2029</th><th>Or uniform capex cut</th></tr></thead>
+              <tbody>
+                <tr class="hl"><td>Base</td><td>$3.02B</td><td>33.3%</td></tr>
+                <tr><td>Rates +200bp</td><td>$3.04B</td><td>33.6%</td></tr>
+                <tr><td>Revenue &minus;20%</td><td>$4.21B</td><td>46.5%</td></tr>
+                <tr><td>Combined stress</td><td>$4.24B</td><td>46.8%</td></tr>
+                <tr><td>Severe funding</td><td>$6.14B</td><td>56.8%</td></tr>
+              </tbody>
+            </table>
+            <p class="viz-cap">Two separate routes back above the $500M reserve. Do not add them together.</p>
+            <pre class="formula">Funding(t)  = MAX(Funding(t-1), $500M reserve - Liquidity(t))
+Capex cut   = MAX over t( Shortfall(t) / Capex planned through t )
+            = $3,015.5M / $9,061.6M = 33.3% in the base case
+Only the 70% of capex that is not maintenance can be cut</pre>
+            <p class="formula-label">3. Read the 10-K page with Claude (Python)</p>
             <pre class="formula">with client.messages.stream(model="claude-sonnet-5-5", max_tokens=32000,
         system=SYSTEM_PROMPT,                     # copy numbers, never calculate
         messages=[{"role": "user", "content": page_text}],
@@ -858,7 +880,7 @@ Funding gap      = MAX(0, $500M reserve - Modeled liquid assets)</pre>
 text = "".join(b.text for b in msg.content if b.type == "text")
 records = json.loads(text)["records"]
 # each record: field, year, value, page, label, exact row quote</pre>
-            <p class="formula-label">3. Check every value before review (Python)</p>
+            <p class="formula-label">4. Check every value before review (Python)</p>
             <pre class="formula">quote in page_text                              # the quoted row is really on the page
 value == numbers_in(quote)[year_column]         # number sits in the right year column
 assets == liabilities + equity                  # one of 36 accounting checks</pre>
@@ -1943,11 +1965,11 @@ t = N * 1                                  expected steps to finish</pre>
     [{ v: 66359, label: 'P10' }, { v: 68312, label: 'Median', strong: true }, { v: 70257, label: 'P90' }], 230);
 
   hbars('chart-amkor', [
-    { label: 'Base', value: 3.02, fmt: '$3.02B', highlight: true, tip: 'Cash reserve runs out in 2028' },
-    { label: 'Rates +200bp', value: 3.04, fmt: '$3.04B', tip: 'Floating-rate debt reprices from 2027' },
-    { label: 'Revenue \u221220%', value: 4.21, fmt: '$4.21B', tip: '2027 revenue 20% below the base case' },
-    { label: 'Combined stress', value: 4.24, fmt: '$4.24B', tip: 'Revenue \u221220% and rates +200bp together' },
-    { label: 'Severe funding', value: 6.14, fmt: '$6.14B', tip: 'Combined stress, 25% more capex, customer advances a year late' }
+    { label: 'Base', value: 3.02, fmt: '$3.02B', highlight: true, tip: 'Reserve runs out in 2028. Break-even capex cut: 33.3%' },
+    { label: 'Rates +200bp', value: 3.04, fmt: '$3.04B', tip: 'Floating-rate debt reprices from 2027. Break-even capex cut: 33.6%' },
+    { label: 'Revenue \u221220%', value: 4.21, fmt: '$4.21B', tip: '2027 revenue 20% below the base case. Break-even capex cut: 46.5%' },
+    { label: 'Combined stress', value: 4.24, fmt: '$4.24B', tip: 'Revenue \u221220% and rates +200bp together. Break-even capex cut: 46.8%' },
+    { label: 'Severe funding', value: 6.14, fmt: '$6.14B', tip: 'Combined stress, 25% more capex, advances a year late. Break-even capex cut: 56.8%' }
   ], 7);
 
   bars('chart-sf', [
