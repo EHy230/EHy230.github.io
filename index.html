@@ -317,10 +317,59 @@
   .panel .explain p { font-size: 0.92rem; margin: 0 0 10px; }
   .panel .explain ul { margin: 0 0 10px; padding-left: 18px; font-size: 0.89rem; color: var(--text-2); }
   .formula { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 0.76rem; line-height: 1.55; background: #f8fafc; border: 1px solid var(--border); border-left: 3px solid var(--accent); border-radius: 8px; padding: 10px 12px; overflow-x: auto; white-space: pre; color: var(--text); margin: 0 0 10px; }
-  .howto { margin: 16px 0 14px; padding-top: 14px; border-top: 1px dashed var(--border); }
-  .howto-title { font-weight: 700; font-size: 0.92rem; color: var(--text); margin: 0 0 4px; }
-  .howto-note { font-size: 0.84rem; color: var(--muted); margin: 0 0 12px; }
-  .howto .formula-label { margin-top: 10px; }
+  details.howto-d { margin-top: 0; }
+  .howto { padding-top: 10px; }
+  .howto-note { font-size: 0.84rem; color: var(--muted); margin: 14px 0 4px; }
+  .howto .formula-label { margin-top: 12px; }
+  .viz-cap { font-size: 0.8rem; color: var(--muted); margin: 6px 0 12px; }
+  .howto .flow { margin: 6px 0 14px; }
+  .flow.f6 { grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 22px; }
+  .flow.f6 li { padding: 12px; }
+  .flow.f6 li:not(:last-child)::after { right: -19px; width: 16px; }
+  .flow.v { grid-template-columns: 1fr; gap: 22px; }
+  .flow.v li:not(:last-child)::after { right: auto; left: 50%; top: auto; bottom: -16px; width: 2px; height: 12px; transform: translateX(-50%); background: var(--accent-line); }
+  .flow li.hl { border-color: var(--accent-line); background: var(--accent-soft); }
+  @media (max-width: 1100px) and (min-width: 821px) { .flow.f6 { grid-template-columns: repeat(3, minmax(0, 1fr)); } .flow.f6 li:nth-child(3n)::after { display: none; } }
+  .split { display: flex; height: 34px; border-radius: 10px; overflow: hidden; font-size: 0.78rem; margin: 4px 0 0; }
+  .split > div { display: flex; align-items: center; gap: 6px; padding: 0 12px; white-space: nowrap; overflow: hidden; }
+  .sp-a { background: var(--accent-soft); color: var(--accent-ink); }
+  .sp-b { background: var(--series-2); color: #fff; }
+  .bridge { display: grid; gap: 7px; margin: 6px 0 4px; }
+  .br-row { display: grid; grid-template-columns: minmax(0, 9.5em) 1fr 4.6em; gap: 10px; align-items: center; font-size: 0.8rem; color: var(--text-2); }
+  .br-row.tot { font-weight: 600; color: var(--text); }
+  .br-track { position: relative; height: 16px; }
+  .br-track i { position: absolute; top: 0; bottom: 0; border-radius: 4px; background: var(--series-1); transform-origin: 0 50%; }
+  .br-row.tot .br-track i { background: var(--series-2); }
+  .br-row.neg .br-track i { background: var(--neutral-mark); }
+  .br-val { text-align: right; font-variant-numeric: tabular-nums; }
+  .howto-d[open] .br-track i { animation: growX .7s var(--ease) var(--d, 0s) both; }
+  .mk-wrap { overflow-x: auto; margin: 6px -4px 0; padding: 0 4px; }
+  .mk { display: block; width: 100%; min-width: 660px; height: auto; }
+  .mk-e { fill: none; stroke: #94a3b8; stroke-width: 1.6; }
+  .mk-e.a { stroke: var(--series-1); } .mk-e.c { stroke: var(--series-2); } .mk-e.d { stroke: var(--neutral-mark); }
+  .mk-head { fill: #94a3b8; } .mk-heada { fill: var(--series-1); } .mk-headc { fill: var(--series-2); } .mk-headd { fill: var(--neutral-mark); }
+  .mk-p { font-size: 11.5px; font-weight: 600; fill: var(--text-2); paint-order: stroke; stroke: #f8fafc; stroke-width: 4px; stroke-linejoin: round; }
+  .mk-n { cursor: pointer; outline: none; }
+  .mk-n rect { fill: #fff; stroke: var(--border); stroke-width: 1.4; transition: fill .2s, stroke .2s; }
+  .mk-n text, .mk-o text { font-size: 12.5px; font-weight: 600; fill: var(--text); pointer-events: none; }
+  .mk-n:hover rect, .mk-n:focus-visible rect { stroke: var(--accent); }
+  .mk-n.on rect { fill: var(--accent-soft); stroke: var(--accent); stroke-width: 2; }
+  .mk-o rect { stroke: none; } .mk-o text { fill: #fff; }
+  .mk-o.out-a rect { fill: var(--series-1); } .mk-o.out-c rect { fill: var(--series-2); } .mk-o.out-d rect { fill: var(--neutral-mark); } .mk-o.out-d text { fill: var(--text); }
+  .mk-info { margin: 8px 0 4px; }
+  .mk-hint { display: none; font-size: 0.74rem; color: var(--muted); margin: 2px 0 0; }
+  .mk-cap { font-size: 0.86rem; color: var(--text-2); margin: 0 0 8px; }
+  .mk-bar { display: flex; height: 14px; border-radius: 7px; overflow: hidden; background: var(--surface-2); }
+  .mk-bar i { display: block; width: 0; transition: width .5s var(--ease); }
+  .mk-bar .a, .mk-leg .a { background: var(--series-1); } .mk-bar .d, .mk-leg .d { background: var(--neutral-mark); } .mk-bar .c, .mk-leg .c { background: var(--series-2); }
+  .mk-leg { display: flex; gap: 14px; font-size: 0.76rem; color: var(--muted); margin-top: 6px; }
+  .mk-leg i { display: inline-block; width: 9px; height: 9px; border-radius: 3px; margin-right: 5px; vertical-align: -1px; }
+  @media (max-width: 700px) {
+    .flow.f6 { grid-template-columns: 1fr; gap: 22px; }
+    .flow.f6 li:not(:last-child)::after { right: auto; left: 50%; top: auto; bottom: -16px; width: 2px; height: 12px; transform: translateX(-50%); }
+    .br-row { grid-template-columns: minmax(0, 7.5em) 1fr 4.4em; font-size: 0.76rem; }
+    .mk-hint { display: block; }
+  }
   .formula-label { font-size: 0.72rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); margin: 0 0 4px; }
   .minis { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 0 0 12px; }
   .minis div { background: var(--accent-soft); border: 1px solid var(--accent-line); border-radius: 10px; padding: 8px 10px; }
@@ -700,8 +749,32 @@
             <li><strong>Python:</strong> chronological train/test split, three models compared, a cutoff set to keep recall at least 85%, and a queue simulation with 1&ndash;4 reviewers.</li>
             <li><strong>AI reading:</strong> Claude Haiku 4.5 read each PDF directly and returned JSON through a forced tool call, at about half a cent per invoice. The rules + OCR baseline used pdfplumber, Tesseract and regular expressions.</li>
           </ul>
+          <div class="files">
+            <a class="file" href="files/AP_Finance_Operations_Eisen.xlsx">AP control workbook <small>Excel</small></a>
+            <a class="file" href="https://github.com/EHy230/EHy230.github.io/blob/main/files/AP_Finance_Operations_Predictive_Model.ipynb">Review-risk model <small>Python notebook</small></a>
+            <a class="file" href="https://public.tableau.com/app/profile/eisen.hy/viz/AP_Finance_Operations_AI_Dashboard_Eisen_Hy_Final/APAIOperationsDashboard">Interactive dashboard <small>Tableau</small></a>
+            <a class="file" href="https://github.com/EHy230/EHy230.github.io/blob/main/files/AI_Invoice_Processing_README.md">AI invoice reading write-up <small>GitHub</small></a>
+            <a class="file" href="https://github.com/EHy230/EHy230.github.io/blob/main/files/process.py">Matching, checks and routing code <small>Python</small></a>
+            <a class="file" href="files/sample_invoices.png">Sample invoices <small>Image</small></a>
+            <a class="file" href="https://github.com/EHy230/EHy230.github.io/tree/main/files">All project files <small>GitHub</small></a>
+          </div>
+        </details>
+        <details class="howto-d">
+          <summary>How the model works</summary>
           <div class="howto">
-            <p class="howto-title">How the model works</p>
+            <div class="split" aria-label="Chronological split: first 4,000 invoices for training, last 1,000 for testing">
+              <div class="sp-a" style="flex:4000"><b>Train</b> first 4,000 invoices</div>
+              <div class="sp-b" style="flex:1000"><b>Test</b> last 1,000</div>
+            </div>
+            <p class="viz-cap">Invoices sorted by date. The test set (Nov 19, 2025 to Jan 5, 2026) comes after everything the model trained on.</p>
+            <ol class="flow f6" aria-label="Review model pipeline">
+              <li><b>5,000 invoices</b><span>Invoice details plus the Excel check results</span></li>
+              <li><b>Random forest</b><span>Trained on the first 4,000 by date</span></li>
+              <li><b>Risk score</b><span>0 to 1 for each test invoice</span></li>
+              <li><b>Cutoff</b><span>Most precise cutoff with recall of at least 85%</span></li>
+              <li><b>Review queue</b><span>Highest risk first, 9 to 5 on weekdays</span></li>
+              <li class="hl"><b>2 reviewers</b><span>96% of reviews done within 8 business hours</span></li>
+            </ol>
             <p class="howto-note">The review model and the staffing simulation are in Python (pandas and scikit-learn). Simplified from the notebook.</p>
             <p class="formula-label">1. Train on older invoices, test on newer ones (Python)</p>
             <pre class="formula">df = df.sort_values("invoice_date")
@@ -721,15 +794,6 @@ invoice = max(waiting, key=lambda i: i.risk)    # "highest risk first"
 start   = max(reviewer_free_at, invoice.arrival)
 end     = start + invoice.review_hours
 met_sla = (end - invoice.arrival) &lt;= 8</pre>
-          </div>
-          <div class="files">
-            <a class="file" href="files/AP_Finance_Operations_Eisen.xlsx">AP control workbook <small>Excel</small></a>
-            <a class="file" href="https://github.com/EHy230/EHy230.github.io/blob/main/files/AP_Finance_Operations_Predictive_Model.ipynb">Review-risk model <small>Python notebook</small></a>
-            <a class="file" href="https://public.tableau.com/app/profile/eisen.hy/viz/AP_Finance_Operations_AI_Dashboard_Eisen_Hy_Final/APAIOperationsDashboard">Interactive dashboard <small>Tableau</small></a>
-            <a class="file" href="https://github.com/EHy230/EHy230.github.io/blob/main/files/AI_Invoice_Processing_README.md">AI invoice reading write-up <small>GitHub</small></a>
-            <a class="file" href="https://github.com/EHy230/EHy230.github.io/blob/main/files/process.py">Matching, checks and routing code <small>Python</small></a>
-            <a class="file" href="files/sample_invoices.png">Sample invoices <small>Image</small></a>
-            <a class="file" href="https://github.com/EHy230/EHy230.github.io/tree/main/files">All project files <small>GitHub</small></a>
           </div>
         </details>
       </div>
@@ -761,8 +825,23 @@ met_sla = (end - invoice.arrival) &lt;= 8</pre>
             <li>Python sends each statement page to Claude, which returns every value with its page and the exact row it came from. Python then checks the quote, the year column, the units and 36 accounting checks. Sonnet 5.5 got 174 of 174 for about $0.30; Haiku 4.5 got 171 of 174 for about $0.13.</li>
             <li>I checked all 174 values against the 10-K pages and approved them in a 41-minute review.</li>
           </ul>
+          <div class="files">
+            <a class="file" href="files/Amkor_Credit_Memo_Eisen_Hy.pdf">Credit memo <small>PDF, 2 pages</small></a>
+            <a class="file" href="files/Amkor_Credit_Analysis_Eisen_Hy.xlsx">Credit model <small>Excel</small></a>
+            <a class="file" href="https://github.com/EHy230/amkor-credit-analysis">Code, notebook &amp; results <small>GitHub</small></a>
+          </div>
+        </details>
+        <details class="howto-d">
+          <summary>How the model works</summary>
           <div class="howto">
-            <p class="howto-title">How the model works</p>
+            <ol class="flow f6" aria-label="Credit analysis pipeline">
+              <li><b>10-K pages</b><span>Five statement pages from the FY2024 and FY2025 reports</span></li>
+              <li><b>Claude reads</b><span>Each value as JSON, with its page and the exact row</span></li>
+              <li><b>Python checks</b><span>Quote on the page, year column, units, 36 accounting checks</span></li>
+              <li class="hl"><b>My review</b><span>All 174 values checked against the 10-K and approved</span></li>
+              <li><b>Excel model</b><span>Ratios, debt schedule and cash forecast to 2029</span></li>
+              <li><b>5 scenarios</b><span>Funding gap of $3.02B by 2029 in the base case, so defer</span></li>
+            </ol>
             <p class="howto-note">The credit model is in Excel. The AI spreading is in Python with the Claude API.</p>
             <p class="formula-label">1. Credit ratios (Excel)</p>
             <pre class="formula">EBITDA proxy     = Operating income + Depreciation &amp; amortization
@@ -785,11 +864,6 @@ records = json.loads(text)["records"]
             <pre class="formula">quote in page_text                              # the quoted row is really on the page
 value == numbers_in(quote)[year_column]         # number sits in the right year column
 assets == liabilities + equity                  # one of 36 accounting checks</pre>
-          </div>
-          <div class="files">
-            <a class="file" href="files/Amkor_Credit_Memo_Eisen_Hy.pdf">Credit memo <small>PDF, 2 pages</small></a>
-            <a class="file" href="files/Amkor_Credit_Analysis_Eisen_Hy.xlsx">Credit model <small>Excel</small></a>
-            <a class="file" href="https://github.com/EHy230/amkor-credit-analysis">Code, notebook &amp; results <small>GitHub</small></a>
           </div>
         </details>
       </div>
@@ -1078,8 +1152,26 @@ BreakEven = AddedCost / NetRevenuePerVisit</pre>
             <li><strong>Booth mix:</strong> used a queueing model to find the fewest booths needed to keep lines short at peak, then checked all ~900 possible mixes. The best one fills all 120 spaces, brings in about $394,000 in vendor sales per day, and keeps every wait under about 6 minutes.</li>
             <li><strong>Growth options:</strong> compared later hours, adding Fridays and adding a fifth weekend using cost, break-even and 5-year NPV. Staying open until 10 PM made money in every demand scenario and also shortened Saturday lunch lines.</li>
           </ul>
+          <div class="files">
+            <a class="file" href="files/Disney_IE_Case_Overview.pdf">Project overview <small>PDF</small></a>
+            <a class="file" href="files/Disney%20Case%20Slide%20Deck%20.pdf">Final slide deck <small>PDF</small></a>
+            <a class="file" href="files/festival_forecast_model.xlsx">Forecast model <small>Excel</small></a>
+            <a class="file" href="files/booth_mix_model.xlsx">Booth mix model <small>Excel</small></a>
+            <a class="file" href="files/growth_options_model.xlsx">Growth options model <small>Excel</small></a>
+            <a class="file" href="files/lE%202026%20Case%20Study.pdf">Case prompt <small>PDF</small></a>
+          </div>
+        </details>
+        <details class="howto-d">
+          <summary>How the model works</summary>
           <div class="howto">
-            <p class="howto-title">How the model works</p>
+            <ol class="flow f6" aria-label="Disney case model flow">
+              <li><b>5 trend models</b><span>Scored on 2024 and 2025 attendance</span></li>
+              <li><b>Forecast</b><span>Average of the models plus marketing, new markets and a concert</span></li>
+              <li><b>Monte Carlo</b><span>1,000 runs give a range of 66,300 to 70,300 visits</span></li>
+              <li><b>Booth sizing</b><span>M/M/1 queue keeps peak waits short</span></li>
+              <li><b>~900 booth mixes</b><span>Best mix: about $394K in daily vendor sales</span></li>
+              <li class="hl"><b>Growth options</b><span>5-year NPV picks 12-hour days</span></li>
+            </ol>
             <p class="howto-note">All three models are in Excel. The formulas behind each step are also shown in the tabs above.</p>
             <p class="formula-label">1. Attendance forecast and range</p>
             <pre class="formula">Forecast = AVERAGE(5 trend forecasts) * (1 + Spend * Elasticity) * (1 + Halo)
@@ -1092,14 +1184,6 @@ Wait     = Util / (ServiceRate * (1 - Util)) * 60          minutes</pre>
             <p class="formula-label">3. Growth options</p>
             <pre class="formula">NPV      = -OneTimeCost + NPV(8%, Year1:Year5)
 BreakEven = AddedCost / NetRevenuePerVisit</pre>
-          </div>
-          <div class="files">
-            <a class="file" href="files/Disney_IE_Case_Overview.pdf">Project overview <small>PDF</small></a>
-            <a class="file" href="files/Disney%20Case%20Slide%20Deck%20.pdf">Final slide deck <small>PDF</small></a>
-            <a class="file" href="files/festival_forecast_model.xlsx">Forecast model <small>Excel</small></a>
-            <a class="file" href="files/booth_mix_model.xlsx">Booth mix model <small>Excel</small></a>
-            <a class="file" href="files/growth_options_model.xlsx">Growth options model <small>Excel</small></a>
-            <a class="file" href="files/lE%202026%20Case%20Study.pdf">Case prompt <small>PDF</small></a>
           </div>
         </details>
       </div>
@@ -1129,8 +1213,20 @@ BreakEven = AddedCost / NetRevenuePerVisit</pre>
             <li>Recommendation: keep sales efficient and cut operating costs early if growth moves toward the downside case.</li>
             <li>Built an interactive Tableau dashboard with a scenario selector, four FY29 KPIs, and charts for revenue, margins and operating expenses.</li>
           </ul>
+          <div class="files">
+            <a class="file" href="files/Salesforce_FP%26A_Project.xlsx">Forecast model <small>Excel</small></a>
+            <a class="file" href="https://public.tableau.com/app/profile/eisen.hy/viz/SalesforceFPAScenarioDashboardEisenHy/SalesforceFPADashboard">Interactive dashboard <small>Tableau</small></a>
+          </div>
+        </details>
+        <details class="howto-d">
+          <summary>How the model works</summary>
           <div class="howto">
-            <p class="howto-title">How the model works</p>
+            <ol class="flow v" aria-label="Forecast driver tree">
+              <li><b>Revenue</b><span>Last year &times; (1 + growth for the chosen case)</span></li>
+              <li><b>Gross profit</b><span>Revenue &times; gross margin</span></li>
+              <li><b>Operating income</b><span>Gross profit minus R&amp;D, sales &amp; marketing and G&amp;A (each a % of revenue) and restructuring</span></li>
+              <li class="hl"><b>Free cash flow</b><span>Revenue &times; FCF margin. Rule of 40 = growth + FCF margin</span></li>
+            </ol>
             <p class="howto-note">Every line comes from revenue and a few assumptions, and one case selector switches all of them.</p>
             <p class="formula-label">Forecast (Excel)</p>
             <pre class="formula">Revenue(t)       = Revenue(t-1) * (1 + Growth)
@@ -1143,10 +1239,6 @@ Rule of 40       = Revenue growth + FCF margin</pre>
             <p class="formula-label">Case selector (Excel)</p>
             <pre class="formula">=IF(Case="Base", Base_Growth,
   IF(Case="Upside", Up_Growth, Down_Growth))</pre>
-          </div>
-          <div class="files">
-            <a class="file" href="files/Salesforce_FP%26A_Project.xlsx">Forecast model <small>Excel</small></a>
-            <a class="file" href="https://public.tableau.com/app/profile/eisen.hy/viz/SalesforceFPAScenarioDashboardEisenHy/SalesforceFPADashboard">Interactive dashboard <small>Tableau</small></a>
           </div>
         </details>
       </div>
@@ -1175,8 +1267,22 @@ Rule of 40       = Revenue growth + FCF margin</pre>
             <li>Set a 6.7&times; exit multiple from the EV/EBITDA of six printing and office-products peers, including Deluxe, Pitney Bowes and 4imprint.</li>
             <li>The model gives an implied equity value of about $3.0B, or about $117 per share. The share price used in the model was about $92.</li>
           </ul>
+          <div class="files">
+            <a class="file" href="files/DCF%20modeling.xlsx">DCF model <small>Excel</small></a>
+          </div>
+        </details>
+        <details class="howto-d">
+          <summary>How the model works</summary>
           <div class="howto">
-            <p class="howto-title">How the model works</p>
+            <div class="bridge" role="img" aria-label="DCF value bridge: present value of cash flows 1.73 billion plus present value of terminal value 2.69 billion gives enterprise value 4.42 billion; plus cash 0.19 billion minus debt 1.59 billion gives equity value 3.02 billion, or about 117 dollars per share.">
+              <div class="br-row"><span class="br-lab">PV of FY2026&ndash;30 cash flows</span><span class="br-track"><i style="left:0.00%;width:36.10%;--d:0.00s"></i></span><span class="br-val">$1.73B</span></div>
+              <div class="br-row"><span class="br-lab">PV of terminal value</span><span class="br-track"><i style="left:36.10%;width:55.96%;--d:0.08s"></i></span><span class="br-val">+ $2.69B</span></div>
+              <div class="br-row tot"><span class="br-lab">Enterprise value</span><span class="br-track"><i style="left:0.00%;width:92.04%;--d:0.16s"></i></span><span class="br-val">$4.42B</span></div>
+              <div class="br-row"><span class="br-lab">Plus cash</span><span class="br-track"><i style="left:92.04%;width:3.94%;--d:0.24s"></i></span><span class="br-val">+ $0.19B</span></div>
+              <div class="br-row neg"><span class="br-lab">Minus debt</span><span class="br-track"><i style="left:62.90%;width:33.10%;--d:0.32s"></i></span><span class="br-val">&minus; $1.59B</span></div>
+              <div class="br-row tot"><span class="br-lab">Equity value</span><span class="br-track"><i style="left:0.00%;width:62.90%;--d:0.40s"></i></span><span class="br-val">$3.02B</span></div>
+            </div>
+            <p class="viz-cap">Equity value &divide; 25.84M diluted shares = <b>$116.82 per share</b>, versus a share price of about $92 in the model.</p>
             <p class="formula-label">Discount rate (Excel)</p>
             <pre class="formula">Cost of equity = Rf + Beta * MRP
                = 4.49% + 1.79 * 4.42% = 12.4%
@@ -1189,9 +1295,6 @@ TV          = FY2030 EBITDA * 6.7x exit multiple
 EV          = SUM( UFCF(t) / (1+WACC)^t )
               + TV / (1+WACC)^5
 Share price = (EV + Cash - Debt) / Shares = ~$117</pre>
-          </div>
-          <div class="files">
-            <a class="file" href="files/DCF%20modeling.xlsx">DCF model <small>Excel</small></a>
           </div>
         </details>
       </div>
@@ -1222,8 +1325,62 @@ Share price = (EV + Cash - Debt) / Shares = ~$117</pre>
             <li>Backtested on 4,951 applications that were still open 14 days after they were created. For applications already in validation, the predictions were within about 6%. Overall, actual approvals were 17 points lower than the forecast.</li>
             <li>Most of the gap came from applications at the "Complete" step. The model predicted 1,825 approvals there, and 975 happened. A Markov chain doesn't account for how long an application has been waiting, so the next step would be to recalibrate on recent data and include time spent at each step.</li>
           </ul>
+          <div class="files">
+            <a class="file" href="files/Loan_Application_Markov_Forecast_Eisen_Hy.xlsx">Markov model <small>Excel, 11 MB</small></a>
+            <a class="file" href="https://research.tue.nl/en/datasets/bpi-challenge-2017/">BPI Challenge 2017 dataset <small>Source</small></a>
+          </div>
+        </details>
+        <details class="howto-d">
+          <summary>How the model works</summary>
           <div class="howto">
-            <p class="howto-title">How the model works</p>
+            <div class="mk-wrap">
+            <svg class="mk" viewBox="0 0 970 330" role="img" aria-label="Absorbing Markov chain of loan application steps with transition probabilities. Click a step to see its chance of each outcome.">
+              <defs><marker id="mk-ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="mk-head"/></marker><marker id="mk-ara" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="mk-heada"/></marker><marker id="mk-arc" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="mk-headc"/></marker><marker id="mk-ard" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="mk-headd"/></marker></defs>
+              <path d="M104,156 L169,106" class="mk-e" marker-end="url(#mk-ar)"/>
+              <path d="M122,175 L286,175" class="mk-e" marker-end="url(#mk-ar)"/>
+              <path d="M240,105 L304,155" class="mk-e" marker-end="url(#mk-ar)"/>
+              <path d="M392,175 L426,175" class="mk-e" marker-end="url(#mk-ar)"/>
+              <path d="M532,175 L566,175" class="mk-e" marker-end="url(#mk-ar)"/>
+              <path d="M652,156 L721,114" class="mk-e" marker-end="url(#mk-ar)"/>
+              <path d="M620,194 C620,300 760,322 856,302" class="mk-e c" marker-end="url(#mk-arc)"/>
+              <path d="M760,114 L760,234" class="mk-e" marker-end="url(#mk-ar)"/>
+              <path d="M790,236 L790,116" class="mk-e" marker-end="url(#mk-ar)"/>
+              <path d="M827,84 L858,54" class="mk-e d" marker-end="url(#mk-ard)"/>
+              <path d="M827,106 L858,162" class="mk-e a" marker-end="url(#mk-ara)"/>
+              <path d="M827,244 L858,188" class="mk-e a" marker-end="url(#mk-ara)"/>
+              <path d="M827,266 L858,286" class="mk-e c" marker-end="url(#mk-arc)"/>
+              <text x="128" y="122" text-anchor="end" class="mk-p">64.7%</text>
+              <text x="204" y="168" text-anchor="middle" class="mk-p">35.3%</text>
+              <text x="284" y="122" text-anchor="start" class="mk-p">100%</text>
+              <text x="409" y="167" text-anchor="middle" class="mk-p">100%</text>
+              <text x="549" y="167" text-anchor="middle" class="mk-p">99.6%</text>
+              <text x="680" y="125" text-anchor="end" class="mk-p">69.6%</text>
+              <text x="700" y="316" text-anchor="middle" class="mk-p">30.0%</text>
+              <text x="753" y="179" text-anchor="end" class="mk-p">57.6%</text>
+              <text x="797" y="179" text-anchor="start" class="mk-p">75.2%</text>
+              <text x="836" y="60" text-anchor="end" class="mk-p">8.6%</text>
+              <text x="848" y="128" text-anchor="start" class="mk-p">33.6%</text>
+              <text x="848" y="226" text-anchor="start" class="mk-p">19.8%</text>
+              <text x="838" y="290" text-anchor="end" class="mk-p">4.3%</text>
+              <g class="mk-n" tabindex="0" role="button" data-label="Created" data-a="0.5495" data-d="0.1152" data-c="0.3353" data-n="6.57"><rect x="18.0" y="156" width="104" height="38" rx="10"/><text x="70" y="179.5" text-anchor="middle">Created</text></g>
+              <g class="mk-n" tabindex="0" role="button" data-label="Submitted" data-a="0.5495" data-d="0.1152" data-c="0.3353" data-n="5.92"><rect x="153.0" y="66" width="104" height="38" rx="10"/><text x="205" y="89.5" text-anchor="middle">Submitted</text></g>
+              <g class="mk-n" tabindex="0" role="button" data-label="Concept" data-a="0.5495" data-d="0.1152" data-c="0.3353" data-n="4.92"><rect x="288.0" y="156" width="104" height="38" rx="10"/><text x="340" y="179.5" text-anchor="middle">Concept</text></g>
+              <g class="mk-n" tabindex="0" role="button" data-label="Accepted" data-a="0.5495" data-d="0.1152" data-c="0.3353" data-n="3.92"><rect x="428.0" y="156" width="104" height="38" rx="10"/><text x="480" y="179.5" text-anchor="middle">Accepted</text></g>
+              <g class="mk-n" tabindex="0" role="button" data-label="Complete" data-a="0.5518" data-d="0.1145" data-c="0.3337" data-n="2.93"><rect x="568.0" y="156" width="104" height="38" rx="10"/><text x="620" y="179.5" text-anchor="middle">Complete</text></g>
+              <g class="mk-n" tabindex="0" role="button" data-label="Validating" data-a="0.7931" data-d="0.159" data-c="0.0479" data-n="2.78"><rect x="723.0" y="76" width="104" height="38" rx="10"/><text x="775" y="99.5" text-anchor="middle">Validating</text></g>
+              <g class="mk-n" tabindex="0" role="button" data-label="Incomplete" data-a="0.7936" data-d="0.1277" data-c="0.0788" data-n="3.09"><rect x="723.0" y="236" width="104" height="38" rx="10"/><text x="775" y="259.5" text-anchor="middle">Incomplete</text></g>
+              <g class="mk-o out-d"><rect x="860.0" y="21" width="100" height="38" rx="19"/><text x="910" y="44.5" text-anchor="middle">Denied</text></g>
+              <g class="mk-o out-a"><rect x="860.0" y="156" width="100" height="38" rx="19"/><text x="910" y="179.5" text-anchor="middle">Approved</text></g>
+              <g class="mk-o out-c"><rect x="860.0" y="276" width="100" height="38" rx="19"/><text x="910" y="299.5" text-anchor="middle">Cancelled</text></g>
+            </svg>
+            </div>
+            <p class="mk-hint">Swipe sideways to see the whole chain.</p>
+            <div class="mk-info" aria-live="polite">
+              <p class="mk-cap">Click a step to see where its applications end up.</p>
+              <div class="mk-bar"><i class="a"></i><i class="d"></i><i class="c"></i></div>
+              <div class="mk-leg"><span><i class="a"></i>Approved</span><span><i class="d"></i>Denied</span><span><i class="c"></i>Cancelled</span></div>
+            </div>
+            <p class="viz-cap">Arrows show the share of applications moving from one step to the next, from 154,152 status changes. Moves under 1% are hidden. Validating and Incomplete can loop back and forth until an application is approved, denied or cancelled.</p>
             <p class="howto-note">Built entirely in Excel with matrix functions.</p>
             <p class="formula-label">1. Transition probabilities (Excel)</p>
             <pre class="formula">P(i -&gt; j) = COUNTIFS(From, i, To, j) / COUNTIFS(From, i)
@@ -1234,10 +1391,6 @@ B = N * R             =MMULT(N, R)         chance of each final outcome
 t = N * 1                                  expected steps to finish</pre>
             <p class="formula-label">3. Forecast (Excel)</p>
             <pre class="formula">Expected approvals = SUM over steps( open applications in step * B[step, Approved] )</pre>
-          </div>
-          <div class="files">
-            <a class="file" href="files/Loan_Application_Markov_Forecast_Eisen_Hy.xlsx">Markov model <small>Excel, 11 MB</small></a>
-            <a class="file" href="https://research.tue.nl/en/datasets/bpi-challenge-2017/">BPI Challenge 2017 dataset <small>Source</small></a>
           </div>
         </details>
       </div>
@@ -1976,7 +2129,7 @@ t = N * 1                                  expected steps to finish</pre>
   /* reveal on scroll */
   const revealEls = [...$$('.section-head, .projects > .card, .about > *, .contact, .flow')];
   revealEls.forEach(el => el.classList.add('reveal'));
-  $$('.flow li').forEach((li, i) => li.style.setProperty('--i', i));
+  $$('.flow').forEach(f => $$('li', f).forEach((li, i) => li.style.setProperty('--i', i)));
   const nums = $$('.fact b, .stat b, .minis b');
   if ('IntersectionObserver' in window && !RM) {
     const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }), { threshold: 0.08, rootMargin: '0px 0px -6% 0px' });
@@ -1984,6 +2137,23 @@ t = N * 1                                  expected steps to finish</pre>
     const nio = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { countUp(e.target); nio.unobserve(e.target); } }), { threshold: 0.6 });
     nums.forEach(n => nio.observe(n));
   } else revealEls.forEach(el => el.classList.add('in'));
+
+  /* Markov chain diagram: click a step to see where its applications end up */
+  $$('.mk').forEach(svg => {
+    const box = svg.closest('.howto'), cap = $('.mk-cap', box), bar = $$('.mk-bar i', box), nodes = $$('.mk-n', svg);
+    const pct = v => (v * 100).toFixed(1) + '%';
+    function pick(n) {
+      nodes.forEach(x => x.classList.toggle('on', x === n));
+      const a = +n.dataset.a, d = +n.dataset.d, c = +n.dataset.c;
+      cap.innerHTML = `Starting at <b>${n.dataset.label}</b>: ${pct(a)} approved, ${pct(d)} denied, ${pct(c)} cancelled, after about ${(+n.dataset.n).toFixed(1)} more steps.`;
+      bar[0].style.width = pct(a); bar[1].style.width = pct(d); bar[2].style.width = pct(c);
+    }
+    nodes.forEach(n => {
+      n.addEventListener('click', () => pick(n));
+      n.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); pick(n); } });
+    });
+    if (nodes[0]) pick(nodes[0]);
+  });
 
   /* smooth details open/close */
   $$('details').forEach(d => {
