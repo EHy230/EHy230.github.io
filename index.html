@@ -52,7 +52,6 @@
   nav.scrolled { border-bottom-color: var(--border); box-shadow: 0 6px 24px -18px rgba(16,24,40,.35); background: rgba(255,255,255,.86); }
   nav .wrap { display: flex; align-items: center; justify-content: space-between; height: 64px; }
   .brand { font-weight: 700; font-size: 1.05rem; color: var(--text); letter-spacing: -0.02em; display: inline-flex; align-items: center; gap: 10px; }
-  .brand::before { content: "EH"; display: inline-grid; place-items: center; width: 32px; height: 32px; border-radius: 10px; background: linear-gradient(135deg, var(--accent), #6d5efc); color: #fff; font-size: 0.72rem; font-weight: 800; letter-spacing: 0.02em; box-shadow: 0 4px 12px -4px rgba(37,99,235,.6); }
   .brand:hover { text-decoration: none; }
   .navlinks { display: flex; gap: 4px; font-size: 0.92rem; align-items: center; }
   .navlinks a { color: var(--text-2); padding: 7px 13px; border-radius: 999px; font-weight: 500; transition: color .2s, background .2s; }
@@ -445,7 +444,6 @@
     .facts { grid-template-columns: repeat(2, 1fr); }
     .hi-go { font-size: 0; gap: 0; }
     .to-top { right: 14px; bottom: 14px; }
-    .brand::before { width: 28px; height: 28px; }
   }
   @media (prefers-reduced-motion: reduce) {
     html { scroll-behavior: auto; }
